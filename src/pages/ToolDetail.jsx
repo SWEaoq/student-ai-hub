@@ -14,7 +14,7 @@ const ToolDetail = ({ lang }) => {
     const isRTL = lang === 'ar';
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-4 py-10 mb-20">
+        <div className="w-full max-w-4xl mx-auto px-4 pt-32 pb-20 mb-20">
             <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
                 <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
                 {lang === 'en' ? 'Back to Hub' : 'العودة إلى المركز'}
