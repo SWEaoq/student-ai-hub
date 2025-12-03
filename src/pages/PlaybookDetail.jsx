@@ -30,7 +30,7 @@ const PlaybookDetail = ({ lang }) => {
                 <h1 className="text-3xl md:text-4xl font-black text-white">{content.title}</h1>
             </div>
 
-            <p className="text-xl text-gray-300 mb-10 leading-relaxed border-l-4 border-cyan-500 pl-6 py-2 bg-white/5 rounded-r-lg">
+            <p className="text-xl text-gray-300 mb-10 leading-relaxed border-s-4 border-cyan-500 ps-6 py-2 bg-white/5 rounded-e-lg">
                 {content.desc}
             </p>
 
