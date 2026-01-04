@@ -1,10 +1,13 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { GUIDES, CONTENT } from '../data/content';
+import FadeIn from '../components/animations/FadeIn';
+import StaggerContainer from '../components/animations/StaggerContainer';
 
 const PlaybookDetail = ({ lang }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const guide = GUIDES.find(g => g.id === id);
 
 
@@ -14,12 +17,15 @@ const PlaybookDetail = ({ lang }) => {
 
   return (
     <div className="max-w-4xl mx-auto px-6 pt-32 pb-20" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-      <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors">
-        {lang === 'ar' ? <ArrowRight size={20} /> : <ArrowLeft size={20} />}
-        {lang === 'ar' ? 'العودة' : 'Back'}
-      </Link>
+      <FadeIn delay={0.1}>
+        <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors">
+          {lang === 'ar' ? <ArrowRight size={20} /> : <ArrowLeft size={20} />}
+          {lang === 'ar' ? 'رجوع' : 'Back'}
+        </button>
+      </FadeIn>
 
-      <div className="bg-gray-900/50 border border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden">
+      <FadeIn delay={0.2}>
+        <div className="bg-gray-900/50 border border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
         
         <div className="relative z-10">
@@ -34,7 +40,7 @@ const PlaybookDetail = ({ lang }) => {
                 {content.desc}
             </p>
 
-            <div className="space-y-8">
+            <StaggerContainer className="space-y-8">
                 {content.steps.map((step, idx) => (
                     <div key={idx} className="flex gap-6 group">
                         <div className="flex flex-col items-center">
@@ -50,9 +56,10 @@ const PlaybookDetail = ({ lang }) => {
                         </div>
                     </div>
                 ))}
-            </div>
+            </StaggerContainer>
         </div>
       </div>
+      </FadeIn>
     </div>
   );
 };

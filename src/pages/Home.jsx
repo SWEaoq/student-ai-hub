@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Zap, BookOpen, Terminal } from 'lucide-react';
 import Hero from '../components/Hero';
+import StaggerContainer from '../components/animations/StaggerContainer';
+import AnimatedCard from '../components/animations/AnimatedCard';
 
 const Home = ({ lang }) => {
     const cards = [
@@ -36,24 +38,25 @@ const Home = ({ lang }) => {
             <Hero lang={lang} showFilters={false} />
 
             <section className="px-6 pb-20 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {cards.map((card) => (
-                        <Link
-                            key={card.id}
-                            to={card.link}
-                            className="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2 overflow-hidden"
-                        >
-                            <div className={`absolute top-0 right-0 w-32 h-32 bg-${card.color}-500/20 rounded-full blur-[60px] group-hover:bg-${card.color}-500/30 transition-all`} />
-                            
-                            <div className={`w-14 h-14 rounded-2xl bg-${card.color}-500/20 flex items-center justify-center mb-6 text-${card.color}-400 group-hover:scale-110 transition-transform`}>
-                                <card.icon size={28} />
-                            </div>
+                        <AnimatedCard key={card.id} enableHover={true} className="h-full">
+                            <Link
+                                to={card.link}
+                                className="group relative p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 overflow-hidden flex flex-col h-full"
+                            >
+                                <div className={`absolute top-0 right-0 w-32 h-32 bg-${card.color}-500/20 rounded-full blur-[60px] group-hover:bg-${card.color}-500/30 transition-all`} />
+                                
+                                <div className={`w-14 h-14 rounded-2xl bg-${card.color}-500/20 flex items-center justify-center mb-6 text-${card.color}-400 group-hover:scale-110 transition-transform`}>
+                                    <card.icon size={28} />
+                                </div>
 
-                            <h3 className="text-2xl font-bold text-white mb-3">{card.title}</h3>
-                            <p className="text-gray-400 leading-relaxed">{card.desc}</p>
-                        </Link>
+                                <h3 className="text-2xl font-bold text-white mb-3">{card.title}</h3>
+                                <p className="text-gray-400 leading-relaxed flex-grow">{card.desc}</p>
+                            </Link>
+                        </AnimatedCard>
                     ))}
-                </div>
+                </StaggerContainer>
             </section>
         </div>
     );

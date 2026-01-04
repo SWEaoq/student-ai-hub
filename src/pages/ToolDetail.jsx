@@ -1,10 +1,13 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ExternalLink, Terminal, MessageSquare } from 'lucide-react';
 import { TOOLS } from '../data/content';
+import FadeIn from '../components/animations/FadeIn';
+import StaggerContainer from '../components/animations/StaggerContainer';
 
 const ToolDetail = ({ lang }) => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const tool = TOOLS.find(t => t.id === id);
 
     if (!tool) {
@@ -15,13 +18,16 @@ const ToolDetail = ({ lang }) => {
 
     return (
         <div className="w-full max-w-4xl mx-auto px-4 pt-32 pb-20 mb-20">
-            <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
-                <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
-                {lang === 'en' ? 'Back to Hub' : 'العودة إلى المركز'}
-            </Link>
+            <FadeIn delay={0.1}>
+                <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
+                    <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
+                    {lang === 'en' ? 'Back' : 'رجوع'}
+                </button>
+            </FadeIn>
 
             {/* Header */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
+            <FadeIn delay={0.2}>
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
                 <div className="flex items-center gap-6">
                     <div className={`p-6 rounded-2xl bg-gradient-to-br from-${tool.color}-500/20 to-transparent border border-${tool.color}-500/30 shadow-[0_0_30px_rgba(0,0,0,0.5)]`}>
                         <tool.icon className={`w-12 h-12 text-${tool.color}-400`} />
@@ -41,9 +47,10 @@ const ToolDetail = ({ lang }) => {
                     {lang === 'en' ? 'Visit Website' : 'زيارة الموقع'}
                     <ExternalLink className="w-4 h-4" />
                 </a>
-            </div>
+                </div>
+            </FadeIn>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Installation Guide */}
                 <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-sm">
                     <div className="flex items-center gap-3 mb-6 text-gray-300">
@@ -70,7 +77,7 @@ const ToolDetail = ({ lang }) => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </StaggerContainer>
         </div>
     );
 };

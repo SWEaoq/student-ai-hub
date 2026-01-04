@@ -13,6 +13,12 @@ import {
   Workflow,
   FileText,
   GitGraph,
+  Mail,
+  User,
+  BookOpen,
+  MessageSquare,
+  Briefcase,
+  Brain,
 } from "lucide-react";
 import {
   SiOpenai,
@@ -125,20 +131,19 @@ export const TOOLS = [
     color: "from-teal-400 to-cyan-600",
     icon: PerplexityIcon,
     website: "https://perplexity.ai",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Perplexity",
         tag: "The Knowledge Engine",
         description:
-          "Real-time search engine that cites every single source. Better than Google for research.",
-        hack: 'Use "Focus Mode" to search only academic papers or Reddit discussions.',
+          "AI-powered search engine that provides real-time answers with citations. Excellent for research papers, academic queries, and fact-checking with source attribution.",
       },
       ar: {
         name: "Perplexity",
         tag: "محرك المعرفة",
         description:
-          "محرك بحث فوري يعطيك المصادر لكل معلومة. أفضل من قوقل بمراحل للبحوث.",
-        hack: 'استخدم "Focus Mode" عشان تبحث بس في الأوراق العلمية أو نقاشات ريديت.',
+          "محرك بحث مدعوم بالذكاء الاصطناعي يوفر إجابات فورية مع المصادر. ممتاز للأوراق البحثية والاستعلامات الأكاديمية والتحقق من الحقائق.",
       },
     },
     installation: {
@@ -161,20 +166,19 @@ export const TOOLS = [
     color: "from-orange-400 to-red-500",
     icon: SiAnthropic,
     website: "https://claude.ai",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Claude",
         tag: "The Human Writer",
         description:
-          "Known for more natural, less robotic writing and exceptional coding abilities.",
-        hack: "Upload your entire lecture notes (PDF) and ask it to create a quiz.",
+          "Advanced AI assistant known for natural, conversational writing and exceptional code generation. Supports large file uploads for document analysis.",
       },
       ar: {
         name: "Claude 3.5 Sonnet",
         tag: "الكاتب البشري",
         description:
-          "معروف بكتابته الطبيعية جداً (ما تحسها روبوت) وقوي جداً في البرمجة.",
-        hack: "ارفع له ملفات المحاضرات كاملة (PDF) واطلب منه يسوي لك اختبار تجريبي.",
+          "مساعد ذكاء اصطناعي متقدم معروف بكتابته الطبيعية والمحادثة. قوي جداً في البرمجة وتحليل الملفات الكبيرة.",
       },
     },
     installation: {
@@ -197,20 +201,19 @@ export const TOOLS = [
     color: "from-green-400 to-emerald-600",
     icon: SiOpenai,
     website: "https://chat.openai.com",
+    hasFreeTier: true,
     content: {
       en: {
         name: "ChatGPT",
-        tag: " The Strategist",
+        tag: "The Strategist",
         description:
-          "Perfect for refining business models, marketing copy, and brainstorming.",
-        hack: 'Ask it to "Act as a VC investor" to find holes in your project logic.',
+          "Versatile AI assistant perfect for brainstorming, content creation, and strategic thinking. Free tier includes GPT-3.5, with GPT-4o available in Plus.",
       },
       ar: {
         name: "ChatGPT 4o",
         tag: "المخطط الاستراتيجي",
         description:
-          "ممتاز جداً لترتيب أفكار مشاريعك، كتابة محتوى تسويقي، والعصف الذهني.",
-        hack: 'اطلب منه "يتقمص شخصية مستثمر" عشان يطلع لك العيوب في فكرة مشروعك.',
+          "مساعد ذكاء اصطناعي متعدد الاستخدامات ممتاز للعصف الذهني وإنشاء المحتوى والتفكير الاستراتيجي. الخطة المجانية تشمل GPT-3.5.",
       },
     },
     installation: {
@@ -232,26 +235,26 @@ export const TOOLS = [
     category: "productivity",
     color: "from-gray-600 to-gray-900",
     icon: SiNotion,
-    website: "https://notion.so",
+    website: "https://www.notion.so/product/notion-for-education",
+    hasFreeTier: true,
+    studentLink: "https://www.notion.so/product/notion-for-education",
     content: {
       en: {
         name: "Notion AI",
         tag: "Second Brain",
         description:
-          "All-in-one workspace. AI summarizes notes, plans projects, and writes emails.",
-        hack: "Students get the Personal Pro plan for FREE with a .edu email.",
+          "All-in-one workspace with integrated AI. Organize notes, manage projects, and automate workflows. Students get Personal Pro plan free with verified .edu email.",
       },
       ar: {
         name: "Notion AI",
         tag: "العقل الثاني",
         description:
-          "مساحة عمل شاملة. الذكاء الاصطناعي يلخص ملاحظاتك، يرتب مشاريعك، ويكتب إيميلاتك.",
-        hack: "الطلاب ياخذون خطة Personal Pro مجااااناً إذا سجلت بإيميل الجامعة.",
+          "مساحة عمل شاملة مع ذكاء اصطناعي متكامل. نظم ملاحظاتك، أدر مشاريعك، وأتمت المهام. الطلاب يحصلون على خطة Personal Pro مجاناً بإيميل الجامعة.",
       },
     },
     installation: {
-      en: "1. Download Notion desktop app.\n2. Enable AI in settings.\n3. Use Space key to invoke AI.",
-      ar: "1. حمل تطبيق Notion لسطح المكتب.\n2. فعل الذكاء الاصطناعي في الإعدادات.\n3. استخدم مفتاح المسافة لاستدعاء الذكاء الاصطناعي.",
+      en: "1. Visit notion.so/product/notion-for-education\n2. Sign up with your .edu email address\n3. Verify student status to get Personal Pro free\n4. Enable AI in settings to access AI features",
+      ar: "1. زر notion.so/product/notion-for-education\n2. سجل بإيميل الجامعة\n3. تحقق من حالة الطالب للحصول على Personal Pro مجاناً\n4. فعل الذكاء الاصطناعي في الإعدادات",
     },
     examplePrompts: [
       {
@@ -269,20 +272,19 @@ export const TOOLS = [
     color: "from-violet-600 to-indigo-600",
     icon: CursorIcon,
     website: "https://cursor.com",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Cursor",
         tag: "The Code Wizard",
         description:
-          "Build MVPs faster. It predicts your next code edit across files.",
-        hack: 'Use "Composer" (Cmd+I) to generate entire features for your app in one go.',
+          "AI-powered code editor built for pair programming. Features AI chat, autocomplete, and Composer mode for generating entire features across multiple files.",
       },
       ar: {
         name: "Cursor",
         tag: "ساحر الكود",
         description:
-          "ابني تطبيقاتك (MVP) بسرعة خيالية. يتوقع الكود ويعدل في ملفات متعددة.",
-        hack: 'استخدم ميزة "Composer" (Cmd+I) عشان تبني ميزات كاملة لتطبيقك بضغطة زر.',
+          "محرر كود مدعوم بالذكاء الاصطناعي للبرمجة الزوجية. يتضمن محادثة AI، الإكمال التلقائي، ووضع Composer لتوليد ميزات كاملة عبر ملفات متعددة.",
       },
     },
     installation: {
@@ -305,20 +307,19 @@ export const TOOLS = [
     color: "from-blue-600 to-indigo-800",
     icon: MidjourneyIcon,
     website: "https://midjourney.com",
+    hasFreeTier: false,
     content: {
       en: {
         name: "Midjourney",
         tag: "Art Director",
         description:
-          "Generate hyper-realistic images for your presentations, ads, or mockups.",
-        hack: 'Use parameters like "--v" or "--stylize" to control the output quality.',
+          "Premium AI image generation tool for creating stunning, artistic visuals. Accessible via Discord. Subscription required after trial period.",
       },
       ar: {
         name: "Midjourney",
         tag: "المخرج الفني",
         description:
-          "صمم صور واقعية جداً لعروضك التقديمية، إعلاناتك، أو نماذجك.",
-        hack: 'استخدم أوامر مثل "--v" أو "--stylize" للتحكم في جودة الصور.',
+          "أداة متميزة لتوليد الصور بالذكاء الاصطناعي لإنشاء صور فنية مذهلة. متاح عبر Discord. يتطلب اشتراك بعد فترة التجربة.",
       },
     },
     installation: {
@@ -338,20 +339,19 @@ export const TOOLS = [
     color: "from-blue-500 to-cyan-400",
     icon: SiGoogle,
     website: "https://ai.google.dev",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Google Antigravity",
         tag: "Agentic IDE",
         description:
-          "Let AI Agents build the boring parts of your software architecture.",
-        hack: "Great for prototyping backend logic without writing boilerplate code.",
+          "Experimental AI-powered development environment for building software with autonomous agents. Great for prototyping and automating repetitive code tasks.",
       },
       ar: {
         name: "Google Antigravity",
         tag: "مطور المستقبل",
         description:
-          "خلي وكلاء الذكاء الاصطناعي يبنون لك البنية التحتية لمشروعك.",
-        hack: "رهيب جداً في بناء النماذج الأولية (Prototypes) بدون ما تضيع وقت في الكود الروتيني.",
+          "بيئة تطوير تجريبية مدعومة بالذكاء الاصطناعي لبناء البرمجيات بوكلاء مستقلين. ممتاز للنماذج الأولية وأتمتة مهام الكود المتكررة.",
       },
     },
     installation: {
@@ -374,19 +374,19 @@ export const TOOLS = [
     color: "from-blue-400 to-purple-600",
     icon: SiGoogle,
     website: "https://gemini.google.com",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Gemini Advanced",
         tag: "Data Analyst",
         description:
-          "Analyze huge datasets or documents for your research projects.",
-        hack: "Upload your entire project repo or PDF library to get semantic answers.",
+          "Google's AI assistant with strong data analysis capabilities. Process large documents, analyze datasets, and get insights from uploaded files. Free tier available with usage limits.",
       },
       ar: {
         name: "Gemini Advanced",
         tag: "محلل البيانات",
-        description: "حلل بيانات ضخمة أو ملفات كثيرة عشان تدعم أبحاث مشاريعك.",
-        hack: "ارفع ملفات مشروعك كاملة أو مكتبة الـ PDF واسأله أي سؤال عن المحتوى.",
+        description:
+          "مساعد Google للذكاء الاصطناعي بقدرات تحليل بيانات قوية. معالجة مستندات كبيرة، تحليل مجموعات البيانات، والحصول على رؤى من الملفات المرفوعة. خطة مجانية متاحة.",
       },
     },
     installation: {
@@ -409,20 +409,19 @@ export const TOOLS = [
     color: "from-yellow-400 to-orange-600",
     icon: GammaIcon,
     website: "https://gamma.app",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Gamma App",
         tag: "Pitch Deck Pro",
         description:
-          "Create investor-ready pitch decks and websites in minutes.",
-        hack: 'Use the "Web Page" mode to create a quick landing page for your idea.',
+          "AI-powered presentation tool that creates beautiful pitch decks and websites from simple text prompts. Perfect for startup presentations and project showcases.",
       },
       ar: {
         name: "Gamma App",
         tag: "ملعب العروض",
         description:
-          "سوّي عروض تقديمية للمستثمرين (Pitch Decks) أو مواقع بسيطة بدقائق.",
-        hack: 'استخدم وضع "Web Page" عشان تسوي صفحة هبوط (Landing Page) سريعة لفكرتك.',
+          "أداة عروض تقديمية مدعومة بالذكاء الاصطناعي تنشئ عروض تقديمية ومواقع جميلة من نصوص بسيطة. مثالي لعروض المشاريع الناشئة.",
       },
     },
     installation: {
@@ -445,20 +444,19 @@ export const TOOLS = [
     color: "from-indigo-400 to-cyan-600",
     icon: GensparkIcon,
     website: "https://genspark.ai",
+    hasFreeTier: true,
     content: {
       en: {
         name: "Genspark",
         tag: "Market Researcher",
         description:
-          'Generate deep market reports and competitor analysis "Sparkpages".',
-        hack: "Use this to validate your startup idea against real-time market data.",
+          'AI search engine that generates comprehensive research "Sparkpages" with deep market analysis, competitor insights, and curated sources for any topic.',
       },
       ar: {
         name: "Genspark",
         tag: "باحث السوق",
         description:
-          'طلع تقارير سوقية عميقة وحلل المنافسين بصفحات "Sparkpages".',
-        hack: "استخدمه عشان تتأكد من جدوى فكرة مشروعك بناءً على بيانات السوق الحالية.",
+          'محرك بحث ذكي ينشئ صفحات "Sparkpages" شاملة مع تحليل سوقي عميق ورؤى المنافسين ومصادر مختارة لأي موضوع.',
       },
     },
     installation: {
@@ -480,25 +478,26 @@ export const TOOLS = [
     category: "design",
     color: "from-pink-500 to-rose-500",
     icon: SiFigma,
-    website: "https://figma.com/education",
+    website: "https://www.figma.com/education",
+    hasFreeTier: true,
+    studentLink: "https://www.figma.com/education",
     content: {
       en: {
         name: "Figma AI",
         tag: "Product Designer",
         description:
-          "Generate UI mockups for your app idea just by describing it.",
-        hack: 'Use "Figma Make" to turn your prompt into a clickable prototype.',
+          "Professional design tool with AI features for creating UI/UX mockups and prototypes. Students and educators get free access to Figma Education with verified academic email.",
       },
       ar: {
         name: "Figma AI",
         tag: "مصمم المنتجات",
-        description: "صمم واجهات تطبيقك (UI) بمجرد وصفها بالكلام.",
-        hack: 'استخدم "Figma Make" عشان تحول الوصف حقك لنموذج تجريبي قابل للنقر.',
+        description:
+          "أداة تصميم احترافية مع ميزات الذكاء الاصطناعي لإنشاء نماذج وواجهات UI/UX. الطلاب والمعلمون يحصلون على وصول مجاني لـ Figma Education بإيميل أكاديمي.",
       },
     },
     installation: {
-      en: "1. Sign up for Figma Education.\n2. Create a new design file.\n3. Use AI plugins.",
-      ar: "1. سجل في Figma Education.\n2. أنشئ ملف تصميم جديد.\n3. استخدم إضافات الذكاء الاصطناعي.",
+      en: "1. Visit figma.com/education\n2. Sign up with your academic email (.edu or university domain)\n3. Verify your student/educator status\n4. Create designs and use AI features like Figma Make",
+      ar: "1. زر figma.com/education\n2. سجل بإيميل الجامعة\n3. تحقق من حالة الطالب/المعلم\n4. أنشئ تصاميم واستخدم ميزات AI مثل Figma Make",
     },
     examplePrompts: [
       {
@@ -516,20 +515,19 @@ export const TOOLS = [
     color: "from-purple-500 to-fuchsia-600",
     icon: Terminal,
     website: "https://uxpilot.ai",
+    hasFreeTier: true,
     content: {
       en: {
         name: "UXPilot",
         tag: "UX Consultant",
         description:
-          "Analyze your app screenshots for usability issues before launching.",
-        hack: 'Great for getting "professional" feedback on your side project UI.',
+          "AI-powered UX analysis tool that reviews app screenshots and provides actionable usability feedback. Great for validating UI/UX designs before development.",
       },
       ar: {
         name: "UXPilot",
         tag: "مستشار التجربة",
         description:
-          "حلل صور تطبيقك عشان تكتشف مشاكل الاستخدام قبل ما تطلق المشروع.",
-        hack: 'ممتاز جداً عشان تاخذ رأي "احترافي" في تصميم مشروعك الجانبي.',
+          "أداة تحليل UX مدعومة بالذكاء الاصطناعي تراجع لقطات الشاشة وتوفر ملاحظات عملية. ممتاز للتحقق من تصاميم UI/UX قبل التطوير.",
       },
     },
     installation: {
@@ -671,6 +669,172 @@ export const GUIDES = [
                     'اشرح المشكلة: "الكود شغال بس يرجع لي Null وأنا أتوقع Array".',
                     'اكتب الأمر: "تتبع الكود خطوة بخطوة وطلع لي وين المشكلة في المنطق."',
                     'انسخ الحل وعدله في Cursor.'
+                ]
+            }
+        }
+    },
+    {
+        id: 'research',
+        icon: BookOpen,
+        content: {
+            en: {
+                title: 'Summarize Research Papers Fast',
+                desc: 'Turn dense academic papers into digestible summaries.',
+                steps: [
+                    'Upload the PDF paper to Claude or Gemini.',
+                    'Prompt: "Summarize this paper in 3 key points: methodology, findings, and implications."',
+                    'Ask follow-up questions: "Explain [specific concept] in simple terms."',
+                    'Use Perplexity to find related papers on the same topic.'
+                ]
+            },
+            ar: {
+                title: 'لخص الأوراق العلمية بسرعة',
+                desc: 'حول الأوراق العلمية المعقدة لملخصات سهلة الفهم.',
+                steps: [
+                    'ارفع ملف الـ PDF على Claude أو Gemini.',
+                    'اكتب الأمر: "لخص هذه الورقة في 3 نقاط: المنهجية، النتائج، والتطبيقات."',
+                    'اسأل أسئلة متابعة: "اشرح لي [مفهوم معين] بطريقة بسيطة."',
+                    'استخدم Perplexity عشان تلقى أوراق مشابهة.'
+                ]
+            }
+        }
+    },
+    {
+        id: 'cold-email',
+        icon: Mail,
+        content: {
+            en: {
+                title: 'Write Cold Emails That Get Responses',
+                desc: 'Get your foot in the door with personalized outreach.',
+                steps: [
+                    'Use ChatGPT to draft the email structure.',
+                    'Prompt: "Write a cold email to [TARGET] offering [SERVICE]. Keep it under 100 words, personalize the opening."',
+                    'Use Perplexity to research the recipient\'s recent work/company news.',
+                    'Ask AI to refine: "Make this sound more conversational and less salesy."',
+                    'Send during business hours (9-11 AM their timezone).'
+                ]
+            },
+            ar: {
+                title: 'اكتب إيميلات باردة تجذب الرد',
+                desc: 'احصل على فرصتك مع إيميلات مخصصة.',
+                steps: [
+                    'استخدم ChatGPT عشان تسوي هيكل الإيميل.',
+                    'اكتب الأمر: "اكتب إيميل بارد لـ [الهدف] أعرض فيه [الخدمة]. خله أقل من 100 كلمة ومخصص."',
+                    'استخدم Perplexity عشان تبحث عن أخبار الشركة أو الشخص.',
+                    'اطلب من AI يعدل: "خله يبدو أكثر محادثة وأقل تسويق."',
+                    'أرسل خلال ساعات العمل (9-11 صباحاً بالتوقيت المحلي).'
+                ]
+            }
+        }
+    },
+    {
+        id: 'resume',
+        icon: Briefcase,
+        content: {
+            en: {
+                title: 'Optimize Your Resume with AI',
+                desc: 'Make your resume ATS-friendly and compelling.',
+                steps: [
+                    'Upload your resume to Claude or ChatGPT.',
+                    'Prompt: "Review this resume for [JOB TITLE] position. Suggest improvements for ATS optimization and highlight relevant skills."',
+                    'Ask: "Rewrite my experience bullets using action verbs and quantifiable results."',
+                    'Use Gamma or ChatGPT to create a matching cover letter.',
+                    'Test your resume with an ATS checker (free tools available online).'
+                ]
+            },
+            ar: {
+                title: 'حسّن سيرتك الذاتية بالذكاء الاصطناعي',
+                desc: 'اجعل سيرتك متوافقة مع أنظمة الفحص وجذابة.',
+                steps: [
+                    'ارفع سيرتك الذاتية على Claude أو ChatGPT.',
+                    'اكتب الأمر: "راجع هذه السيرة لشغل [المسمى الوظيفي]. اقترح تحسينات لـ ATS وركز على المهارات المطلوبة."',
+                    'اطلب: "أعد كتابة خبراتي باستخدام أفعال إنجليزية ونتائج قابلة للقياس."',
+                    'استخدم Gamma أو ChatGPT عشان تسوي خطاب تغطية متطابق.',
+                    'اختبر السيرة مع أداة ATS (أدوات مجانية متوفرة).'
+                ]
+            }
+        }
+    },
+    {
+        id: 'social-media',
+        icon: MessageSquare,
+        content: {
+            en: {
+                title: 'Create Viral Social Media Content',
+                desc: 'Generate engaging posts that resonate with your audience.',
+                steps: [
+                    'Use ChatGPT to brainstorm content ideas: "Give me 10 LinkedIn post ideas for [TOPIC] targeting [AUDIENCE]."',
+                    'Prompt: "Write a Twitter/X thread (5 tweets) about [TOPIC]. Make it engaging with hooks and clear takeaways."',
+                    'Use Gamma to create visual carousel posts for Instagram/LinkedIn.',
+                    'Ask AI to adapt the same content for different platforms (Twitter vs LinkedIn tone).',
+                    'Schedule posts using free tools like Buffer or Hootsuite.'
+                ]
+            },
+            ar: {
+                title: 'أنشئ محتوى فيروسي لوسائل التواصل',
+                desc: 'انشئ منشورات جذابة تلامس جمهورك.',
+                steps: [
+                    'استخدم ChatGPT عشان تسوي عصف ذهني: "اعطني 10 أفكار لمنشورات LinkedIn عن [الموضوع] للجمهور [الجمهور المستهدف]."',
+                    'اكتب الأمر: "اكتب thread تويتر (5 تغريدات) عن [الموضوع]. خله جذاب مع hooks وخلاصات واضحة."',
+                    'استخدم Gamma عشان تسوي منشورات كراسل بصرية لـ Instagram/LinkedIn.',
+                    'اطلب من AI يعدل نفس المحتوى لمواقع مختلفة (نبرة تويتر مختلفة عن LinkedIn).',
+                    'جدول المنشورات باستخدام أدوات مجانية مثل Buffer.'
+                ]
+            }
+        }
+    },
+    {
+        id: 'documentation',
+        icon: FileText,
+        content: {
+            en: {
+                title: 'Generate Code Documentation',
+                desc: 'Create professional documentation for your projects.',
+                steps: [
+                    'Copy your code function/class to ChatGPT or Claude.',
+                    'Prompt: "Generate comprehensive documentation for this code including: function description, parameters, return values, and usage examples."',
+                    'Ask: "Convert this to JSDoc/TypeDoc format."',
+                    'Use the generated docs to create a README.md for your GitHub repo.',
+                    'Keep documentation in sync by regenerating when you update code.'
+                ]
+            },
+            ar: {
+                title: 'أنشئ توثيق للكود',
+                desc: 'سوي توثيق احترافي لمشاريعك.',
+                steps: [
+                    'انسخ الدالة/الكلاس للكود على ChatGPT أو Claude.',
+                    'اكتب الأمر: "سوي توثيق شامل لهذا الكود يتضمن: وصف الدالة، المعاملات، القيم المرجعة، وأمثلة استخدام."',
+                    'اطلب: "حول هذا لصيغة JSDoc/TypeDoc."',
+                    'استخدم التوثيق عشان تسوي README.md للمشروع على GitHub.',
+                    'حدّث التوثيق كل ما عدلت الكود.'
+                ]
+            }
+        }
+    },
+    {
+        id: 'project-planning',
+        icon: Brain,
+        content: {
+            en: {
+                title: 'Plan Your Project from Scratch',
+                desc: 'Break down complex projects into actionable steps.',
+                steps: [
+                    'Describe your project idea to ChatGPT: "I want to build [APP IDEA] that helps [TARGET USERS]."',
+                    'Ask: "Break this down into a step-by-step roadmap with milestones and deliverables."',
+                    'Request: "Create a tech stack recommendation with explanations for each choice."',
+                    'Prompt: "Generate a database schema for [FEATURE] with relationships."',
+                    'Use Notion or Gamma to visualize the roadmap and track progress.'
+                ]
+            },
+            ar: {
+                title: 'خطط مشروعك من الصفر',
+                desc: 'قسم المشاريع المعقدة لخطوات عملية.',
+                steps: [
+                    'اشرح فكرة مشروعك لـ ChatGPT: "أبي أبني [فكرة التطبيق] يخدم [المستخدمين المستهدفين]."',
+                    'اطلب: "قسم هذا لخارطة طريق خطوة بخطوة مع معالم وقوائم مهام."',
+                    'اسأل: "اقترح لي tech stack مع شرح لكل خيار."',
+                    'اكتب الأمر: "سوي تصميم قاعدة بيانات لـ [الميزة] مع العلاقات."',
+                    'استخدم Notion أو Gamma عشان ترسم الخارطة وتتابع التقدم.'
                 ]
             }
         }

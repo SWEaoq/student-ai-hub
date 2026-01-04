@@ -1,18 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import PlaybookSection from '../components/PlaybookSection';
 
 const Playbook = ({ lang }) => {
+    const navigate = useNavigate();
     const isRTL = lang === 'ar';
 
     return (
         <div className="w-full pt-32">
             <div className="max-w-7xl mx-auto px-6">
-                <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
+                <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
                     <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
-                    {lang === 'en' ? 'Back to Hub' : 'العودة إلى المركز'}
-                </Link>
+                    {lang === 'en' ? 'Back' : 'رجوع'}
+                </button>
             </div>
             <PlaybookSection lang={lang} />
         </div>

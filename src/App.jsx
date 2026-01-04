@@ -1,14 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Tools from './pages/Tools';
-import Playbook from './pages/Playbook';
-import Prompts from './pages/Prompts';
-import ToolDetail from './pages/ToolDetail';
-import PlaybookDetail from './pages/PlaybookDetail';
+import AnimatedBackground from './components/ui/AnimatedBackground';
+import PageTransition from './components/animations/PageTransition';
+import ScrollToTop from './components/ui/ScrollToTop';
+import { ToastProvider } from './components/ui/ToastProvider';
+import ErrorBoundary from './components/layout/ErrorBoundary';
+import Footer from './components/layout/Footer';
+import Skeleton from './components/ui/Skeleton';
 
-function App() {
+// Lazy load pages for code splitting
+const Home = lazy(() => import('./pages/Home'));
+const Tools = lazy(() => import('./pages/Tools'));
+const Playbook = lazy(() => import('./pages/Playbook'));
+const Prompts = lazy(() => import('./pages/Prompts'));
+const ToolDetail = lazy(() => import('./pages/ToolDetail'));
+const PlaybookDetail = lazy(() => import('./pages/PlaybookDetail'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+function AppContent() {
   const [lang, setLang] = useState('en');
 
   useEffect(() => {
@@ -21,52 +31,67 @@ function App() {
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');`}
       </style>
-      {/* Global Background Gradients */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-neon-purple/30 rounded-full blur-[128px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-neon-green/20 rounded-full blur-[128px]" />
-        <div className="absolute top-[40%] left-[40%] -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-neon-pink/15 rounded-full blur-[128px]" />
-      </div>
-
-      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
+      
+      <AnimatedBackground />
 
       <Navbar lang={lang} setLang={setLang} />
       <div className="relative z-10 max-w-7xl mx-auto flex flex-col min-h-screen">
-
         <main className="flex-grow flex flex-col items-center w-full">
-          <Routes>
-            <Route
-              path="/"
-              element={<Home lang={lang} />}
-            />
-            <Route
-              path="/tools"
-              element={<Tools lang={lang} />}
-            />
-            <Route
-              path="/playbook"
-              element={<Playbook lang={lang} />}
-            />
-            <Route
-              path="/prompts"
-              element={<Prompts lang={lang} />}
-            />
-            <Route
-              path="/tool/:id"
-              element={<ToolDetail lang={lang} />}
-            />
-            <Route
-              path="/playbook/:id"
-              element={<PlaybookDetail lang={lang} />}
-            />
-          </Routes>
+          <Suspense fallback={
+            <div className="w-full flex items-center justify-center min-h-[60vh]">
+              <div className="flex flex-col gap-4 items-center">
+                <Skeleton variant="circle" className="w-16 h-16" />
+                <Skeleton variant="text" className="w-48 h-4" />
+              </div>
+            </div>
+          }>
+            <Routes>
+              <Route
+                path="/"
+                element={<PageTransition><Home lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/tools"
+                element={<PageTransition><Tools lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/playbook"
+                element={<PageTransition><Playbook lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/prompts"
+                element={<PageTransition><Prompts lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/tool/:id"
+                element={<PageTransition><ToolDetail lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/playbook/:id"
+                element={<PageTransition><PlaybookDetail lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="*"
+                element={<PageTransition><NotFound lang={lang} /></PageTransition>}
+              />
+            </Routes>
+          </Suspense>
         </main>
 
-        <footer className="py-8 text-center text-gray-600 text-sm">
-          <p>© 2025 Student AI Hub. Built with React & Tailwind.</p>
-        </footer>
+        <Footer lang={lang} />
       </div>
+      <ScrollToTop />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
+    </ErrorBoundary>
   );
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Zap, PenTool, Presentation, Code, Layout } from 'lucide-react';
 import { CONTENT } from '../data/content';
+import FadeIn from './animations/FadeIn';
 
 const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) => {
     const t = CONTENT[lang];
@@ -20,15 +21,19 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
             <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="max-w-5xl mx-auto text-center relative z-10">
-                <h1 className={`text-6xl md:text-8xl font-black text-white mb-6 ${lang === 'ar' ? 'leading-[1.4] py-6' : 'tracking-tight leading-none'}`}>
-                    {t.hero.title1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 pb-2 inline-block">{t.hero.title1_accent}</span>
-                    <br />
-                    {t.hero.title2} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 pb-2 inline-block">{t.hero.title2_accent}</span>
-                </h1>
+                <FadeIn delay={0.1}>
+                    <h1 className={`text-6xl md:text-8xl font-black text-white mb-6 ${lang === 'ar' ? 'leading-[1.4] py-6' : 'tracking-tight leading-none'}`}>
+                        {t.hero.title1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 pb-2 inline-block">{t.hero.title1_accent}</span>
+                        <br />
+                        {t.hero.title2} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 pb-2 inline-block">{t.hero.title2_accent}</span>
+                    </h1>
+                </FadeIn>
 
-                <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-                    {t.hero.subtitle}
-                </p>
+                <FadeIn delay={0.3}>
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                        {t.hero.subtitle}
+                    </p>
+                </FadeIn>
 
                 {/* Category Filter Pills */}
                 {showFilters && (

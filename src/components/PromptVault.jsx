@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
 import { CONTENT, PROMPTS } from '../data/content';
+import CopyButton from './ui/CopyButton';
+import StaggerContainer from './animations/StaggerContainer';
+import SearchBar from './ui/SearchBar';
+import EmptyState from './ui/EmptyState';
 
 const PromptVault = ({ lang }) => {
     const t = CONTENT[lang];
-    const [copiedIndex, setCopiedIndex] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const handleCopy = (text, index) => {
-        navigator.clipboard.writeText(text);
-        setCopiedIndex(index);
-        setTimeout(() => setCopiedIndex(null), 2000);
-    };
+    const filteredPrompts = useMemo(() => {
+        if (!searchQuery.trim()) return PROMPTS;
+        
+        const query = searchQuery.toLowerCase();
+        return PROMPTS.filter(prompt => {
+            const content = prompt.content[lang];
+            return (
+                content.title.toLowerCase().includes(query) ||
+                content.text.toLowerCase().includes(query) ||
+                content.tag.toLowerCase().includes(query)
+            );
+        });
+    }, [searchQuery, lang]);
 
     return (
         <section className="py-20 px-6 max-w-7xl mx-auto" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
@@ -22,8 +33,16 @@ const PromptVault = ({ lang }) => {
                 <div className="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent flex-1 opacity-50" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {PROMPTS.map((prompt, index) => {
+            <div className="mb-8">
+                <SearchBar
+                    onSearch={setSearchQuery}
+                    placeholder={lang === 'en' ? 'Search prompts...' : 'ابحث عن الأوامر...'}
+                />
+            </div>
+
+            {filteredPrompts.length > 0 ? (
+                <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {filteredPrompts.map((prompt, index) => {
                     const content = prompt.content[lang];
                     return (
                         <div key={index} className="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 relative group">
@@ -36,29 +55,22 @@ const PromptVault = ({ lang }) => {
                             <div className="bg-white/5 rounded-lg p-4 font-mono text-sm text-gray-300 leading-relaxed min-h-[120px] mb-4 border border-white/5 group-hover:border-white/10 transition-colors">
                                 "{content.text}"
                             </div>
-                            <button
-                                onClick={() => handleCopy(content.text, index)}
-                                className={`
-                                    w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all
-                                    ${copiedIndex === index
-                                        ? 'bg-green-500 text-black shadow-[0_0_15px_rgba(34,197,94,0.4)]'
-                                        : 'bg-white/10 text-white hover:bg-purple-600 hover:text-white'}
-                                `}
+                            <CopyButton
+                                text={content.text}
+                                successMessage={t.vault.copied}
+                                className="w-full py-3 rounded-lg font-bold text-sm"
                             >
-                                {copiedIndex === index ? (
-                                    <>
-                                        <Check size={16} /> {t.vault.copied}
-                                    </>
-                                ) : (
-                                    <>
-                                        <Copy size={16} /> {t.vault.copy}
-                                    </>
-                                )}
-                            </button>
+                                {t.vault.copy}
+                            </CopyButton>
                         </div>
                     );
-                })}
-            </div>
+                    })}
+                </StaggerContainer>
+            ) : (
+                <EmptyState 
+                    message={lang === 'en' ? 'No prompts found. Try a different search.' : 'لم يتم العثور على أوامر. جرب بحثًا مختلفًا.'}
+                />
+            )}
         </section>
     );
 };
