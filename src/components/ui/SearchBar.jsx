@@ -54,8 +54,7 @@ const SearchBar = ({
     >
       <div className="relative">
         <Search 
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" 
-          size={20} 
+          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" 
         />
         <input
           ref={inputRef}
@@ -63,15 +62,15 @@ const SearchBar = ({
           value={query}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full pl-12 pr-10 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all"
+          className="w-full pl-10 sm:pl-12 pr-9 sm:pr-10 py-2.5 sm:py-3 text-sm sm:text-base bg-white/5 border border-white/10 rounded-lg sm:rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all min-h-[44px]"
         />
         {query && (
           <button
             onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white active:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Clear search"
           >
-            <X size={18} />
+            <X size={18} className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
           </button>
         )}
       </div>

@@ -19,6 +19,11 @@ import {
   MessageSquare,
   Briefcase,
   Brain,
+  Smartphone,
+  Globe,
+  Server,
+  Layers,
+  GraduationCap,
 } from "lucide-react";
 import {
   SiOpenai,
@@ -78,6 +83,27 @@ export const CONTENT = {
       title_accent: "Playbook",
       step: "Step",
     },
+    academy: {
+      title: "Build with",
+      title_accent: "AI",
+      subtitle: "Learn to build real software from zero to deployment. Step-by-step guides for every stack.",
+      chooseCategory: "Choose Your Path",
+      chooseStack: "Select a Stack",
+      startLearning: "Start Learning",
+      backToCategories: "Back to Categories",
+      sections: "Sections",
+      checkpoint: "Checkpoint",
+      completed: "Completed",
+      nextSection: "Next Section",
+      prevSection: "Previous Section",
+      estimatedTime: "Estimated Time",
+      difficulty: "Difficulty",
+      beginner: "Beginner",
+      intermediate: "Intermediate",
+      advanced: "Advanced",
+      copyCode: "Copy Code",
+      codeCopied: "Copied!",
+    },
   },
   ar: {
     nav: {
@@ -120,6 +146,27 @@ export const CONTENT = {
       title: "الشروحات",
       title_accent: "",
       step: "خطوة",
+    },
+    academy: {
+      title: "ابني بـ",
+      title_accent: "الذكاء الاصطناعي",
+      subtitle: "تعلم تبني برامج حقيقية من الصفر حتى النشر. شروحات خطوة بخطوة لكل التقنيات.",
+      chooseCategory: "اختر مسارك",
+      chooseStack: "اختر التقنية",
+      startLearning: "ابدأ التعلم",
+      backToCategories: "رجوع للتصنيفات",
+      sections: "الأقسام",
+      checkpoint: "نقطة فحص",
+      completed: "مكتمل",
+      nextSection: "القسم التالي",
+      prevSection: "القسم السابق",
+      estimatedTime: "الوقت المتوقع",
+      difficulty: "المستوى",
+      beginner: "مبتدئ",
+      intermediate: "متوسط",
+      advanced: "متقدم",
+      copyCode: "نسخ الكود",
+      codeCopied: "تم النسخ!",
     },
   },
 };
@@ -840,3 +887,771 @@ export const GUIDES = [
         }
     }
 ];
+
+export const ACADEMY_CATEGORIES = [
+  {
+    id: 'mobile',
+    icon: Smartphone,
+    color: 'from-blue-500 to-cyan-500',
+    content: {
+      en: {
+        name: 'Mobile Development',
+        description: 'Build native and cross-platform mobile apps with Flutter, React Native, and more.',
+      },
+      ar: {
+        name: 'تطوير التطبيقات',
+        description: 'ابني تطبيقات موبايل محلية ومتعددة المنصات باستخدام Flutter و React Native وغيرها.',
+      },
+    },
+    stacks: ['flutter', 'react-native'],
+  },
+  {
+    id: 'web-frontend',
+    icon: Globe,
+    color: 'from-purple-500 to-pink-500',
+    content: {
+      en: {
+        name: 'Web Frontend',
+        description: 'Create stunning web interfaces with React, Vue, Angular, and modern frameworks.',
+      },
+      ar: {
+        name: 'واجهات الويب',
+        description: 'سوي واجهات ويب رهيبة باستخدام React و Vue و Angular وإطارات العمل الحديثة.',
+      },
+    },
+    stacks: ['react', 'vue', 'angular'],
+  },
+  {
+    id: 'backend',
+    icon: Server,
+    color: 'from-green-500 to-emerald-500',
+    content: {
+      en: {
+        name: 'Backend Development',
+        description: 'Build robust APIs and server-side applications with Node.js, Python, and more.',
+      },
+      ar: {
+        name: 'تطوير الخوادم',
+        description: 'ابني APIs قوية وتطبيقات الخادم باستخدام Node.js و Python وغيرها.',
+      },
+    },
+    stacks: ['nodejs', 'python-django', 'python-flask'],
+  },
+  {
+    id: 'fullstack',
+    icon: Layers,
+    color: 'from-orange-500 to-red-500',
+    content: {
+      en: {
+        name: 'Full-Stack Frameworks',
+        description: 'End-to-end solutions with Next.js, Remix, SvelteKit, and modern full-stack tools.',
+      },
+      ar: {
+        name: 'إطارات العمل الكاملة',
+        description: 'حلول شاملة من البداية للنهاية باستخدام Next.js و Remix و SvelteKit وغيرها.',
+      },
+    },
+    stacks: ['nextjs', 'remix', 'sveltekit'],
+  },
+];
+
+export const ACADEMY_TUTORIALS = {
+  flutter: {
+    category: 'mobile',
+    icon: Smartphone,
+    color: 'from-blue-500 to-cyan-500',
+    difficulty: 'beginner',
+    estimatedTime: '4-6 hours',
+    content: {
+      en: {
+        name: 'Flutter Mobile App Development',
+        tagline: 'Build beautiful native apps for iOS and Android',
+        description: 'Learn Flutter from scratch and build your first mobile app with AI assistance. This comprehensive guide covers setup, basics, state management, and using AI to accelerate development.',
+      },
+      ar: {
+        name: 'تطوير تطبيقات Flutter',
+        tagline: 'ابني تطبيقات محلية رهيبة لـ iOS و Android',
+        description: 'تعلم Flutter من الصفر وابني أول تطبيق موبايل مع مساعدة الذكاء الاصطناعي. هذا الدليل الشامل يغطي الإعداد، الأساسيات، إدارة الحالة، واستخدام AI لتسريع التطوير.',
+      },
+    },
+    sections: [
+      {
+        id: 'setup',
+        content: {
+          en: {
+            title: 'Setup & Installation',
+            description: 'Get Flutter installed and your development environment ready.',
+            steps: [
+              'Download Flutter SDK from flutter.dev for your operating system (Windows, macOS, or Linux)',
+              'Extract the zip file and add Flutter to your PATH environment variable',
+              'Run `flutter doctor` in your terminal to check for any missing dependencies',
+              'Install Android Studio (for Android development) or Xcode (for iOS on macOS)',
+              'Run `flutter doctor` again and install any additional tools it recommends',
+              'Create your first Flutter project with: `flutter create my_first_app`',
+              'Navigate to the project: `cd my_first_app`',
+              'Run the app: `flutter run` or use your IDE\'s run button',
+            ],
+            codeExamples: [
+              {
+                title: 'Check Flutter Installation',
+                code: 'flutter doctor',
+                language: 'bash',
+              },
+              {
+                title: 'Create New Project',
+                code: 'flutter create my_first_app\ncd my_first_app\nflutter run',
+                language: 'bash',
+              },
+            ],
+            checkpoints: [
+              'Flutter SDK installed and added to PATH',
+              'flutter doctor shows no critical issues',
+              'First Flutter app runs successfully',
+            ],
+          },
+          ar: {
+            title: 'الإعداد والتركيب',
+            description: 'ثبت Flutter وجهز بيئة التطوير.',
+            steps: [
+              'حمّل Flutter SDK من flutter.dev لنظام التشغيل حقك (Windows أو macOS أو Linux)',
+              'استخرج ملف الـ zip وحط Flutter في متغير البيئة PATH',
+              'شغّل `flutter doctor` في الطرفية عشان تتأكد من كل المتطلبات',
+              'ثبت Android Studio (للتطوير على Android) أو Xcode (لـ iOS على macOS)',
+              'شغّل `flutter doctor` مرة ثانية وثبت أي أدوات إضافية يقترحها',
+              'أنشئ أول مشروع Flutter: `flutter create my_first_app`',
+              'انتقل للمشروع: `cd my_first_app`',
+              'شغّل التطبيق: `flutter run` أو استخدم زر التشغيل في الـ IDE',
+            ],
+            codeExamples: [
+              {
+                title: 'تحقق من تثبيت Flutter',
+                code: 'flutter doctor',
+                language: 'bash',
+              },
+              {
+                title: 'إنشاء مشروع جديد',
+                code: 'flutter create my_first_app\ncd my_first_app\nflutter run',
+                language: 'bash',
+              },
+            ],
+            checkpoints: [
+              'Flutter SDK مثبت ومضاف للـ PATH',
+              'flutter doctor ما يطلع أخطاء حرجة',
+              'أول تطبيق Flutter يشتغل بنجاح',
+            ],
+          },
+        },
+      },
+      {
+        id: 'basics',
+        content: {
+          en: {
+            title: 'Flutter Basics',
+            description: 'Understand widgets, state management, and the Flutter architecture.',
+            steps: [
+              'Understand that everything in Flutter is a Widget - buttons, text, layouts, everything',
+              'Learn about StatelessWidget (immutable) and StatefulWidget (mutable state)',
+              'Explore the widget tree concept: widgets are composed of other widgets',
+              'Practice with basic widgets: Text, Container, Column, Row, Scaffold',
+              'Learn about Material Design widgets (MaterialApp, AppBar, FloatingActionButton)',
+              'Understand hot reload: press `r` in terminal or save file to see changes instantly',
+              'Create your first custom widget by extracting a widget into its own class',
+              'Learn about the BuildContext and how widgets access their context',
+            ],
+            codeExamples: [
+              {
+                title: 'Basic Flutter App Structure',
+                code: `import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My First App',
+      home: Scaffold(
+        appBar: AppBar(title: Text('Hello Flutter')),
+        body: Center(
+          child: Text('Welcome to Flutter!'),
+        ),
+      ),
+    );
+  }
+}`,
+                language: 'dart',
+              },
+              {
+                title: 'Stateful Widget Example',
+                code: `class Counter extends StatefulWidget {
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _count = 0;
+
+  void _increment() {
+    setState(() {
+      _count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('Count: $_count'),
+        ElevatedButton(
+          onPressed: _increment,
+          child: Text('Increment'),
+        ),
+      ],
+    );
+  }
+}`,
+                language: 'dart',
+              },
+            ],
+            checkpoints: [
+              'Created a basic Flutter app with MaterialApp and Scaffold',
+              'Built a StatefulWidget with working state changes',
+              'Understand the difference between Stateless and Stateful widgets',
+            ],
+          },
+          ar: {
+            title: 'أساسيات Flutter',
+            description: 'فهم الـ Widgets وإدارة الحالة وبنية Flutter.',
+            steps: [
+              'افهم إن كل شيء في Flutter هو Widget - الأزرار، النصوص، التخطيطات، كل شيء',
+              'تعلم عن StatelessWidget (ثابت) و StatefulWidget (حالة متغيرة)',
+              'استكشف مفهوم شجرة الـ Widgets: الـ Widgets تتكون من widgets أخرى',
+              'تمرّن على الـ Widgets الأساسية: Text و Container و Column و Row و Scaffold',
+              'تعلم عن Material Design widgets (MaterialApp و AppBar و FloatingActionButton)',
+              'افهم Hot Reload: اضغط `r` في الطرفية أو احفظ الملف عشان تشوف التغييرات فوراً',
+              'سوي أول Widget مخصص بإنك تستخرج widget في كلاس منفصل',
+              'تعلم عن BuildContext و كيف الـ Widgets تصل لسياقها',
+            ],
+            codeExamples: [
+              {
+                title: 'هيكل تطبيق Flutter الأساسي',
+                code: `import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My First App',
+      home: Scaffold(
+        appBar: AppBar(title: Text('Hello Flutter')),
+        body: Center(
+          child: Text('Welcome to Flutter!'),
+        ),
+      ),
+    );
+  }
+}`,
+                language: 'dart',
+              },
+              {
+                title: 'مثال Stateful Widget',
+                code: `class Counter extends StatefulWidget {
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _count = 0;
+
+  void _increment() {
+    setState(() {
+      _count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('Count: $_count'),
+        ElevatedButton(
+          onPressed: _increment,
+          child: Text('Increment'),
+        ),
+      ],
+    );
+  }
+}`,
+                language: 'dart',
+              },
+            ],
+            checkpoints: [
+              'أنشأت تطبيق Flutter أساسي مع MaterialApp و Scaffold',
+              'بنت StatefulWidget مع تغييرات حالة شغالة',
+              'فهمت الفرق بين Stateless و Stateful widgets',
+            ],
+          },
+        },
+      },
+      {
+        id: 'ai-integration',
+        content: {
+          en: {
+            title: 'Using AI to Build Features',
+            description: 'Leverage AI tools like Cursor and ChatGPT to accelerate Flutter development.',
+            steps: [
+              'Open Cursor (AI code editor) or your IDE with AI assistance',
+              'Describe the feature you want: "Create a login screen with email and password fields, a login button, and validation"',
+              'Let AI generate the widget structure - review and understand the generated code',
+              'Ask AI to explain complex Flutter concepts: "Explain how BuildContext works in Flutter"',
+              'Use AI to debug errors: paste error message and code, ask for fixes',
+              'Generate API integration code: "Create a function to fetch user data from this API endpoint"',
+              'Ask AI to refactor code: "Make this widget more reusable and follow Flutter best practices"',
+              'Use AI to generate test cases: "Write unit tests for this widget"',
+              'Iterate with AI: ask follow-up questions and refine the generated code',
+            ],
+            codeExamples: [
+              {
+                title: 'Example AI Prompt for Flutter',
+                code: `// Ask AI: "Create a Flutter widget for a todo list item with checkmark, text, and delete button"
+
+class TodoItem extends StatelessWidget {
+  final String text;
+  final bool isCompleted;
+  final VoidCallback onToggle;
+  final VoidCallback onDelete;
+
+  TodoItem({
+    required this.text,
+    required this.isCompleted,
+    required this.onToggle,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Checkbox(
+        value: isCompleted,
+        onChanged: (_) => onToggle(),
+      ),
+      title: Text(
+        text,
+        style: TextStyle(
+          decoration: isCompleted ? TextDecoration.lineThrough : null,
+        ),
+      ),
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: onDelete,
+      ),
+    );
+  }
+}`,
+                language: 'dart',
+              },
+            ],
+            checkpoints: [
+              'Successfully used AI to generate a Flutter widget',
+              'Integrated AI-generated code into your app',
+              'Used AI to debug and fix at least one error',
+            ],
+          },
+          ar: {
+            title: 'استخدام الذكاء الاصطناعي لبناء الميزات',
+            description: 'استخدم أدوات AI مثل Cursor و ChatGPT لتسريع تطوير Flutter.',
+            steps: [
+              'افتح Cursor (محرر الكود بالـ AI) أو الـ IDE مع مساعدة الذكاء الاصطناعي',
+              'اشرح الميزة اللي تبيها: "سوي شاشة تسجيل دخول مع حقول email و password وزر تسجيل وvalidation"',
+              'خل AI يولد هيكل الـ Widget - راجع وفهم الكود اللي طلع',
+              'اطلب من AI يشرح مفاهيم Flutter المعقدة: "اشرح لي كيف BuildContext يشتغل في Flutter"',
+              'استخدم AI لتصحيح الأخطاء: الصق رسالة الخطأ والكود واطلب الحل',
+              'وّل كود تكامل API: "سوي دالة تجيب بيانات المستخدم من هذا الـ API endpoint"',
+              'اطلب من AI يعيد هيكلة الكود: "خلي هذا الـ Widget قابلة لإعادة الاستخدام واتبع best practices"',
+              'استخدم AI لتوليد اختبارات: "اكتب unit tests لهذا الـ Widget"',
+              'كرّر مع AI: اسأل أسئلة متابعة وصقّل الكود اللي طلع',
+            ],
+            codeExamples: [
+              {
+                title: 'مثال أمر AI لـ Flutter',
+                code: `// اطلب من AI: "سوي Flutter widget لعنصر قائمة مهام مع checkbox ونص وزر حذف"
+
+class TodoItem extends StatelessWidget {
+  final String text;
+  final bool isCompleted;
+  final VoidCallback onToggle;
+  final VoidCallback onDelete;
+
+  TodoItem({
+    required this.text,
+    required this.isCompleted,
+    required this.onToggle,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Checkbox(
+        value: isCompleted,
+        onChanged: (_) => onToggle(),
+      ),
+      title: Text(
+        text,
+        style: TextStyle(
+          decoration: isCompleted ? TextDecoration.lineThrough : null,
+        ),
+      ),
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: onDelete,
+      ),
+    );
+  }
+}`,
+                language: 'dart',
+              },
+            ],
+            checkpoints: [
+              'استخدمت AI بنجاح لتوليد Flutter widget',
+              'تكاملت الكود اللي AI ولده في التطبيق',
+              'استخدمت AI لتصحيح خطأ واحد على الأقل',
+            ],
+          },
+        },
+      },
+    ],
+  },
+  react: {
+    category: 'web-frontend',
+    icon: Code,
+    color: 'from-cyan-500 to-blue-500',
+    difficulty: 'beginner',
+    estimatedTime: '3-5 hours',
+    content: {
+      en: {
+        name: 'React Web Development',
+        tagline: 'Build modern, interactive web applications',
+        description: 'Master React from the ground up. Learn components, hooks, state management, and how to use AI tools to build features faster.',
+      },
+      ar: {
+        name: 'تطوير الويب بـ React',
+        tagline: 'ابني تطبيقات ويب حديثة وتفاعلية',
+        description: 'اتقن React من الصفر. تعلم الـ Components و Hooks وإدارة الحالة وكيف تستخدم أدوات AI عشان تبني الميزات بسرعة.',
+      },
+    },
+    sections: [
+      {
+        id: 'setup',
+        content: {
+          en: {
+            title: 'Setup & Installation',
+            description: 'Get your React development environment ready.',
+            steps: [
+              'Install Node.js from nodejs.org (LTS version recommended)',
+              'Verify installation: run `node --version` and `npm --version` in terminal',
+              'Install a code editor: VS Code is recommended with the ES7+ React/Redux extension',
+              'Create a new React app using Vite: `npm create vite@latest my-react-app -- --template react`',
+              'Navigate to project: `cd my-react-app`',
+              'Install dependencies: `npm install`',
+              'Start development server: `npm run dev`',
+              'Open http://localhost:5173 in your browser to see your app',
+            ],
+            codeExamples: [
+              {
+                title: 'Create React App with Vite',
+                code: 'npm create vite@latest my-react-app -- --template react\ncd my-react-app\nnpm install\nnpm run dev',
+                language: 'bash',
+              },
+            ],
+            checkpoints: [
+              'Node.js and npm installed',
+              'React app created and running',
+              'Development server shows app in browser',
+            ],
+          },
+          ar: {
+            title: 'الإعداد والتركيب',
+            description: 'جهز بيئة تطوير React.',
+            steps: [
+              'ثبت Node.js من nodejs.org (النسخة LTS موصى بها)',
+              'تحقق من التثبيت: شغّل `node --version` و `npm --version` في الطرفية',
+              'ثبت محرر كود: VS Code موصى به مع إضافة ES7+ React/Redux',
+              'أنشئ تطبيق React جديد باستخدام Vite: `npm create vite@latest my-react-app -- --template react`',
+              'انتقل للمشروع: `cd my-react-app`',
+              'ثبت التبعيات: `npm install`',
+              'شغّل خادم التطوير: `npm run dev`',
+              'افتح http://localhost:5173 في المتصفح عشان تشوف التطبيق',
+            ],
+            codeExamples: [
+              {
+                title: 'إنشاء تطبيق React مع Vite',
+                code: 'npm create vite@latest my-react-app -- --template react\ncd my-react-app\nnpm install\nnpm run dev',
+                language: 'bash',
+              },
+            ],
+            checkpoints: [
+              'Node.js و npm مثبتين',
+              'تطبيق React منشأ وشغال',
+              'خادم التطوير يعرض التطبيق في المتصفح',
+            ],
+          },
+        },
+      },
+      {
+        id: 'basics',
+        content: {
+          en: {
+            title: 'React Basics',
+            description: 'Learn components, JSX, props, and state management.',
+            steps: [
+              'Understand JSX: JavaScript syntax that looks like HTML but is actually JavaScript',
+              'Learn about Components: reusable pieces of UI that return JSX',
+              'Master Props: data passed from parent to child components',
+              'Understand State: component data that can change (use useState hook)',
+              'Practice with Event Handlers: onClick, onChange, onSubmit',
+              'Learn about Conditional Rendering: {condition && <Component />}',
+              'Understand Lists and Keys: map over arrays to render lists',
+              'Learn about useEffect: run code when component mounts or updates',
+            ],
+            codeExamples: [
+              {
+                title: 'Basic React Component',
+                code: `function Welcome({ name }) {
+  return <h1>Hello, {name}!</h1>;
+}
+
+function App() {
+  return (
+    <div>
+      <Welcome name="Sara" />
+      <Welcome name="Ahmed" />
+    </div>
+  );
+}`,
+                language: 'jsx',
+              },
+              {
+                title: 'Component with State',
+                code: `import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}`,
+                language: 'jsx',
+              },
+            ],
+            checkpoints: [
+              'Created a functional component with props',
+              'Built a component with useState hook',
+              'Implemented event handlers and conditional rendering',
+            ],
+          },
+          ar: {
+            title: 'أساسيات React',
+            description: 'تعلم الـ Components و JSX و Props وإدارة الحالة.',
+            steps: [
+              'افهم JSX: صيغة JavaScript تشبه HTML بس هي في الواقع JavaScript',
+              'تعلم عن Components: أجزاء UI قابلة لإعادة الاستخدام ترجع JSX',
+              'اتقن Props: البيانات اللي تُمرر من الـ Component الأب للابن',
+              'افهم State: بيانات الـ Component اللي ممكن تتغير (استخدم useState hook)',
+              'تمرّن على Event Handlers: onClick و onChange و onSubmit',
+              'تعلم عن Conditional Rendering: {condition && <Component />}',
+              'افهم Lists و Keys: استخدم map على المصفوفات عشان ترسم القوائم',
+              'تعلم عن useEffect: شغّل كود لما الـ Component يتحمّل أو يتحدّث',
+            ],
+            codeExamples: [
+              {
+                title: 'مكون React أساسي',
+                code: `function Welcome({ name }) {
+  return <h1>Hello, {name}!</h1>;
+}
+
+function App() {
+  return (
+    <div>
+      <Welcome name="Sara" />
+      <Welcome name="Ahmed" />
+    </div>
+  );
+}`,
+                language: 'jsx',
+              },
+              {
+                title: 'مكون مع State',
+                code: `import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}`,
+                language: 'jsx',
+              },
+            ],
+            checkpoints: [
+              'أنشأت functional component مع props',
+              'بنت مكون مع useState hook',
+              'طبّقت event handlers و conditional rendering',
+            ],
+          },
+        },
+      },
+      {
+        id: 'ai-integration',
+        content: {
+          en: {
+            title: 'Using AI to Build Features',
+            description: 'Accelerate React development with AI assistants like Cursor, ChatGPT, and Claude.',
+            steps: [
+              'Open Cursor or your IDE with AI chat enabled',
+              'Describe the component: "Create a React component for a product card with image, title, price, and add to cart button"',
+              'Let AI generate the component code - review structure and props',
+              'Ask AI to add features: "Add loading state and error handling to this API call"',
+              'Use AI to fix bugs: paste error message, ask "What\'s wrong with this React code?"',
+              'Generate custom hooks: "Create a useFetch hook that handles loading and error states"',
+              'Ask for best practices: "How can I optimize this component for performance?"',
+              'Use AI to write tests: "Generate React Testing Library tests for this component"',
+              'Refactor with AI: "Make this code more maintainable and follow React patterns"',
+            ],
+            codeExamples: [
+              {
+                title: 'Example AI-Generated Component',
+                code: `// Ask AI: "Create a React component for a todo list with add and delete functionality"
+
+import { useState } from 'react';
+
+function TodoList() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+
+  const addTodo = () => {
+    if (input.trim()) {
+      setTodos([...todos, { id: Date.now(), text: input }]);
+      setInput('');
+    }
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  return (
+    <div>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Add a todo"
+      />
+      <button onClick={addTodo}>Add</button>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+                language: 'jsx',
+              },
+            ],
+            checkpoints: [
+              'Used AI to generate a React component',
+              'Integrated AI code into your project',
+              'Used AI to debug and optimize code',
+            ],
+          },
+          ar: {
+            title: 'استخدام الذكاء الاصطناعي لبناء الميزات',
+            description: 'سرّع تطوير React بأدوات AI مثل Cursor و ChatGPT و Claude.',
+            steps: [
+              'افتح Cursor أو الـ IDE مع تفعيل محادثة AI',
+              'اشرح الـ Component: "سوي React component لبطاقة منتج مع صورة وعنوان وسعر وزر إضافة للسلة"',
+              'خل AI يولد كود الـ Component - راجع الهيكل والـ props',
+              'اطلب من AI يضيف ميزات: "ضيف loading state و error handling لهذا الـ API call"',
+              'استخدم AI لتصحيح الأخطاء: الصق رسالة الخطأ واطرح "وش المشكلة في كود React هذا؟"',
+              'وّل custom hooks: "سوي useFetch hook يتعامل مع loading و error states"',
+              'اطلب best practices: "كيف أقدر أحسّن هذا الـ Component للأداء؟"',
+              'استخدم AI لكتابة اختبارات: "وّل React Testing Library tests لهذا الـ Component"',
+              'أعد الهيكلة مع AI: "خلي هذا الكود أسهل صيانة واتبع React patterns"',
+            ],
+            codeExamples: [
+              {
+                title: 'مثال Component من AI',
+                code: `// اطلب من AI: "سوي React component لقائمة مهام مع إضافة وحذف"
+
+import { useState } from 'react';
+
+function TodoList() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+
+  const addTodo = () => {
+    if (input.trim()) {
+      setTodos([...todos, { id: Date.now(), text: input }]);
+      setInput('');
+    }
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  return (
+    <div>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Add a todo"
+      />
+      <button onClick={addTodo}>Add</button>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+                language: 'jsx',
+              },
+            ],
+            checkpoints: [
+              'استخدمت AI لتوليد React component',
+              'تكاملت الكود من AI في المشروع',
+              'استخدمت AI لتصحيح وتحسين الكود',
+            ],
+          },
+        },
+      },
+    ],
+  },
+};

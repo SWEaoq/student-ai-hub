@@ -2,6 +2,8 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AnimatedBackground from './components/ui/AnimatedBackground';
+import ParticleSystem from './components/ui/ParticleSystem';
+import MouseFollower from './components/ui/MouseFollower';
 import PageTransition from './components/animations/PageTransition';
 import ScrollToTop from './components/ui/ScrollToTop';
 import { ToastProvider } from './components/ui/ToastProvider';
@@ -16,14 +18,26 @@ const Playbook = lazy(() => import('./pages/Playbook'));
 const Prompts = lazy(() => import('./pages/Prompts'));
 const ToolDetail = lazy(() => import('./pages/ToolDetail'));
 const PlaybookDetail = lazy(() => import('./pages/PlaybookDetail'));
+const Academy = lazy(() => import('./pages/Academy'));
+const AcademyCategory = lazy(() => import('./pages/AcademyCategory'));
+const AcademyTutorial = lazy(() => import('./pages/AcademyTutorial'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function AppContent() {
   const [lang, setLang] = useState('en');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
+    
+    // Detect mobile device for performance optimization
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, [lang]);
 
   return (
@@ -33,9 +47,11 @@ function AppContent() {
       </style>
       
       <AnimatedBackground />
+      <ParticleSystem particleCount={isMobile ? 10 : 25} />
+      <MouseFollower enabled={true} />
 
       <Navbar lang={lang} setLang={setLang} />
-      <div className="relative z-10 max-w-7xl mx-auto flex flex-col min-h-screen">
+      <div className="relative z-10 max-w-7xl mx-auto flex flex-col min-h-screen px-0 sm:px-4">
         <main className="flex-grow flex flex-col items-center w-full">
           <Suspense fallback={
             <div className="w-full flex items-center justify-center min-h-[60vh]">
@@ -69,6 +85,18 @@ function AppContent() {
               <Route
                 path="/playbook/:id"
                 element={<PageTransition><PlaybookDetail lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/academy"
+                element={<PageTransition><Academy lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/academy/:category"
+                element={<PageTransition><AcademyCategory lang={lang} /></PageTransition>}
+              />
+              <Route
+                path="/academy/:category/:stack"
+                element={<PageTransition><AcademyTutorial lang={lang} /></PageTransition>}
               />
               <Route
                 path="*"

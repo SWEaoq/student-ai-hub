@@ -36,10 +36,10 @@ const CopyButton = ({
       whileTap={{ scale: 0.95 }}
       onClick={handleCopy}
       className={`
-        flex items-center justify-center gap-2 transition-all
+        flex items-center justify-center gap-2 transition-all min-h-[44px]
         ${copied 
           ? 'bg-green-500 text-black' 
-          : 'bg-white/10 text-white hover:bg-purple-600 hover:text-white'
+          : 'bg-white/10 text-white hover:bg-purple-600 hover:text-white active:bg-purple-600 active:text-white'
         }
         ${className}
       `}

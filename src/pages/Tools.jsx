@@ -37,8 +37,8 @@ const Tools = ({ lang }) => {
 
     return (
         <div className="w-full">
-            <div className="max-w-7xl mx-auto px-6 pt-32">
-                <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white mb-8 transition-colors">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32">
+                <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white active:text-white mb-6 sm:mb-8 transition-colors min-h-[44px]">
                     <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
                     {lang === 'en' ? 'Back' : 'رجوع'}
                 </button>
@@ -52,8 +52,8 @@ const Tools = ({ lang }) => {
             />
 
             {/* Tool Grid Section */}
-            <section className="px-6 pb-20 max-w-7xl mx-auto">
-                <div className="mb-8">
+            <section className="px-4 sm:px-6 pb-12 sm:pb-16 md:pb-20 max-w-7xl mx-auto">
+                <div className="mb-6 sm:mb-8">
                     <SearchBar
                         onSearch={setSearchQuery}
                         placeholder={lang === 'en' ? 'Search tools...' : 'ابحث عن الأدوات...'}
@@ -61,7 +61,7 @@ const Tools = ({ lang }) => {
                 </div>
 
                 {filteredTools.length > 0 ? (
-                    <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
                         {filteredTools.map((tool) => (
                             <ToolCard key={tool.id} tool={tool} lang={lang} />
                         ))}

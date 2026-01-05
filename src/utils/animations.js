@@ -110,6 +110,80 @@ export const buttonPress = {
   transition: { duration: 0.1 }
 };
 
+// Float animation - subtle floating motion
+export const float = {
+  y: [0, -10, 0],
+  transition: {
+    duration: 3,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }
+};
+
+// Glow animation - pulsing glow effect
+export const glow = {
+  rest: { 
+    opacity: 0.5,
+    filter: "blur(20px)"
+  },
+  hover: {
+    opacity: 0.8,
+    filter: "blur(30px)",
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+};
+
+// Shimmer animation - shimmer effect
+export const shimmer = {
+  backgroundPosition: ["-1000px 0", "1000px 0"],
+  transition: {
+    duration: 3,
+    repeat: Infinity,
+    ease: "linear"
+  }
+};
+
+// Magnetic hover effect - slight pull toward cursor
+export const magnetic = {
+  rest: { x: 0, y: 0 },
+  hover: {
+    x: (_, info) => {
+      // This will be handled by component logic
+      return 0;
+    },
+    y: (_, info) => {
+      return 0;
+    },
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+};
+
+// Parallax scroll effect
+export const parallax = {
+  y: (progress) => progress * 50, // Adjust multiplier for parallax intensity
+  transition: {
+    duration: 0,
+    ease: "linear"
+  }
+};
+
+// Enhanced card hover with rotation and glow
+export const enhancedCardHover = {
+  rest: { 
+    scale: 1, 
+    y: 0, 
+    rotateZ: 0,
+    boxShadow: "0 0 0px rgba(176, 38, 255, 0)"
+  },
+  hover: { 
+    scale: 1.05, 
+    y: -8,
+    rotateZ: 1,
+    boxShadow: "0 10px 40px rgba(176, 38, 255, 0.3)",
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+};
+
 // Respect reduced motion preference
 export const shouldReduceMotion = () => {
   if (typeof window === 'undefined') return false;
