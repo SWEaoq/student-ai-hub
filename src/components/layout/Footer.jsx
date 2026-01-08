@@ -18,17 +18,17 @@ const Footer = ({ lang = 'en' }) => {
           </div>
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-white/5">
             <p className="text-gray-600 text-xs sm:text-sm text-center md:text-left">
-              © {new Date().getFullYear()} Student AI Hub. Built with React & Tailwind.
+              {t.common.copyright}
             </p>
             <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
               <a href="#" className="hover:text-white active:text-white transition-colors min-h-[44px] flex items-center">
-                {lang === 'en' ? 'Privacy' : 'الخصوصية'}
+                {t.common.privacy}
               </a>
               <a href="#" className="hover:text-white active:text-white transition-colors min-h-[44px] flex items-center">
-                {lang === 'en' ? 'Terms' : 'الشروط'}
+                {t.common.terms}
               </a>
               <a href="#" className="hover:text-white active:text-white transition-colors min-h-[44px] flex items-center">
-                {lang === 'en' ? 'Contact' : 'اتصل بنا'}
+                {t.common.contact}
               </a>
             </div>
           </div>

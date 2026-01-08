@@ -9,6 +9,7 @@ import SearchBar from '../components/ui/SearchBar';
 import EmptyState from '../components/ui/EmptyState';
 
 const Tools = ({ lang }) => {
+    const t = CONTENT[lang];
     const navigate = useNavigate();
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +18,7 @@ const Tools = ({ lang }) => {
         let tools = activeCategory === 'all'
             ? TOOLS
             : TOOLS.filter(tool => tool.category.toLowerCase() === activeCategory.toLowerCase());
-        
+
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             tools = tools.filter(tool => {
@@ -29,7 +30,7 @@ const Tools = ({ lang }) => {
                 );
             });
         }
-        
+
         return tools;
     }, [activeCategory, searchQuery, lang]);
 
@@ -40,7 +41,7 @@ const Tools = ({ lang }) => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32">
                 <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white active:text-white mb-6 sm:mb-8 transition-colors min-h-[44px]">
                     <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
-                    {lang === 'en' ? 'Back' : 'رجوع'}
+                    {t.common.back}
                 </button>
             </div>
 
@@ -56,7 +57,7 @@ const Tools = ({ lang }) => {
                 <div className="mb-6 sm:mb-8">
                     <SearchBar
                         onSearch={setSearchQuery}
-                        placeholder={lang === 'en' ? 'Search tools...' : 'ابحث عن الأدوات...'}
+                        placeholder={t.common.searchPlaceholder}
                     />
                 </div>
 
@@ -67,8 +68,8 @@ const Tools = ({ lang }) => {
                         ))}
                     </StaggerContainer>
                 ) : (
-                    <EmptyState 
-                        message={lang === 'en' ? 'No tools found. Try a different search.' : 'لم يتم العثور على أدوات. جرب بحثًا مختلفًا.'}
+                    <EmptyState
+                        message={t.common.noResults}
                     />
                 )}
             </section>

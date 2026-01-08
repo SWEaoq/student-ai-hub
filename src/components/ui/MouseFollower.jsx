@@ -83,3 +83,4 @@ const MouseFollower = ({ enabled = true, size = 400, opacity = 0.1 }) => {
 export default MouseFollower;
 
 
+

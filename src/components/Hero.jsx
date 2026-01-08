@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, PenTool, Presentation, Code, Layout } from 'lucide-react';
-import { CONTENT } from '../data/content';
+import { Zap, PenTool, Presentation, Code, Layout, ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CONTENT, TOOLS } from '../data/content';
 import FadeIn from './animations/FadeIn';
+import MagicSearch from './ui/MagicSearch';
 
 // Animated Gradient Text Component
 const AnimatedGradientText = ({ children, className = '' }) => {
@@ -55,6 +57,8 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
     const t = CONTENT[lang];
     const [particleBursts, setParticleBursts] = useState([]);
     const [previousCategory, setPreviousCategory] = useState(activeCategory);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     const categories = [
         { id: 'all', label: t.categories.all, icon: <Zap /> },
@@ -64,21 +68,40 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
         { id: 'productivity', label: t.categories.productivity, icon: <Layout /> }
     ];
 
+    // Search Handler
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        if (!query.trim()) {
+            setSearchResults([]);
+            return;
+        }
+
+        const lowerQuery = query.toLowerCase();
+        const results = TOOLS.filter(tool => {
+            const name = tool.content[lang].name.toLowerCase();
+            const desc = tool.content[lang].description.toLowerCase();
+            const tag = tool.content[lang].tag.toLowerCase();
+            return name.includes(lowerQuery) || desc.includes(lowerQuery) || tag.includes(lowerQuery);
+        }).slice(0, 5); // Limit to 5 results
+
+        setSearchResults(results);
+    };
+
     // Handle category change with particle burst
     const handleCategoryClick = (catId, event) => {
         if (catId !== activeCategory) {
             const rect = event.currentTarget.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
-            
+
             const burstId = Date.now();
             setParticleBursts([...particleBursts, { id: burstId, x, y }]);
-            
+
             setTimeout(() => {
                 setParticleBursts((prev) => prev.filter((b) => b.id !== burstId));
             }, 600);
         }
-        
+
         setActiveCategory(catId);
         setPreviousCategory(catId);
     };
@@ -86,7 +109,7 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
     return (
         <section className="pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 relative overflow-hidden" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
             {/* Enhanced Background Glows - Scaled down on mobile */}
-            <motion.div 
+            <motion.div
                 className="absolute top-20 left-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-purple-600/20 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] pointer-events-none"
                 animate={{
                     scale: [1, 1.2, 1],
@@ -98,7 +121,7 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
                     ease: "easeInOut",
                 }}
             />
-            <motion.div 
+            <motion.div
                 className="absolute bottom-20 right-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-blue-600/20 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] pointer-events-none"
                 animate={{
                     scale: [1, 1.15, 1],
@@ -127,15 +150,73 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
                     </p>
                 </FadeIn>
 
+                {/* Magic Search Section */}
+                <div className="relative max-w-2xl mx-auto mb-12 sm:mb-16 px-4 z-50">
+                    <MagicSearch
+                        placeholder={t.common.searchPlaceholder || "Search tools (e.g. 'writing', 'presentation')..."}
+                        onSearch={handleSearch}
+                        lang={lang}
+                    />
+
+                    {/* Search Results Dropdown */}
+                    <AnimatePresence>
+                        {searchQuery && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="absolute top-full left-0 right-0 mt-2 mx-4 bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/40 z-50"
+                            >
+                                {searchResults.length > 0 ? (
+                                    <div className="py-2">
+                                        <div className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
+                                            <Sparkles size={12} className="text-purple-400" />
+                                            {lang === 'en' ? 'Top Results' : 'أفضل النتائج'}
+                                        </div>
+                                        {searchResults.map((tool) => (
+                                            <Link
+                                                key={tool.id}
+                                                to={`/tool/${tool.id}`}
+                                                className="block px-4 py-3 hover:bg-white/5 transition-colors group border-b border-white/5 last:border-0"
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${tool.color} flex items-center justify-center text-white shadow-lg`}>
+                                                            <tool.icon size={20} />
+                                                        </div>
+                                                        <div className="text-left">
+                                                            <h4 className="text-white font-medium group-hover:text-purple-400 transition-colors">
+                                                                {tool.content[lang].name}
+                                                            </h4>
+                                                            <p className="text-xs text-gray-400">
+                                                                {tool.content[lang].tag}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <ArrowRight size={16} className="text-gray-500 group-hover:text-white transform group-hover:translate-x-1 transition-all" />
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="p-8 text-center text-gray-400">
+                                        <p>{t.common.noResults}</p>
+                                    </div>
+                                )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
                 {/* Category Filter Pills with Enhanced Animations */}
-                {showFilters && (
+                {showFilters && !searchQuery && (
                     <div className="flex flex-wrap justify-center gap-2 sm:gap-3 relative px-4 sm:px-0">
                         <AnimatePresence>
                             {particleBursts.map((burst) => (
                                 <ParticleBurst key={burst.id} x={burst.x} y={burst.y} />
                             ))}
                         </AnimatePresence>
-                        
+
                         {categories.map((cat) => {
                             const isActive = activeCategory.toLowerCase() === cat.id;
                             return (
@@ -173,9 +254,9 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
                                     >
                                         {React.cloneElement(cat.icon, { size: 16, className: "sm:w-[18px] sm:h-[18px]" })}
                                     </motion.div>
-                                    
+
                                     <span className={`text-sm sm:text-base font-semibold relative z-10 ${lang === 'ar' ? 'font-sans' : ''}`}>{cat.label}</span>
-                                    
+
                                     {isActive && (
                                         <motion.span
                                             className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full"

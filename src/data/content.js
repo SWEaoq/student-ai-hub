@@ -104,6 +104,20 @@ export const CONTENT = {
       copyCode: "Copy Code",
       codeCopied: "Copied!",
     },
+    common: {
+      back: "Back",
+      searchPlaceholder: "Search tools...",
+      noResults: "No tools found. Try a different search.",
+      visitWebsite: "Visit Website",
+      getFreeTier: "Get Free Tier",
+      installation: "Installation",
+      examplePrompts: "Example Prompts",
+      privacy: "Privacy",
+      terms: "Terms",
+      contact: "Contact",
+      copyright: "© 2024 Student AI Hub. Built with React & Tailwind.",
+      gem: "GEM",
+    },
   },
   ar: {
     nav: {
@@ -148,25 +162,39 @@ export const CONTENT = {
       step: "خطوة",
     },
     academy: {
-      title: "ابني بـ",
+      title: "ابنِ مع",
       title_accent: "الذكاء الاصطناعي",
-      subtitle: "تعلم تبني برامج حقيقية من الصفر حتى النشر. شروحات خطوة بخطوة لكل التقنيات.",
+      subtitle: "تعلم كيف تبني تطبيقات حقيقية من الصفر لين الـ Deploy. شروحات عملية خطوة بخطوة لكل الـ Stacks.",
       chooseCategory: "اختر مسارك",
-      chooseStack: "اختر التقنية",
+      chooseStack: "اختر الـ Stack",
       startLearning: "ابدأ التعلم",
       backToCategories: "رجوع للتصنيفات",
       sections: "الأقسام",
-      checkpoint: "نقطة فحص",
-      completed: "مكتمل",
-      nextSection: "القسم التالي",
-      prevSection: "القسم السابق",
+      checkpoint: "محطة",
+      completed: "خلصتها",
+      nextSection: "القسم الجاي",
+      prevSection: "القسم اللي راح",
       estimatedTime: "الوقت المتوقع",
       difficulty: "المستوى",
       beginner: "مبتدئ",
       intermediate: "متوسط",
       advanced: "متقدم",
-      copyCode: "نسخ الكود",
+      copyCode: "انسخ الكود",
       codeCopied: "تم النسخ!",
+    },
+    common: {
+      back: "رجوع",
+      searchPlaceholder: "ابحث عن الأدوات...",
+      noResults: "ما لقينا أي نتائج. جرب بحث ثاني.",
+      visitWebsite: "زيارة الموقع",
+      getFreeTier: "احصل على النسخة المجانية",
+      installation: "التثبيت",
+      examplePrompts: "أمثلة للأوامر",
+      privacy: "الخصوصية",
+      terms: "الشروط",
+      contact: "اتصل بنا",
+      copyright: "© 2024 Student AI Hub. مبني بـ React & Tailwind.",
+      gem: "جوهرة",
     },
   },
 };
@@ -642,250 +670,250 @@ export const PROMPTS = [
 ];
 
 export const GUIDES = [
-    {
-        id: 'uml',
-        icon: GitGraph,
-        content: {
-            en: {
-                title: 'Generate UML Diagrams Instantly',
-                desc: 'Stop drawing boxes manually. Use AI to code diagrams.',
-                steps: [
-                    'Open ChatGPT or Claude.',
-                    'Prompt: "Generate a Class Diagram for a [E-commerce App] using Mermaid.js syntax."',
-                    'Copy the code block it generates.',
-                    'Paste it into the Mermaid.live editor (free tool).'
-                ]
-            },
-            ar: {
-                title: 'ارسم مخططات UML بثواني',
-                desc: 'لا تضيع وقتك ترسم مربعات. خل الذكاء الاصطناعي يكتب كود الرسمة.',
-                steps: [
-                    'افتح ChatGPT أو Claude.',
-                    'اكتب الأمر: "Generate a Class Diagram for a [E-commerce App] using Mermaid.js syntax."',
-                    'انسخ كود الـ Mermaid اللي طلع لك.',
-                    'الصقه في موقع Mermaid.live (أداة مجانية) وبيتحول لرسمة فوراً.'
-                ]
-            }
-        }
-    },
-    {
-        id: 'quiz',
-        icon: FileText,
-        content: {
-            en: {
-                title: 'Turn PDF Notes into Quizzes',
-                desc: 'The best active recall method for exams.',
-                steps: [
-                    'Upload your lecture slides (PDF) to Claude or Gemini.',
-                    'Prompt: "Based on this file, create a 10-question multiple choice hard quiz with answer key."',
-                    'Take the quiz without looking at answers.',
-                    'Ask AI to explain the ones you got wrong.'
-                ]
-            },
-            ar: {
-                title: 'حول ملخصاتك لاختبارات',
-                desc: 'أفضل طريقة للمراجعة هي اختبار نفسك (Active Recall).',
-                steps: [
-                    'ارفع ملف المحاضرة (PDF) على Claude أو Gemini.',
-                    'اكتب الأمر: "سوي لي اختبار صعب من ١٠ أسئلة خيارات متعددة بناءً على الملف، مع الإجابات في النهاية."',
-                    'حل الاختبار بدون ما تغش.',
-                    'اطلب من AI يشرح لك الأسئلة اللي غلطت فيها.'
-                ]
-            }
-        }
-    },
-    {
-        id: 'code',
-        icon: Workflow,
-        content: {
-            en: {
-                title: 'Debug Logic Errors (Not just syntax)',
-                desc: 'Fix code that runs but gives the wrong result.',
-                steps: [
-                    'Copy your code snippet.',
-                    'Explain expected vs actual behavior: "It returns null but I expect an Array."',
-                    'Ask: "Trace the execution flow step-by-step and find the logic flaw."',
-                    'Paste the fixed code back into Cursor.'
-                ]
-            },
-            ar: {
-                title: 'تصحيح الأخطاء المنطقية',
-                desc: 'صلح الكود اللي يشتغل بس يعطيك نتائج غلط.',
-                steps: [
-                    'انسخ الكود حقك.',
-                    'اشرح المشكلة: "الكود شغال بس يرجع لي Null وأنا أتوقع Array".',
-                    'اكتب الأمر: "تتبع الكود خطوة بخطوة وطلع لي وين المشكلة في المنطق."',
-                    'انسخ الحل وعدله في Cursor.'
-                ]
-            }
-        }
-    },
-    {
-        id: 'research',
-        icon: BookOpen,
-        content: {
-            en: {
-                title: 'Summarize Research Papers Fast',
-                desc: 'Turn dense academic papers into digestible summaries.',
-                steps: [
-                    'Upload the PDF paper to Claude or Gemini.',
-                    'Prompt: "Summarize this paper in 3 key points: methodology, findings, and implications."',
-                    'Ask follow-up questions: "Explain [specific concept] in simple terms."',
-                    'Use Perplexity to find related papers on the same topic.'
-                ]
-            },
-            ar: {
-                title: 'لخص الأوراق العلمية بسرعة',
-                desc: 'حول الأوراق العلمية المعقدة لملخصات سهلة الفهم.',
-                steps: [
-                    'ارفع ملف الـ PDF على Claude أو Gemini.',
-                    'اكتب الأمر: "لخص هذه الورقة في 3 نقاط: المنهجية، النتائج، والتطبيقات."',
-                    'اسأل أسئلة متابعة: "اشرح لي [مفهوم معين] بطريقة بسيطة."',
-                    'استخدم Perplexity عشان تلقى أوراق مشابهة.'
-                ]
-            }
-        }
-    },
-    {
-        id: 'cold-email',
-        icon: Mail,
-        content: {
-            en: {
-                title: 'Write Cold Emails That Get Responses',
-                desc: 'Get your foot in the door with personalized outreach.',
-                steps: [
-                    'Use ChatGPT to draft the email structure.',
-                    'Prompt: "Write a cold email to [TARGET] offering [SERVICE]. Keep it under 100 words, personalize the opening."',
-                    'Use Perplexity to research the recipient\'s recent work/company news.',
-                    'Ask AI to refine: "Make this sound more conversational and less salesy."',
-                    'Send during business hours (9-11 AM their timezone).'
-                ]
-            },
-            ar: {
-                title: 'اكتب إيميلات باردة تجذب الرد',
-                desc: 'احصل على فرصتك مع إيميلات مخصصة.',
-                steps: [
-                    'استخدم ChatGPT عشان تسوي هيكل الإيميل.',
-                    'اكتب الأمر: "اكتب إيميل بارد لـ [الهدف] أعرض فيه [الخدمة]. خله أقل من 100 كلمة ومخصص."',
-                    'استخدم Perplexity عشان تبحث عن أخبار الشركة أو الشخص.',
-                    'اطلب من AI يعدل: "خله يبدو أكثر محادثة وأقل تسويق."',
-                    'أرسل خلال ساعات العمل (9-11 صباحاً بالتوقيت المحلي).'
-                ]
-            }
-        }
-    },
-    {
-        id: 'resume',
-        icon: Briefcase,
-        content: {
-            en: {
-                title: 'Optimize Your Resume with AI',
-                desc: 'Make your resume ATS-friendly and compelling.',
-                steps: [
-                    'Upload your resume to Claude or ChatGPT.',
-                    'Prompt: "Review this resume for [JOB TITLE] position. Suggest improvements for ATS optimization and highlight relevant skills."',
-                    'Ask: "Rewrite my experience bullets using action verbs and quantifiable results."',
-                    'Use Gamma or ChatGPT to create a matching cover letter.',
-                    'Test your resume with an ATS checker (free tools available online).'
-                ]
-            },
-            ar: {
-                title: 'حسّن سيرتك الذاتية بالذكاء الاصطناعي',
-                desc: 'اجعل سيرتك متوافقة مع أنظمة الفحص وجذابة.',
-                steps: [
-                    'ارفع سيرتك الذاتية على Claude أو ChatGPT.',
-                    'اكتب الأمر: "راجع هذه السيرة لشغل [المسمى الوظيفي]. اقترح تحسينات لـ ATS وركز على المهارات المطلوبة."',
-                    'اطلب: "أعد كتابة خبراتي باستخدام أفعال إنجليزية ونتائج قابلة للقياس."',
-                    'استخدم Gamma أو ChatGPT عشان تسوي خطاب تغطية متطابق.',
-                    'اختبر السيرة مع أداة ATS (أدوات مجانية متوفرة).'
-                ]
-            }
-        }
-    },
-    {
-        id: 'social-media',
-        icon: MessageSquare,
-        content: {
-            en: {
-                title: 'Create Viral Social Media Content',
-                desc: 'Generate engaging posts that resonate with your audience.',
-                steps: [
-                    'Use ChatGPT to brainstorm content ideas: "Give me 10 LinkedIn post ideas for [TOPIC] targeting [AUDIENCE]."',
-                    'Prompt: "Write a Twitter/X thread (5 tweets) about [TOPIC]. Make it engaging with hooks and clear takeaways."',
-                    'Use Gamma to create visual carousel posts for Instagram/LinkedIn.',
-                    'Ask AI to adapt the same content for different platforms (Twitter vs LinkedIn tone).',
-                    'Schedule posts using free tools like Buffer or Hootsuite.'
-                ]
-            },
-            ar: {
-                title: 'أنشئ محتوى فيروسي لوسائل التواصل',
-                desc: 'انشئ منشورات جذابة تلامس جمهورك.',
-                steps: [
-                    'استخدم ChatGPT عشان تسوي عصف ذهني: "اعطني 10 أفكار لمنشورات LinkedIn عن [الموضوع] للجمهور [الجمهور المستهدف]."',
-                    'اكتب الأمر: "اكتب thread تويتر (5 تغريدات) عن [الموضوع]. خله جذاب مع hooks وخلاصات واضحة."',
-                    'استخدم Gamma عشان تسوي منشورات كراسل بصرية لـ Instagram/LinkedIn.',
-                    'اطلب من AI يعدل نفس المحتوى لمواقع مختلفة (نبرة تويتر مختلفة عن LinkedIn).',
-                    'جدول المنشورات باستخدام أدوات مجانية مثل Buffer.'
-                ]
-            }
-        }
-    },
-    {
-        id: 'documentation',
-        icon: FileText,
-        content: {
-            en: {
-                title: 'Generate Code Documentation',
-                desc: 'Create professional documentation for your projects.',
-                steps: [
-                    'Copy your code function/class to ChatGPT or Claude.',
-                    'Prompt: "Generate comprehensive documentation for this code including: function description, parameters, return values, and usage examples."',
-                    'Ask: "Convert this to JSDoc/TypeDoc format."',
-                    'Use the generated docs to create a README.md for your GitHub repo.',
-                    'Keep documentation in sync by regenerating when you update code.'
-                ]
-            },
-            ar: {
-                title: 'أنشئ توثيق للكود',
-                desc: 'سوي توثيق احترافي لمشاريعك.',
-                steps: [
-                    'انسخ الدالة/الكلاس للكود على ChatGPT أو Claude.',
-                    'اكتب الأمر: "سوي توثيق شامل لهذا الكود يتضمن: وصف الدالة، المعاملات، القيم المرجعة، وأمثلة استخدام."',
-                    'اطلب: "حول هذا لصيغة JSDoc/TypeDoc."',
-                    'استخدم التوثيق عشان تسوي README.md للمشروع على GitHub.',
-                    'حدّث التوثيق كل ما عدلت الكود.'
-                ]
-            }
-        }
-    },
-    {
-        id: 'project-planning',
-        icon: Brain,
-        content: {
-            en: {
-                title: 'Plan Your Project from Scratch',
-                desc: 'Break down complex projects into actionable steps.',
-                steps: [
-                    'Describe your project idea to ChatGPT: "I want to build [APP IDEA] that helps [TARGET USERS]."',
-                    'Ask: "Break this down into a step-by-step roadmap with milestones and deliverables."',
-                    'Request: "Create a tech stack recommendation with explanations for each choice."',
-                    'Prompt: "Generate a database schema for [FEATURE] with relationships."',
-                    'Use Notion or Gamma to visualize the roadmap and track progress.'
-                ]
-            },
-            ar: {
-                title: 'خطط مشروعك من الصفر',
-                desc: 'قسم المشاريع المعقدة لخطوات عملية.',
-                steps: [
-                    'اشرح فكرة مشروعك لـ ChatGPT: "أبي أبني [فكرة التطبيق] يخدم [المستخدمين المستهدفين]."',
-                    'اطلب: "قسم هذا لخارطة طريق خطوة بخطوة مع معالم وقوائم مهام."',
-                    'اسأل: "اقترح لي tech stack مع شرح لكل خيار."',
-                    'اكتب الأمر: "سوي تصميم قاعدة بيانات لـ [الميزة] مع العلاقات."',
-                    'استخدم Notion أو Gamma عشان ترسم الخارطة وتتابع التقدم.'
-                ]
-            }
-        }
+  {
+    id: 'uml',
+    icon: GitGraph,
+    content: {
+      en: {
+        title: 'Generate UML Diagrams Instantly',
+        desc: 'Stop drawing boxes manually. Use AI to code diagrams.',
+        steps: [
+          'Open ChatGPT or Claude.',
+          'Prompt: "Generate a Class Diagram for a [E-commerce App] using Mermaid.js syntax."',
+          'Copy the code block it generates.',
+          'Paste it into the Mermaid.live editor (free tool).'
+        ]
+      },
+      ar: {
+        title: 'ارسم مخططات UML بثواني',
+        desc: 'لا تضيع وقتك ترسم مربعات. خل الذكاء الاصطناعي يكتب كود الرسمة.',
+        steps: [
+          'افتح ChatGPT أو Claude.',
+          'اكتب الأمر: "Generate a Class Diagram for a [E-commerce App] using Mermaid.js syntax."',
+          'انسخ كود الـ Mermaid اللي طلع لك.',
+          'الصقه في موقع Mermaid.live (أداة مجانية) وبيتحول لرسمة فوراً.'
+        ]
+      }
     }
+  },
+  {
+    id: 'quiz',
+    icon: FileText,
+    content: {
+      en: {
+        title: 'Turn PDF Notes into Quizzes',
+        desc: 'The best active recall method for exams.',
+        steps: [
+          'Upload your lecture slides (PDF) to Claude or Gemini.',
+          'Prompt: "Based on this file, create a 10-question multiple choice hard quiz with answer key."',
+          'Take the quiz without looking at answers.',
+          'Ask AI to explain the ones you got wrong.'
+        ]
+      },
+      ar: {
+        title: 'حول ملخصاتك لاختبارات',
+        desc: 'أفضل طريقة للمراجعة هي اختبار نفسك (Active Recall).',
+        steps: [
+          'ارفع ملف المحاضرة (PDF) على Claude أو Gemini.',
+          'اكتب الأمر: "سوي لي اختبار صعب من ١٠ أسئلة خيارات متعددة بناءً على الملف، مع الإجابات في النهاية."',
+          'حل الاختبار بدون ما تغش.',
+          'اطلب من AI يشرح لك الأسئلة اللي غلطت فيها.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'code',
+    icon: Workflow,
+    content: {
+      en: {
+        title: 'Debug Logic Errors (Not just syntax)',
+        desc: 'Fix code that runs but gives the wrong result.',
+        steps: [
+          'Copy your code snippet.',
+          'Explain expected vs actual behavior: "It returns null but I expect an Array."',
+          'Ask: "Trace the execution flow step-by-step and find the logic flaw."',
+          'Paste the fixed code back into Cursor.'
+        ]
+      },
+      ar: {
+        title: 'تصحيح الأخطاء المنطقية',
+        desc: 'صلح الكود اللي يشتغل بس يعطيك نتائج غلط.',
+        steps: [
+          'انسخ الكود حقك.',
+          'اشرح المشكلة: "الكود شغال بس يرجع لي Null وأنا أتوقع Array".',
+          'اكتب الأمر: "تتبع الكود خطوة بخطوة وطلع لي وين المشكلة في المنطق."',
+          'انسخ الحل وعدله في Cursor.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'research',
+    icon: BookOpen,
+    content: {
+      en: {
+        title: 'Summarize Research Papers Fast',
+        desc: 'Turn dense academic papers into digestible summaries.',
+        steps: [
+          'Upload the PDF paper to Claude or Gemini.',
+          'Prompt: "Summarize this paper in 3 key points: methodology, findings, and implications."',
+          'Ask follow-up questions: "Explain [specific concept] in simple terms."',
+          'Use Perplexity to find related papers on the same topic.'
+        ]
+      },
+      ar: {
+        title: 'لخص الأوراق العلمية بسرعة',
+        desc: 'حول الأوراق العلمية المعقدة لملخصات سهلة الفهم.',
+        steps: [
+          'ارفع ملف الـ PDF على Claude أو Gemini.',
+          'اكتب الأمر: "لخص هذه الورقة في 3 نقاط: المنهجية، النتائج، والتطبيقات."',
+          'اسأل أسئلة متابعة: "اشرح لي [مفهوم معين] بطريقة بسيطة."',
+          'استخدم Perplexity عشان تلقى أوراق مشابهة.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'cold-email',
+    icon: Mail,
+    content: {
+      en: {
+        title: 'Write Cold Emails That Get Responses',
+        desc: 'Get your foot in the door with personalized outreach.',
+        steps: [
+          'Use ChatGPT to draft the email structure.',
+          'Prompt: "Write a cold email to [TARGET] offering [SERVICE]. Keep it under 100 words, personalize the opening."',
+          'Use Perplexity to research the recipient\'s recent work/company news.',
+          'Ask AI to refine: "Make this sound more conversational and less salesy."',
+          'Send during business hours (9-11 AM their timezone).'
+        ]
+      },
+      ar: {
+        title: 'اكتب إيميلات باردة تجذب الرد',
+        desc: 'احصل على فرصتك مع إيميلات مخصصة.',
+        steps: [
+          'استخدم ChatGPT عشان تسوي هيكل الإيميل.',
+          'اكتب الأمر: "اكتب إيميل بارد لـ [الهدف] أعرض فيه [الخدمة]. خله أقل من 100 كلمة ومخصص."',
+          'استخدم Perplexity عشان تبحث عن أخبار الشركة أو الشخص.',
+          'اطلب من AI يعدل: "خله يبدو أكثر محادثة وأقل تسويق."',
+          'أرسل خلال ساعات العمل (9-11 صباحاً بالتوقيت المحلي).'
+        ]
+      }
+    }
+  },
+  {
+    id: 'resume',
+    icon: Briefcase,
+    content: {
+      en: {
+        title: 'Optimize Your Resume with AI',
+        desc: 'Make your resume ATS-friendly and compelling.',
+        steps: [
+          'Upload your resume to Claude or ChatGPT.',
+          'Prompt: "Review this resume for [JOB TITLE] position. Suggest improvements for ATS optimization and highlight relevant skills."',
+          'Ask: "Rewrite my experience bullets using action verbs and quantifiable results."',
+          'Use Gamma or ChatGPT to create a matching cover letter.',
+          'Test your resume with an ATS checker (free tools available online).'
+        ]
+      },
+      ar: {
+        title: 'حسّن سيرتك الذاتية بالذكاء الاصطناعي',
+        desc: 'اجعل سيرتك متوافقة مع أنظمة الفحص وجذابة.',
+        steps: [
+          'ارفع سيرتك الذاتية على Claude أو ChatGPT.',
+          'اكتب الأمر: "راجع هذه السيرة لشغل [المسمى الوظيفي]. اقترح تحسينات لـ ATS وركز على المهارات المطلوبة."',
+          'اطلب: "أعد كتابة خبراتي باستخدام أفعال إنجليزية ونتائج قابلة للقياس."',
+          'استخدم Gamma أو ChatGPT عشان تسوي خطاب تغطية متطابق.',
+          'اختبر السيرة مع أداة ATS (أدوات مجانية متوفرة).'
+        ]
+      }
+    }
+  },
+  {
+    id: 'social-media',
+    icon: MessageSquare,
+    content: {
+      en: {
+        title: 'Create Viral Social Media Content',
+        desc: 'Generate engaging posts that resonate with your audience.',
+        steps: [
+          'Use ChatGPT to brainstorm content ideas: "Give me 10 LinkedIn post ideas for [TOPIC] targeting [AUDIENCE]."',
+          'Prompt: "Write a Twitter/X thread (5 tweets) about [TOPIC]. Make it engaging with hooks and clear takeaways."',
+          'Use Gamma to create visual carousel posts for Instagram/LinkedIn.',
+          'Ask AI to adapt the same content for different platforms (Twitter vs LinkedIn tone).',
+          'Schedule posts using free tools like Buffer or Hootsuite.'
+        ]
+      },
+      ar: {
+        title: 'أنشئ محتوى فيروسي لوسائل التواصل',
+        desc: 'انشئ منشورات جذابة تلامس جمهورك.',
+        steps: [
+          'استخدم ChatGPT عشان تسوي عصف ذهني: "اعطني 10 أفكار لمنشورات LinkedIn عن [الموضوع] للجمهور [الجمهور المستهدف]."',
+          'اكتب الأمر: "اكتب thread تويتر (5 تغريدات) عن [الموضوع]. خله جذاب مع hooks وخلاصات واضحة."',
+          'استخدم Gamma عشان تسوي منشورات Carousel بصرية لـ Instagram/LinkedIn.',
+          'اطلب من AI يعدل نفس المحتوى لمواقع مختلفة (نبرة تويتر مختلفة عن LinkedIn).',
+          'جدول المنشورات باستخدام أدوات مجانية مثل Buffer.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'documentation',
+    icon: FileText,
+    content: {
+      en: {
+        title: 'Generate Code Documentation',
+        desc: 'Create professional documentation for your projects.',
+        steps: [
+          'Copy your code function/class to ChatGPT or Claude.',
+          'Prompt: "Generate comprehensive documentation for this code including: function description, parameters, return values, and usage examples."',
+          'Ask: "Convert this to JSDoc/TypeDoc format."',
+          'Use the generated docs to create a README.md for your GitHub repo.',
+          'Keep documentation in sync by regenerating when you update code.'
+        ]
+      },
+      ar: {
+        title: 'أنشئ توثيق للكود',
+        desc: 'سوي توثيق احترافي لمشاريعك.',
+        steps: [
+          'انسخ الدالة/الكلاس للكود على ChatGPT أو Claude.',
+          'اكتب الأمر: "سوي توثيق شامل لهذا الكود يتضمن: وصف الدالة، المعاملات، القيم المرجعة، وأمثلة استخدام."',
+          'اطلب: "حول هذا لصيغة JSDoc/TypeDoc."',
+          'استخدم التوثيق عشان تسوي README.md للمشروع على GitHub.',
+          'حدّث التوثيق كل ما عدلت الكود.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'project-planning',
+    icon: Brain,
+    content: {
+      en: {
+        title: 'Plan Your Project from Scratch',
+        desc: 'Break down complex projects into actionable steps.',
+        steps: [
+          'Describe your project idea to ChatGPT: "I want to build [APP IDEA] that helps [TARGET USERS]."',
+          'Ask: "Break this down into a step-by-step roadmap with milestones and deliverables."',
+          'Request: "Create a tech stack recommendation with explanations for each choice."',
+          'Prompt: "Generate a database schema for [FEATURE] with relationships."',
+          'Use Notion or Gamma to visualize the roadmap and track progress.'
+        ]
+      },
+      ar: {
+        title: 'خطط مشروعك من الصفر',
+        desc: 'قسم المشاريع المعقدة لخطوات عملية.',
+        steps: [
+          'اشرح فكرة مشروعك لـ ChatGPT: "أبي أبني [فكرة التطبيق] يخدم [المستخدمين المستهدفين]."',
+          'اطلب: "قسم هذا لخارطة طريق خطوة بخطوة مع معالم وقوائم مهام."',
+          'اسأل: "اقترح لي tech stack مع شرح لكل خيار."',
+          'اكتب الأمر: "سوي تصميم قاعدة بيانات لـ [الميزة] مع العلاقات."',
+          'استخدم Notion أو Gamma عشان ترسم الخارطة وتتابع التقدم.'
+        ]
+      }
+    }
+  }
 ];
 
 export const ACADEMY_CATEGORIES = [
@@ -1272,7 +1300,7 @@ class TodoItem extends StatelessWidget {
               'خل AI يولد هيكل الـ Widget - راجع وفهم الكود اللي طلع',
               'اطلب من AI يشرح مفاهيم Flutter المعقدة: "اشرح لي كيف BuildContext يشتغل في Flutter"',
               'استخدم AI لتصحيح الأخطاء: الصق رسالة الخطأ والكود واطلب الحل',
-              'وّل كود تكامل API: "سوي دالة تجيب بيانات المستخدم من هذا الـ API endpoint"',
+              'سوي كود تكامل API: "سوي دالة تجيب بيانات المستخدم من هذا الـ API endpoint"',
               'اطلب من AI يعيد هيكلة الكود: "خلي هذا الـ Widget قابلة لإعادة الاستخدام واتبع best practices"',
               'استخدم AI لتوليد اختبارات: "اكتب unit tests لهذا الـ Widget"',
               'كرّر مع AI: اسأل أسئلة متابعة وصقّل الكود اللي طلع',
@@ -1320,7 +1348,7 @@ class TodoItem extends StatelessWidget {
             ],
             checkpoints: [
               'استخدمت AI بنجاح لتوليد Flutter widget',
-              'تكاملت الكود اللي AI ولده في التطبيق',
+              'ركبت الكود اللي AI ولده في التطبيق',
               'استخدمت AI لتصحيح خطأ واحد على الأقل',
             ],
           },
@@ -1343,7 +1371,7 @@ class TodoItem extends StatelessWidget {
       ar: {
         name: 'تطوير الويب بـ React',
         tagline: 'ابني تطبيقات ويب حديثة وتفاعلية',
-        description: 'اتقن React من الصفر. تعلم الـ Components و Hooks وإدارة الحالة وكيف تستخدم أدوات AI عشان تبني الميزات بسرعة.',
+        description: 'احترف React من الصفر. تعلم الـ Components و Hooks وإدارة الحالة وكيف تستخدم أدوات AI عشان تبني الميزات بسرعة.',
       },
     },
     sections: [
@@ -1595,7 +1623,7 @@ function TodoList() {
               'خل AI يولد كود الـ Component - راجع الهيكل والـ props',
               'اطلب من AI يضيف ميزات: "ضيف loading state و error handling لهذا الـ API call"',
               'استخدم AI لتصحيح الأخطاء: الصق رسالة الخطأ واطرح "وش المشكلة في كود React هذا؟"',
-              'وّل custom hooks: "سوي useFetch hook يتعامل مع loading و error states"',
+              'سوي custom hooks: "سوي useFetch hook يتعامل مع loading و error states"',
               'اطلب best practices: "كيف أقدر أحسّن هذا الـ Component للأداء؟"',
               'استخدم AI لكتابة اختبارات: "وّل React Testing Library tests لهذا الـ Component"',
               'أعد الهيكلة مع AI: "خلي هذا الكود أسهل صيانة واتبع React patterns"',
