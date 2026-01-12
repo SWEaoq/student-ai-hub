@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Hero from '../components/Hero';
 import ToolCard from '../components/ToolCard';
-import { TOOLS } from '../data/content';
+import { TOOLS, CONTENT } from '../data/content';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import SearchBar from '../components/ui/SearchBar';
 import EmptyState from '../components/ui/EmptyState';
