@@ -15,8 +15,7 @@ const Home = ({ lang }) => {
             desc: t.academy.subtitle,
             icon: GraduationCap,
             link: '/academy',
-            color: 'purple',
-            isFeatured: true
+            color: 'purple'
         },
         {
             id: 'tools',

@@ -1,0 +1,75 @@
+import {
+  Sparkles,
+  Code,
+  PenTool,
+  Presentation,
+  Cpu,
+  Zap,
+  Layout,
+  Palette,
+  Search,
+  Terminal,
+  Bot,
+  Workflow,
+  FileText,
+  GitGraph,
+  Mail,
+  User,
+  BookOpen,
+  MessageSquare,
+  Briefcase,
+  Brain,
+  Smartphone,
+  Globe,
+  Server,
+  Layers,
+  GraduationCap,
+} from "lucide-react";
+import {
+  SiOpenai,
+  SiAnthropic,
+  SiNotion,
+  SiGoogle,
+  SiFigma,
+} from "react-icons/si";
+import {
+  CursorIcon,
+  GammaIcon,
+  GensparkIcon,
+  PerplexityIcon,
+  MidjourneyIcon,
+} from "../components/CustomIcons";
+
+export const ICON_MAP = {
+  // Custom Icons
+  CursorIcon: CursorIcon,
+  GammaIcon: GammaIcon,
+  GensparkIcon: GensparkIcon,
+  PerplexityIcon: PerplexityIcon,
+  MidjourneyIcon: MidjourneyIcon,
+
+  // Simple Icons
+  SiOpenai: SiOpenai,
+  SiAnthropic: SiAnthropic,
+  SiNotion: SiNotion,
+  SiGoogle: SiGoogle,
+  SiFigma: SiFigma,
+
+  // Lucide
+  Sparkles: Sparkles,
+  Code: Code,
+  PenTool: PenTool,
+  Presentation: Presentation,
+  Terminal: Terminal,
+  Bot: Bot,
+  Workflow: Workflow,
+  FileText: FileText,
+  GitGraph: GitGraph,
+  Mail: Mail,
+  BookOpen: BookOpen,
+  Search: Search,
+  Zap: Zap,
+  Layout: Layout,
+  Cpu: Cpu,
+  Palette: Palette,
+};

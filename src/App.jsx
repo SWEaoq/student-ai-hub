@@ -22,6 +22,8 @@ const Academy = lazy(() => import('./pages/Academy'));
 const AcademyCategory = lazy(() => import('./pages/AcademyCategory'));
 const AcademyTutorial = lazy(() => import('./pages/AcademyTutorial'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 function AppContent() {
   const [lang, setLang] = useState('en');
@@ -40,6 +42,9 @@ function AppContent() {
     return () => window.removeEventListener('resize', checkMobile);
   }, [lang]);
 
+  // Check if current path is admin to conditionally render layout
+  const isAdmin = window.location.pathname.startsWith('/admin');
+
   return (
     <div className={`min-h-screen bg-black text-white selection:bg-neon-purple selection:text-white`} style={{ fontFamily: lang === 'ar' ? 'Tajawal, sans-serif' : 'Inter, sans-serif' }}>
       <style>
@@ -50,8 +55,8 @@ function AppContent() {
       <ParticleSystem particleCount={isMobile ? 10 : 25} />
       <MouseFollower enabled={true} />
 
-      <Navbar lang={lang} setLang={setLang} />
-      <div className="relative z-10 max-w-7xl mx-auto flex flex-col min-h-screen px-0 sm:px-4">
+      {!isAdmin && <Navbar lang={lang} setLang={setLang} />}
+      <div className={`relative z-10 ${!isAdmin ? 'max-w-7xl mx-auto px-0 sm:px-4' : 'w-full'} flex flex-col min-h-screen`}>
         <main className="flex-grow flex flex-col items-center w-full">
           <Suspense fallback={
             <div className="w-full flex items-center justify-center min-h-[60vh]">
@@ -98,6 +103,10 @@ function AppContent() {
                 path="/academy/:category/:stack"
                 element={<PageTransition><AcademyTutorial lang={lang} /></PageTransition>}
               />
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              
               <Route
                 path="*"
                 element={<PageTransition><NotFound lang={lang} /></PageTransition>}
@@ -106,7 +115,7 @@ function AppContent() {
           </Suspense>
         </main>
 
-        <Footer lang={lang} />
+        {!isAdmin && <Footer lang={lang} />}
       </div>
       <ScrollToTop />
     </div>

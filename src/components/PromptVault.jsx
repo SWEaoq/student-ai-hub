@@ -1,27 +1,47 @@
-import React, { useState, useMemo } from 'react';
-import { CONTENT, PROMPTS } from '../data/content';
+import React, { useState, useMemo, useEffect } from 'react';
+import { CONTENT } from '../data/content';
 import CopyButton from './ui/CopyButton';
 import StaggerContainer from './animations/StaggerContainer';
 import SearchBar from './ui/SearchBar';
 import EmptyState from './ui/EmptyState';
+import { supabase } from '../lib/supabase';
 
 const PromptVault = ({ lang }) => {
     const t = CONTENT[lang];
     const [searchQuery, setSearchQuery] = useState('');
+    const [prompts, setPrompts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch prompts from Supabase
+    useEffect(() => {
+        const fetchPrompts = async () => {
+            const { data, error } = await supabase.from('prompts').select('*');
+            if (error) {
+                console.error('Error fetching prompts:', error);
+            } else {
+                setPrompts(data);
+            }
+            setLoading(false);
+        };
+        fetchPrompts();
+    }, []);
 
     const filteredPrompts = useMemo(() => {
-        if (!searchQuery.trim()) return PROMPTS;
+        let filtered = prompts;
+        if (!searchQuery.trim()) return filtered;
         
         const query = searchQuery.toLowerCase();
-        return PROMPTS.filter(prompt => {
-            const content = prompt.content[lang];
+        return filtered.filter(prompt => {
+            const content = prompt.content?.[lang];
+            if (!content) return false;
+
             return (
-                content.title.toLowerCase().includes(query) ||
-                content.text.toLowerCase().includes(query) ||
-                content.tag.toLowerCase().includes(query)
+                content.title?.toLowerCase().includes(query) ||
+                content.text?.toLowerCase().includes(query) ||
+                content.tag?.toLowerCase().includes(query)
             );
         });
-    }, [searchQuery, lang]);
+    }, [searchQuery, lang, prompts]);
 
     return (
         <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-7xl mx-auto" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
@@ -40,10 +60,16 @@ const PromptVault = ({ lang }) => {
                 />
             </div>
 
-            {filteredPrompts.length > 0 ? (
+            {loading ? (
+                <div className="min-h-[20vh] flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500"></div>
+                </div>
+            ) : filteredPrompts.length > 0 ? (
                 <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 items-stretch">
                     {filteredPrompts.map((prompt, index) => {
-                    const content = prompt.content[lang];
+                    const content = prompt.content?.[lang];
+                    if (!content) return null;
+                    
                     return (
                         <div key={index} className="bg-[#0a0a0a] border border-white/10 rounded-xl p-4 sm:p-6 relative group h-full flex flex-col">
                             <div className={`absolute top-3 sm:top-4 ${lang === 'ar' ? 'left-3 sm:left-4' : 'right-3 sm:right-4'} text-[10px] sm:text-xs font-mono text-gray-600 px-2 py-1 border border-white/5 rounded`}>

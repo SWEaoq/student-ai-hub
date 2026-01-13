@@ -667,6 +667,81 @@ export const PROMPTS = [
       },
     },
   },
+  {
+    category: "design",
+    content: {
+      en: {
+        title: "System Architecture",
+        text: "Design a scalable architecture for [APP IDEA]. Include database schema (SQL vs NoSQL), API structure (REST vs GraphQL), and cloud infrastructure recommendations.",
+        tag: "Architecture",
+      },
+      ar: {
+        title: "هندسة النظام",
+        text: "صمم بنية تقنية قابلة للتوسع لـ [فكرة التطبيق]. عطني مخطط قاعدة البيانات (SQL ولا NoSQL)، هيكل الـ API، واقتراحات للبنية التحتية السحابية (Cloud).",
+        tag: "هندسة برمجيات",
+      },
+    },
+  },
+  {
+    category: "slides",
+    content: {
+      en: {
+        title: "The Pitch Refiner",
+        text: "Critique this slide content: '[SLIDE CONTENT]'. Make it more persuasive for investors, focusing on the problem/solution fit and market opportunity.",
+        tag: "Pitching",
+      },
+      ar: {
+        title: "مدقق العروض",
+        text: "انقد محتوى هالشريحة: '[محتوى الشريحة]'. خله أكثر إقناعاً للمستثمرين، وركز على توافق المشكلة مع الحل وفرصة السوق.",
+        tag: "عروض استثمارية",
+      },
+    },
+  },
+  {
+    category: "productivity",
+    content: {
+      en: {
+        title: "Smart Study Plan",
+        text: "Create a 4-week study schedule for [SUBJECT]. I have [HOURS] hours per week. Include active recall sessions and spaced repetition checkpoints.",
+        tag: "Study Plan",
+      },
+      ar: {
+        title: "خطة المذاكرة الذكية",
+        text: "سوي لي جدول مذاكرة لمدة 4 أسابيع لـ [المادة]. عندي [عدد الساعات] ساعات في الأسبوع. ضمن فيه جلسات استرجاع نشط (Active Recall) ومراجعة متباعدة.",
+        tag: "تخطيط دراسي",
+      },
+    },
+  },
+  {
+    category: "writing",
+    content: {
+      en: {
+        title: "Content Repurposing",
+        text: "Turn this long-form blog post/essay into 3 engaging tweets, 1 LinkedIn post, and a 15-second TikTok script. Keep the tone [DESIRED TONE].",
+        tag: "Content Growth",
+      },
+      ar: {
+        title: "إعادة تدوير المحتوى",
+        text: "حول هالمقال الطويل لـ 3 تغريدات رهيبة، وبوست لينكد إن، وسكريبت تيك توك مدته 15 ثانية. خل النبرة [النبرة المطلوبة].",
+        tag: "صناعة محتوى",
+      },
+    },
+  },
+  {
+    category: "research",
+    content: {
+      en: {
+        title: "The Concept Simplifier",
+        text: "Explain [COMPLEX TOPIC] to me like I'm 12 years old. Then, provide a detailed breakdown for a university student, including key concepts and real-world examples.",
+        tag: "Learning",
+      },
+      ar: {
+        title: "بسطها لي",
+        text: "اشرح لي [موضوع معقد] وكأني عمري 12 سنة. بعدين، عطني تفصيل دقيق يناسب طالب جامعة، مع ذكر المفاهيم الأساسية وأمثلة من الواقع.",
+        tag: "تعلم",
+      },
+    },
+  },
 ];
 
 export const GUIDES = [
