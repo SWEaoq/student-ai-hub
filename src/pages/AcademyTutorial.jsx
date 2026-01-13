@@ -111,7 +111,7 @@ const AcademyTutorial = ({ lang }) => {
             <p className="text-base sm:text-lg text-gray-300 max-w-3xl mb-6">
               {tutorialContent.description}
             </p>
-            <ProgressTracker tutorialId={stack} sections={sections} lang={lang} />
+            <ProgressTracker tutorialId={stack} sections={sections} activeSection={activeSection} lang={lang} />
           </div>
         </FadeIn>
 
@@ -166,24 +166,26 @@ const AcademyTutorial = ({ lang }) => {
                       </p>
                     </div>
 
-                    <StaggerContainer className="space-y-8 sm:space-y-10">
-                      {sectionContent.steps.map((step, idx) => (
-                        <div key={idx} className="flex gap-4 sm:gap-6 group">
-                          <div className="flex flex-col items-center">
-                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-base sm:text-lg font-mono text-cyan-400 font-bold shrink-0 group-hover:bg-cyan-500 group-hover:text-black transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-                              {idx + 1}
+                    <StaggerContainer>
+                      <div className="space-y-6">
+                        {sectionContent.steps.map((step, idx) => (
+                          <div key={idx} className="flex gap-4 sm:gap-6 group">
+                            <div className="flex flex-col items-center">
+                              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-base sm:text-lg font-mono text-cyan-400 font-bold shrink-0 group-hover:bg-cyan-500 group-hover:text-black transition-all shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                                {idx + 1}
+                              </div>
+                              {idx !== sectionContent.steps.length - 1 && (
+                                <div className="w-0.5 h-full min-h-[60px] bg-gradient-to-b from-cyan-500/30 via-cyan-500/20 to-transparent my-2 transition-colors" />
+                              )}
                             </div>
-                            {idx !== sectionContent.steps.length - 1 && (
-                              <div className="w-px h-full bg-white/10 my-2 border-l border-dashed border-gray-700 group-hover:border-cyan-500/30 transition-colors" />
-                            )}
+                            <div className="pt-1 flex-1 pb-6">
+                              <p className="text-base sm:text-lg text-gray-200 leading-relaxed whitespace-pre-line">
+                                {step}
+                              </p>
+                            </div>
                           </div>
-                          <div className="pt-1 pb-4 sm:pb-8 flex-1">
-                            <p className="text-base sm:text-lg text-gray-200 leading-relaxed whitespace-pre-line">
-                              {step}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </StaggerContainer>
 
                     {/* Code Examples */}

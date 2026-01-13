@@ -1,31 +1,42 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { CONTENT } from '../data/content';
 
-const ProgressTracker = ({ tutorialId, sections, lang = 'en' }) => {
+const ProgressTracker = ({ tutorialId, sections, activeSection, lang = 'en' }) => {
   const t = CONTENT[lang];
+  const [viewedSections, setViewedSections] = useState(new Set());
+
+  // Track viewed sections
+  useEffect(() => {
+    if (activeSection) {
+      const key = `tutorial_${tutorialId}_viewed`;
+      const viewed = JSON.parse(localStorage.getItem(key) || '[]');
+      if (!viewed.includes(activeSection)) {
+        viewed.push(activeSection);
+        localStorage.setItem(key, JSON.stringify(viewed));
+        setViewedSections(new Set(viewed));
+      } else {
+        setViewedSections(new Set(viewed));
+      }
+    }
+  }, [activeSection, tutorialId]);
+
+  // Load viewed sections on mount
+  useEffect(() => {
+    const key = `tutorial_${tutorialId}_viewed`;
+    const viewed = JSON.parse(localStorage.getItem(key) || '[]');
+    setViewedSections(new Set(viewed));
+  }, [tutorialId]);
 
   const progress = useMemo(() => {
     if (!sections || sections.length === 0) return 0;
     
-    let totalCheckpoints = 0;
-    let completedCheckpoints = 0;
+    // Calculate progress based on sections viewed
+    const viewedCount = sections.filter(section => 
+      viewedSections.has(section.id)
+    ).length;
 
-    sections.forEach((section) => {
-      const checkpoints = section.content[lang]?.checkpoints || [];
-      totalCheckpoints += checkpoints.length;
-      
-      checkpoints.forEach((_, index) => {
-        const key = `checkpoint_${tutorialId}_${section.id}_${index}`;
-        if (localStorage.getItem(key) === 'true') {
-          completedCheckpoints++;
-        }
-      });
-    });
-
-    return totalCheckpoints > 0 
-      ? Math.round((completedCheckpoints / totalCheckpoints) * 100)
-      : 0;
-  }, [tutorialId, sections, lang]);
+    return Math.round((viewedCount / sections.length) * 100);
+  }, [sections, viewedSections]);
 
   return (
     <div className="mb-6 sm:mb-8">
@@ -37,9 +48,9 @@ const ProgressTracker = ({ tutorialId, sections, lang = 'en' }) => {
           {progress === 100 ? t.academy.completed : `${100 - progress}% ${lang === 'ar' ? 'متبقي' : 'remaining'}`}
         </span>
       </div>
-      <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+      <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500 ease-out"
+          className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500 ease-out rounded-full"
           style={{ width: `${progress}%` }}
         />
       </div>
