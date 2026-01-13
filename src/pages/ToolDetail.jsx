@@ -1,21 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Terminal, MessageSquare } from 'lucide-react';
-import { TOOLS, CONTENT } from '../data/content';
+import { ArrowLeft, ExternalLink, Terminal, MessageSquare, Sparkles } from 'lucide-react';
+import { CONTENT } from '../data/content';
 import FadeIn from '../components/animations/FadeIn';
 import StaggerContainer from '../components/animations/StaggerContainer';
+import { supabase } from '../lib/supabase';
+import { ICON_MAP } from '../lib/iconMap';
 
 const ToolDetail = ({ lang }) => {
     const t = CONTENT[lang];
     const { id } = useParams();
     const navigate = useNavigate();
-    const tool = TOOLS.find(t => t.id === id);
+    const [tool, setTool] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTool = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('tools')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) {
+                    console.error('Error fetching tool:', error);
+                } else if (data) {
+                    setTool({
+                        ...data,
+                        icon: ICON_MAP[data.icon_name] || Sparkles
+                    });
+                }
+            } catch (err) {
+                console.error('Unexpected error:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (id) fetchTool();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+            </div>
+        );
+    }
 
     if (!tool) {
         return <div className="text-center text-white mt-20">Tool not found</div>;
     }
 
     const isRTL = lang === 'ar';
+    const content = tool.content?.[lang] || tool.content?.['en'] || {};
+    const installation = tool.installation?.[lang] || tool.installation?.['en'] || '';
+    const prompts = tool.examplePrompts || [];
+
+    // Fallback for color if it's a tailwind class string
+    const gradientColor = (tool.color && tool.color.includes('from-')) 
+        ? tool.color.split(' ')[0].replace('from-', '').replace('-500', '') // approximate base color for border/icon
+        : tool.color || 'blue';
 
     return (
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20 mb-12 sm:mb-20">
@@ -30,12 +76,12 @@ const ToolDetail = ({ lang }) => {
             <FadeIn delay={0.2}>
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-6">
                     <div className="flex items-center gap-3 sm:gap-6">
-                        <div className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-${tool.color}-500/20 to-transparent border border-${tool.color}-500/30 shadow-[0_0_30px_rgba(0,0,0,0.5)]`}>
-                            <tool.icon className={`w-8 h-8 sm:w-12 sm:h-12 text-${tool.color}-400`} />
+                        <div className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-${gradientColor}-500/20 to-transparent border border-${gradientColor}-500/30 shadow-[0_0_30px_rgba(0,0,0,0.5)]`}>
+                            <tool.icon className={`w-8 h-8 sm:w-12 sm:h-12 text-${gradientColor}-400`} />
                         </div>
                         <div>
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-1 sm:mb-2">{tool.content[lang].name}</h1>
-                            <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light">{tool.content[lang].description}</p>
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight mb-1 sm:mb-2">{content.name}</h1>
+                            <p className="text-base sm:text-lg md:text-xl text-gray-400 font-light">{content.description}</p>
                         </div>
                     </div>
 
@@ -72,7 +118,7 @@ const ToolDetail = ({ lang }) => {
                         <h2 className="text-xl sm:text-2xl font-bold">{t.common.installation}</h2>
                     </div>
                     <div className="space-y-3 sm:space-y-4 text-gray-300 leading-relaxed whitespace-pre-line font-mono text-xs sm:text-sm bg-black/30 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-white/5 flex-grow">
-                        {tool.installation[lang]}
+                        {installation || 'No installation instructions available.'}
                     </div>
                 </div>
 
@@ -83,12 +129,14 @@ const ToolDetail = ({ lang }) => {
                         <h2 className="text-xl sm:text-2xl font-bold">{t.common.examplePrompts}</h2>
                     </div>
                     <div className="space-y-3 sm:space-y-4 flex-grow">
-                        {tool.examplePrompts.map((item, index) => (
+                        {prompts.length > 0 ? prompts.map((item, index) => (
                             <div key={index} className="group p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/10 border border-white/5 transition-all cursor-pointer">
-                                <h3 className="text-neon-purple font-bold mb-1 sm:mb-2 text-xs sm:text-sm uppercase tracking-wider">{item.title[lang]}</h3>
-                                <p className="text-gray-300 text-xs sm:text-sm">{item.prompt[lang]}</p>
+                                <h3 className="text-neon-purple font-bold mb-1 sm:mb-2 text-xs sm:text-sm uppercase tracking-wider">{item.title?.[lang] || item.title?.['en'] || 'Prompt'}</h3>
+                                <p className="text-gray-300 text-xs sm:text-sm">{item.prompt?.[lang] || item.prompt?.['en'] || ''}</p>
                             </div>
-                        ))}
+                        )) : (
+                            <p className="text-gray-500 italic">No example prompts available.</p>
+                        )}
                     </div>
                 </div>
             </StaggerContainer>

@@ -7,13 +7,13 @@ import { enhancedCardHover, getAnimationConfig } from '../utils/animations';
 
 const ToolCard = ({ tool, lang }) => {
     const t = CONTENT[lang];
-    const { id, icon: Icon, color, website } = tool;
-    const content = tool.content[lang];
+    const { id, icon: Icon, color = 'blue', website } = tool;
+    const content = tool.content?.[lang] || tool.content?.['en'] || {};
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const cardRef = useRef(null);
 
     // Fallback for color if it's a tailwind class string
-    const gradientColor = color.includes('from-') ? color : `from-${color}-500 to-${color}-700`;
+    const gradientColor = (color && color.includes('from-')) ? color : `from-${color}-500 to-${color}-700`;
     const hoverConfig = getAnimationConfig(enhancedCardHover);
 
     const handleMouseMove = (e) => {

@@ -53,8 +53,11 @@ const ParticleBurst = ({ x, y, onComplete }) => {
     );
 };
 
+import { useSiteContent } from '../hooks/useSiteContent';
+
 const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) => {
-    const t = CONTENT[lang];
+    const t = CONTENT[lang] || CONTENT['en']; // Keep fallback for categories
+    const { getText } = useSiteContent();
     const [particleBursts, setParticleBursts] = useState([]);
     const [previousCategory, setPreviousCategory] = useState(activeCategory);
     const [searchQuery, setSearchQuery] = useState('');
@@ -138,15 +141,15 @@ const Hero = ({ activeCategory, setActiveCategory, lang, showFilters = true }) =
             <div className="max-w-5xl mx-auto text-center relative z-10">
                 <FadeIn delay={0.1}>
                     <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-4 sm:mb-6 ${lang === 'ar' ? 'leading-[1.4] py-4 sm:py-6' : 'tracking-tight leading-none'}`}>
-                        {t.hero.title1} <AnimatedGradientText className="pb-2 inline-block">{t.hero.title1_accent}</AnimatedGradientText>
+                        {getText('hero_title_1', t.hero.title1)} <AnimatedGradientText className="pb-2 inline-block">{getText('hero_title_1_accent', t.hero.title1_accent)}</AnimatedGradientText>
                         <br />
-                        {t.hero.title2} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 pb-2 inline-block animate-gradient-text-2">{t.hero.title2_accent}</span>
+                        {getText('hero_title_2', t.hero.title2)} <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 pb-2 inline-block animate-gradient-text-2">{getText('hero_title_2_accent', t.hero.title2_accent)}</span>
                     </h1>
                 </FadeIn>
 
                 <FadeIn delay={0.3}>
                     <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-10 px-4 sm:px-0 font-light leading-relaxed">
-                        {t.hero.subtitle}
+                        {getText('hero_subtitle', t.hero.subtitle)}
                     </p>
                 </FadeIn>
 

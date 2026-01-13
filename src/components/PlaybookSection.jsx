@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Workflow } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { Workflow, Book } from 'lucide-react';
 import { GUIDES, CONTENT } from '../data/content';
 import StaggerContainer from './animations/StaggerContainer';
 import AnimatedCard from './animations/AnimatedCard';
 
 const PlaybookSection = ({ lang }) => {
   const t = CONTENT[lang];
+  const [guides, setGuides] = useState(GUIDES); // Use GUIDES as initial fallback if needed, or empty
+
+  useEffect(() => {
+    const fetchPlaybooks = async () => {
+        const { data } = await supabase.from('playbooks').select('*').order('created_at', { ascending: false });
+        if (data && data.length > 0) {
+            setGuides(data.map(item => ({
+                id: item.id,
+                icon: Book, // Default icon since DB has image_url mostly. Or map category to icon?
+                content: {
+                    en: { title: item.title?.en, desc: item.description?.en },
+                    ar: { title: item.title?.ar, desc: item.description?.ar }
+                }
+            })));
+        }
+    };
+    fetchPlaybooks();
+  }, []);
 
   return (
     <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-7xl mx-auto" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
@@ -20,8 +39,10 @@ const PlaybookSection = ({ lang }) => {
       </div>
 
       <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-stretch">
-        {GUIDES.map((guide) => {
-          const content = guide.content[lang];
+        {guides.map((guide) => {
+          const content = guide.content ? guide.content[lang] : {};
+          const Icon = guide.icon || Book;
+          
           return (
             <AnimatedCard key={guide.id} enableHover={true} className="h-full">
               <Link to={`/playbook/${guide.id}`} className="flex h-full">
@@ -30,7 +51,7 @@ const PlaybookSection = ({ lang }) => {
                 
                 <div className="mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
                     <div className="p-2 sm:p-3 bg-cyan-500/10 rounded-lg text-cyan-400">
-                    <guide.icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <h3 className="text-lg sm:text-xl font-bold text-white leading-tight">{content.title}</h3>
                 </div>

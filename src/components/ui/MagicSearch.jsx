@@ -3,7 +3,6 @@ import { Search, X, Command } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MagicSearch = ({
-    videoMode = false,
     onSearch,
     placeholder = "Search...",
     className = "",
@@ -44,24 +43,16 @@ const MagicSearch = ({
 
     return (
         <div className={`relative w-full max-w-2xl mx-auto group ${className}`}>
-            {/* Ambient Glow */}
-            <motion.div
-                className={`absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 opacity-0 blur-xl transition-opacity duration-500 ${isFocused ? 'opacity-40' : 'group-hover:opacity-20'}`}
-                animate={isFocused ? {
-                    scale: [1, 1.02, 1],
-                    opacity: [0.4, 0.5, 0.4]
-                } : {}}
-                transition={{ duration: 2, repeat: Infinity }}
-            />
-
+            {/* Ambient Glow - Removed for cleaner look */}
+            
             {/* Main Search Container */}
             <div className={`
-                relative flex items-center bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden transition-all duration-300
-                ${isFocused ? 'border-purple-500/50 shadow-2xl shadow-purple-900/20' : 'hover:border-white/20'}
+                relative flex items-center bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden transition-all duration-300
+                ${isFocused ? 'bg-white/10 ring-1 ring-white/20' : 'hover:bg-white/10'}
             `}>
                 {/* Search Icon */}
-                <div className="pl-4 sm:pl-6 text-gray-400">
-                    <Search className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors ${isFocused ? 'text-purple-400' : ''}`} />
+                <div className={`${lang === 'ar' ? 'pr-4 sm:pr-6 pl-2' : 'pl-4 sm:pl-6 pr-2'} text-gray-400`}>
+                    <Search className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors ${isFocused ? 'text-white' : ''}`} />
                 </div>
 
                 {/* Input Field */}
@@ -74,7 +65,7 @@ const MagicSearch = ({
                     onBlur={() => setIsFocused(false)}
                     placeholder={placeholder}
                     className={`
-                        w-full py-4 sm:py-5 px-4 bg-transparent text-white placeholder-gray-500 text-base sm:text-lg outline-none
+                        w-full py-4 sm:py-5 bg-transparent text-white placeholder-gray-500 text-base sm:text-lg outline-none
                         ${lang === 'ar' ? 'text-right' : 'text-left'}
                         font-medium
                     `}
@@ -84,7 +75,7 @@ const MagicSearch = ({
                 />
 
                 {/* Right Actions */}
-                <div className="pr-4 sm:pr-6 flex items-center gap-3">
+                <div className={`${lang === 'ar' ? 'pl-4 sm:pl-6' : 'pr-4 sm:pr-6'} flex items-center gap-3`}>
                     <AnimatePresence>
                         {query && (
                             <motion.button
@@ -107,9 +98,9 @@ const MagicSearch = ({
                 </div>
             </div>
 
-            {/* Active Indication Line */}
+            {/* Active Indication Line - Made subtle white/gray instead of purple */}
             <motion.div
-                className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent w-full"
+                className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent w-full"
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ scaleX: isFocused ? 1 : 0, opacity: isFocused ? 1 : 0 }}
                 transition={{ duration: 0.4 }}

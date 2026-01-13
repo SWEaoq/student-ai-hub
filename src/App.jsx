@@ -7,6 +7,7 @@ import MouseFollower from './components/ui/MouseFollower';
 import PageTransition from './components/animations/PageTransition';
 import ScrollToTop from './components/ui/ScrollToTop';
 import { ToastProvider } from './components/ui/ToastProvider';
+import { SiteContentProvider, useSiteContent } from './hooks/useSiteContent';
 import ErrorBoundary from './components/layout/ErrorBoundary';
 import Footer from './components/layout/Footer';
 import Skeleton from './components/ui/Skeleton';
@@ -26,7 +27,7 @@ const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 function AppContent() {
-  const [lang, setLang] = useState('en');
+  const { lang, setLang } = useSiteContent();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -122,14 +123,17 @@ function AppContent() {
   );
 }
 
-function App() {
+const App = () => {
   return (
     <ErrorBoundary>
       <ToastProvider>
-        <AppContent />
+        {/* SiteContentProvider manages global settings and navigation */}
+        <SiteContentProvider>
+          <AppContent />
+        </SiteContentProvider>
       </ToastProvider>
     </ErrorBoundary>
   );
-}
+};
 
 export default App;

@@ -11,42 +11,74 @@ import { supabase } from '../lib/supabase';
 import { ICON_MAP } from '../lib/iconMap';
 
 const Tools = ({ lang }) => {
-    const t = CONTENT[lang];
+    // Ensure t is defined with a fallback
+    const t = CONTENT[lang] || CONTENT['en'];
     const navigate = useNavigate();
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [tools, setTools] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Predefined gradients for fallback
+    const FALLBACK_GRADIENTS = [
+        'from-blue-500 to-blue-700',
+        'from-purple-500 to-purple-700',
+        'from-green-500 to-green-700',
+        'from-red-500 to-red-700',
+        'from-orange-500 to-orange-700',
+        'from-cyan-500 to-cyan-700',
+        'from-pink-500 to-pink-700',
+        'from-indigo-500 to-indigo-700',
+        'from-teal-500 to-teal-700'
+    ];
+
     // Fetch tools from Supabase
     useEffect(() => {
         const fetchTools = async () => {
-            const { data, error } = await supabase.from('tools').select('*');
-            if (error) {
-                console.error('Error fetching tools:', error);
-            } else {
-                // Map the icon string to the actual component
-                const processedTools = data.map(tool => ({
-                    ...tool,
-                    icon: ICON_MAP[tool.icon_name] || Sparkles // Fallback icon
-                }));
-                setTools(processedTools);
+            try {
+                const { data, error } = await supabase.from('tools').select('*');
+                if (error) {
+                    console.error('Error fetching tools:', error);
+                } else if (data) {
+                    const processedTools = data.map((tool, index) => {
+                        // Use DB color if valid, otherwise pick deterministically based on ID/Index
+                        let assignedColor = tool.color;
+                        if (!assignedColor || !assignedColor.includes('from-')) {
+                            // Assign varied colors based on index
+                            const hash = index % FALLBACK_GRADIENTS.length;
+                            assignedColor = FALLBACK_GRADIENTS[hash];
+                        }
+
+                        return {
+                            ...tool,
+                            color: assignedColor,
+                            icon: ICON_MAP[tool.icon_name] || Sparkles // Fallback icon
+                        };
+                    });
+                    setTools(processedTools);
+                }
+            } catch (err) {
+                console.error('Unexpected error fetching tools:', err);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
         fetchTools();
     }, []);
 
     const filteredTools = useMemo(() => {
+        if (!tools) return [];
+        
+        // Safely filter by category
         let filtered = activeCategory === 'all'
             ? tools
-            : tools.filter(tool => tool.category.toLowerCase() === activeCategory.toLowerCase());
+            : tools.filter(tool => tool.category && tool.category.toLowerCase() === activeCategory.toLowerCase());
 
         if (searchQuery.trim()) {
             const query = searchQuery.toLowerCase();
             filtered = filtered.filter(tool => {
                 // Check if content structure matches expected JSON
-                const content = tool.content?.[lang];
+                const content = tool.content?.[lang] || tool.content?.['en'];
                 if (!content) return false;
                 
                 return (

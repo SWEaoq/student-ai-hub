@@ -1,9 +1,9 @@
-import React from 'react';
+import { useSiteContent } from '../hooks/useSiteContent';
 import { motion } from 'framer-motion';
 import { Globe } from 'lucide-react';
-import { CONTENT } from '../data/content';
 
 const Navbar = ({ lang, setLang }) => {
+    const { navigation } = useSiteContent();
     return (
         <motion.nav 
             className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10"
@@ -26,6 +26,18 @@ const Navbar = ({ lang, setLang }) => {
                         transition={{ duration: 0.3, ease: "easeOut" }}
                     />
                 </motion.div>
+                <div className="hidden md:flex items-center gap-6">
+                    {navigation.map((navItem) => (
+                        <a 
+                            key={navItem.id} 
+                            href={navItem.path}
+                            className={`text-sm font-medium transition-colors hover:text-purple-400 ${navItem.is_button ? 'px-4 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 text-white' : 'text-gray-300'}`}
+                        >
+                            {navItem.label[lang] || navItem.label['en']}
+                        </a>
+                    ))}
+                </div>
+
                 <div className={`flex items-center gap-2 sm:gap-4 ${lang === 'ar' ? 'flex-row-reverse' : ''}`}>
                     <motion.button
                         onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}

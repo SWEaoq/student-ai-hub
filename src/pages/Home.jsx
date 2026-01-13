@@ -1,47 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Zap, BookOpen, Terminal, GraduationCap } from 'lucide-react';
+import { Zap, BookOpen, Terminal, GraduationCap } from 'lucide-react'; // Fallback icons
+import { supabase } from '../lib/supabase';
+import { ICON_MAP } from '../lib/iconMap';
 import Hero from '../components/Hero';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import AnimatedCard from '../components/animations/AnimatedCard';
 import { CONTENT } from '../data/content';
 
 const Home = ({ lang }) => {
-    const t = CONTENT[lang];
-    const cards = [
-        {
-            id: 'academy',
-            title: lang === 'en' ? `${t.academy.title} ${t.academy.title_accent}` : `${t.academy.title} ${t.academy.title_accent}`,
-            desc: t.academy.subtitle,
-            icon: GraduationCap,
-            link: '/academy',
-            color: 'purple'
-        },
-        {
-            id: 'tools',
-            title: lang === 'en' ? 'AI Tools Library' : 'مكتبة أدوات الذكاء الاصطناعي',
-            desc: lang === 'en' ? 'Curated list of the best AI tools for students.' : 'قائمة مختارة لأفضل أدوات الذكاء الاصطناعي للطلاب.',
-            icon: Zap,
-            link: '/tools',
-            color: 'purple'
-        },
-        {
-            id: 'playbook',
-            title: lang === 'en' ? 'The Playbook' : 'الشروحات',
-            desc: lang === 'en' ? 'Step-by-step guides to master AI workflows.' : 'شروحات خطوة بخطوة لإتقان سير عمل الذكاء الاصطناعي.',
-            icon: BookOpen,
-            link: '/playbook',
-            color: 'cyan'
-        },
-        {
-            id: 'prompts',
-            title: lang === 'en' ? 'Prompt Vault' : 'خزنة الأوامر',
-            desc: lang === 'en' ? 'Copy-paste prompts for every situation.' : 'أوامر جاهزة للنسخ واللصق لكل الحالات.',
-            icon: Terminal,
-            link: '/prompts',
-            color: 'green'
-        }
-    ];
+    const t = CONTENT[lang] || CONTENT['en'];
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCards = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('home_cards')
+                    .select('*')
+                    .order('order', { ascending: true });
+                
+                if (error) throw error;
+
+                if (data) {
+                    const processedCards = data.map(card => ({
+                        ...card,
+                        title: card.title[lang] || card.title['en'],
+                        desc: card.description[lang] || card.description['en'],
+                        icon: ICON_MAP[card.icon_name] || Zap,
+                        isFeatured: card.is_featured
+                    }));
+                    setCards(processedCards);
+                }
+            } catch (error) {
+                console.error('Error fetching home cards:', error);
+                // Fallback or empty state
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCards();
+    }, [lang]);
 
     return (
         <div className="w-full">
