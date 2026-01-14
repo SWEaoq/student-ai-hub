@@ -353,3 +353,67 @@ export const generatePromptText = async (category, title, lang = 'en') => {
 
   return await generateContent(prompt, { maxTokens: 300, temperature: 0.8 });
 };
+
+/**
+ * Get tool recommendation and prompt based on user chat
+ * @param {string} userQuery - The user's question or request
+ * @param {Array} tools - List of available tools
+ * @param {string} lang - Current language context ('en' or 'ar')
+ * @returns {Promise<Object>} Recommendation object { toolId, reasoning, usagePrompt }
+ */
+export const getChatRecommendation = async (userQuery, tools, lang = 'en') => {
+  // simplify tools list to save tokens, only keep essential info
+  const toolsContext = tools.map(t => ({
+    id: t.id,
+    name: t.content.en.name,
+    description: t.content.en.description,
+    category: t.category
+  }));
+
+  const systemPrompt = `
+    You are a specialized AI assistant for "Student AI Hub", an educational platform.
+    
+    CRITICAL SAFETY & SCOPE INSTRUCTIONS:
+    1. SCOPE: You are ONLY allowed to answer questions related to:
+       - AI tools and software
+       - Studying, exams, and academic research
+       - Coding and development
+       - Productivity and workflow
+    2. REFUSAL: If the user asks about ANY other topic (politics, religion, dating, violence, illegal acts, etc.), you MUST refuse politely by saying:
+       "${lang === 'ar' 
+          ? 'عذراً، أنا متخصص فقط في مساعدتك في دراستك وأدوات الذكاء الاصطناعي.' 
+          : 'I can only assist with educational topics and AI tools.'}"
+    3. LANGUAGE: Detect the language of the User Query. If it is Arabic, your entire JSON response (reasoning and prompt) MUST be in Arabic. If English, use English.
+
+    TASK:
+    Analyze the User Query and select the SINGLE BEST tool from the "Available Tools" list to solve their problem.
+    Then, write a specific, high-quality prompt that the user can copy and paste into that tool.
+
+    AVAILABLE TOOLS:
+    ${JSON.stringify(toolsContext)}
+
+    OUTPUT FORMAT:
+    Return strictly valid JSON with no markdown formatting:
+    {
+      "toolId": "id_of_the_best_tool",
+      "reasoning": "A short, helpful explanation of why this tool is best for this specific task (max 1 sentence).",
+      "usagePrompt": "The actual prompt the user should copy. Make it detailed and fill in placeholders where possible."
+    }
+  `;
+
+  const response = await generateContent(systemPrompt + `\n\nUser Query: "${userQuery}"`, { 
+    model: 'gpt-4o-mini',
+    temperature: 0.3, // Lower temp for more consistent logical tool selection
+    maxTokens: 500
+  });
+
+  try {
+    // Clean potential markdown code blocks if the model adds them
+    const cleanJson = response.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(cleanJson);
+  } catch (e) {
+    console.error("Failed to parse AI recommendation:", e);
+    // Fallback or error
+    throw new Error("Failed to generate recommendation");
+  }
+};

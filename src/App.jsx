@@ -12,6 +12,8 @@ import ErrorBoundary from './components/layout/ErrorBoundary';
 import Footer from './components/layout/Footer';
 import Skeleton from './components/ui/Skeleton';
 
+import AIChatAssistant from './components/ui/AIChatAssistant';
+
 // Lazy load pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
 const Tools = lazy(() => import('./pages/Tools'));
@@ -118,6 +120,7 @@ function AppContent() {
 
         {!isAdmin && <Footer lang={lang} />}
       </div>
+      {!isAdmin && <AIChatAssistant />}
       <ScrollToTop />
     </div>
   );
