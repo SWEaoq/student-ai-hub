@@ -1,13 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 import CopyButton from './ui/CopyButton';
 import StaggerContainer from './animations/StaggerContainer';
 import SearchBar from './ui/SearchBar';
 import EmptyState from './ui/EmptyState';
 import { supabase } from '../lib/supabase';
 
-const PromptVault = ({ lang }) => {
-    const t = CONTENT[lang];
+const PromptVault = () => {
+    const { lang, getText } = useSiteContent();
     const [searchQuery, setSearchQuery] = useState('');
     const [prompts, setPrompts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ const PromptVault = ({ lang }) => {
             <div className="flex items-center gap-2 sm:gap-4 mb-8 sm:mb-10">
                 <div className="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent flex-1 opacity-50" />
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white text-center uppercase tracking-widest">
-                    {t.vault.title} <span className="text-purple-500">{t.vault.title_accent}</span>
+                    {getText('vault.title')} <span className="text-purple-500">{getText('vault.title_accent')}</span>
                 </h2>
                 <div className="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent flex-1 opacity-50" />
             </div>
@@ -83,10 +84,10 @@ const PromptVault = ({ lang }) => {
                             </div>
                             <CopyButton
                                 text={content.text}
-                                successMessage={t.vault.copied}
+                                successMessage={getText('vault.copied')}
                                 className="w-full py-2.5 sm:py-3 rounded-lg font-bold text-xs sm:text-sm min-h-[44px]"
                             >
-                                {t.vault.copy}
+                                {getText('vault.copy')}
                             </CopyButton>
                         </div>
                     );

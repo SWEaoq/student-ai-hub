@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ExternalLink, Terminal, MessageSquare, Sparkles } from 'lucide-react';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 import FadeIn from '../components/animations/FadeIn';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import { supabase } from '../lib/supabase';
 import { ICON_MAP } from '../lib/iconMap';
 
-const ToolDetail = ({ lang }) => {
-    const t = CONTENT[lang];
+const ToolDetail = () => {
+    const { lang, getText } = useSiteContent();
     const { id } = useParams();
     const navigate = useNavigate();
     const [tool, setTool] = useState(null);
@@ -68,7 +69,7 @@ const ToolDetail = ({ lang }) => {
             <FadeIn delay={0.1}>
                 <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white active:text-white mb-6 sm:mb-8 transition-colors min-h-[44px]">
                     <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
-                    {t.common.back}
+                    {getText('common.back')}
                 </button>
             </FadeIn>
 
@@ -93,7 +94,7 @@ const ToolDetail = ({ lang }) => {
                                 rel="noopener noreferrer"
                                 className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 active:bg-purple-700 transition-transform hover:scale-105 active:scale-95 min-h-[44px] w-full sm:w-auto justify-center`}
                             >
-                                {t.common.getFreeTier}
+                                {getText('common.getFreeTier')}
                                 <ExternalLink className="w-4 h-4" />
                             </a>
                         )}
@@ -103,7 +104,7 @@ const ToolDetail = ({ lang }) => {
                             rel="noopener noreferrer"
                             className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-white text-black rounded-full font-bold hover:bg-gray-200 active:bg-gray-200 transition-transform hover:scale-105 active:scale-95 min-h-[44px] w-full sm:w-auto justify-center`}
                         >
-                            {t.common.visitWebsite}
+                            {getText('common.visitWebsite')}
                             <ExternalLink className="w-4 h-4" />
                         </a>
                     </div>
@@ -115,7 +116,7 @@ const ToolDetail = ({ lang }) => {
                 <div className="bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 backdrop-blur-sm h-full flex flex-col">
                     <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 text-gray-300">
                         <Terminal className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <h2 className="text-xl sm:text-2xl font-bold">{t.common.installation}</h2>
+                        <h2 className="text-xl sm:text-2xl font-bold">{getText('common.installation')}</h2>
                     </div>
                     <div className="space-y-3 sm:space-y-4 text-gray-300 leading-relaxed whitespace-pre-line font-mono text-xs sm:text-sm bg-black/30 p-4 sm:p-6 rounded-lg sm:rounded-xl border border-white/5 flex-grow">
                         {installation || 'No installation instructions available.'}
@@ -126,7 +127,7 @@ const ToolDetail = ({ lang }) => {
                 <div className="bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 backdrop-blur-sm h-full flex flex-col">
                     <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 text-gray-300">
                         <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
-                        <h2 className="text-xl sm:text-2xl font-bold">{t.common.examplePrompts}</h2>
+                        <h2 className="text-xl sm:text-2xl font-bold">{getText('common.examplePrompts')}</h2>
                     </div>
                     <div className="space-y-3 sm:space-y-4 flex-grow">
                         {prompts.length > 0 ? prompts.map((item, index) => (

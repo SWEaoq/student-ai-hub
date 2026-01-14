@@ -1,9 +1,10 @@
 import React from 'react';
 import CopyButton from './ui/CopyButton';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 
-const CodeBlock = ({ code, language = 'javascript', title, lang = 'en' }) => {
-  const t = CONTENT[lang];
+const CodeBlock = ({ code, language = 'javascript', title }) => {
+  const { getText } = useSiteContent();
   
   // Simple syntax highlighting using classes (can be enhanced with a library later)
   const getLanguageClass = (lang) => {
@@ -18,7 +19,7 @@ const CodeBlock = ({ code, language = 'javascript', title, lang = 'en' }) => {
       html: 'html',
       css: 'css',
     };
-    return langMap[language.toLowerCase()] || 'text';
+    return langMap[lang.toLowerCase()] || 'text';
   };
 
   return (
@@ -38,10 +39,10 @@ const CodeBlock = ({ code, language = 'javascript', title, lang = 'en' }) => {
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <CopyButton
             text={code}
-            successMessage={t.academy.codeCopied}
+            successMessage={getText('academy.codeCopied', 'Copied!')}
             className="px-3 py-1.5 text-xs rounded-md"
           >
-            <span className="text-xs">{t.academy.copyCode}</span>
+            <span className="text-xs">{getText('academy.copyCode', 'Copy Code')}</span>
           </CopyButton>
         </div>
       </div>

@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Check, Circle } from 'lucide-react';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 
-const Checkpoint = ({ id, tutorialId, sectionId, lang = 'en' }) => {
-  const t = CONTENT[lang];
-  const [completed, setCompleted] = useState(false);
-
-  useEffect(() => {
-    // Load completion state from localStorage
+const Checkpoint = ({ id, tutorialId, sectionId }) => {
+  const { getText } = useSiteContent();
+  const [completed, setCompleted] = useState(() => {
+    // Load completion state from localStorage lazily
+    if (typeof window === 'undefined') return false;
     const key = `checkpoint_${tutorialId}_${sectionId}_${id}`;
     const saved = localStorage.getItem(key);
-    if (saved === 'true') {
-      setCompleted(true);
-    }
-  }, [tutorialId, sectionId, id]);
+    return saved === 'true';
+  });
+
+  /* useEffect removed as initial state handles load */
 
   const toggleComplete = () => {
     const newState = !completed;
@@ -32,7 +32,7 @@ const Checkpoint = ({ id, tutorialId, sectionId, lang = 'en' }) => {
           : 'border-2 border-gray-400 text-gray-400 hover:border-gray-300 hover:text-gray-300'
         }
       `}
-      title={completed ? t.academy.completed : t.academy.checkpoint}
+      title={completed ? getText('academy.completed') : getText('academy.checkpoint')}
     >
       {completed ? <Check size={16} /> : <Circle size={12} />}
     </button>

@@ -1,31 +1,39 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 
-const ProgressTracker = ({ tutorialId, sections, activeSection, lang = 'en' }) => {
-  const t = CONTENT[lang];
-  const [viewedSections, setViewedSections] = useState(new Set());
+const ProgressTracker = ({ tutorialId, sections, activeSection }) => {
+  const { lang, getText } = useSiteContent();
+  
+  // Lazy init viewed sections
+  const [viewedSections, setViewedSections] = useState(() => {
+      if (typeof window === 'undefined') return new Set();
+      const key = `tutorial_${tutorialId}_viewed`;
+      const viewed = JSON.parse(localStorage.getItem(key) || '[]');
+      return new Set(viewed);
+  });
 
-  // Track viewed sections
+  // Track viewed sections (Sync activeSection to storage)
   useEffect(() => {
     if (activeSection) {
       const key = `tutorial_${tutorialId}_viewed`;
-      const viewed = JSON.parse(localStorage.getItem(key) || '[]');
-      if (!viewed.includes(activeSection)) {
-        viewed.push(activeSection);
-        localStorage.setItem(key, JSON.stringify(viewed));
-        setViewedSections(new Set(viewed));
-      } else {
-        setViewedSections(new Set(viewed));
-      }
+      // We read from storage to ensure we have latest, or we could rely on state if we trust it 
+      // But better to read current state or storage to append.
+      // Since we lazily loaded, `viewedSections` has initial.
+      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      setViewedSections(prev => {
+          if (!prev.has(activeSection)) {
+              const newSet = new Set(prev).add(activeSection);
+              localStorage.setItem(key, JSON.stringify(Array.from(newSet)));
+              return newSet;
+          }
+          return prev;
+      });
     }
   }, [activeSection, tutorialId]);
 
-  // Load viewed sections on mount
-  useEffect(() => {
-    const key = `tutorial_${tutorialId}_viewed`;
-    const viewed = JSON.parse(localStorage.getItem(key) || '[]');
-    setViewedSections(new Set(viewed));
-  }, [tutorialId]);
+  /* Load effect removed as lazy init handles it */
 
   const progress = useMemo(() => {
     if (!sections || sections.length === 0) return 0;
@@ -42,10 +50,10 @@ const ProgressTracker = ({ tutorialId, sections, activeSection, lang = 'en' }) =
     <div className="mb-6 sm:mb-8">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-medium text-gray-400">
-          {t.academy.sections} {progress}%
+          {getText('academy.sections', 'Sections')} {progress}%
         </span>
         <span className="text-sm text-gray-500">
-          {progress === 100 ? t.academy.completed : `${100 - progress}% ${lang === 'ar' ? 'متبقي' : 'remaining'}`}
+          {progress === 100 ? getText('academy.completed') : `${100 - progress}% ${lang === 'ar' ? 'متبقي' : 'remaining'}`}
         </span>
       </div>
       <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">

@@ -1,19 +1,108 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import { ACADEMY_CATEGORIES, ACADEMY_TUTORIALS, CONTENT } from '../data/content';
+import { ArrowLeft, Book } from 'lucide-react';
+// import { ACADEMY_CATEGORIES, ACADEMY_TUTORIALS, CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import AnimatedCard from '../components/animations/AnimatedCard';
 import FadeIn from '../components/animations/FadeIn';
+import { supabase } from '../lib/supabase';
+import { ICON_MAP } from '../lib/iconMap';
 
-const AcademyCategory = ({ lang }) => {
+const AcademyCategory = () => {
+    const { lang, getText } = useSiteContent();
   const { category } = useParams();
   const navigate = useNavigate();
-  const t = CONTENT[lang];
   const isRTL = lang === 'ar';
 
-  const categoryData = ACADEMY_CATEGORIES.find(cat => cat.id === category);
+  const [categoryData, setCategoryData] = useState(null);
+  const [stacks, setStacks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            // Fetch Category
+            const { data: catData, error: catError } = await supabase
+                .from('academy_categories')
+                .select('*')
+                .eq('id', category)
+                .single();
+            
+            if (catError) {
+                 if (catError.code !== 'PGRST116') console.error('Error fetching category:', catError);
+            } else if (catData) {
+                // Map icon
+                 const CatIcon = ICON_MAP[catData.icon_name] || Book; // Default icon
+                 
+                 const processedCategory = {
+                    ...catData,
+                    icon: CatIcon,
+                    content: catData.content ? {
+                        en: { name: catData.content.en.name, description: catData.content.en.description },
+                        ar: { name: catData.content.ar.name, description: catData.content.ar.description }
+                    } : { en: {}, ar: {} }
+                 };
+                 setCategoryData(processedCategory);
+
+                 // Fetch Tutorials (Stacks) in this category
+                 // We can filter by category field if it exists, or by checking if ID is in `stacks` array (jsonb)
+                 // Assuming `stacks` field in `academy_categories` is just an array of IDs [ 'flutter', 'react' ]
+                 
+                 const stackIds = catData.stacks || [];
+                 if (stackIds.length > 0) {
+                     // Using 'in' filter requires an array
+                     const { data: tutorialsData, error: tutorialsError } = await supabase
+                        .from('academy_tutorials')
+                        .select('*')
+                        .in('id', stackIds);
+                     
+                     if (tutorialsError) {
+                         console.error('Error fetching tutorials:', tutorialsError);
+                     } else if (tutorialsData) {
+                         // Process tutorials
+                         const processedStacks = tutorialsData.map(stack => ({
+                             ...stack,
+                             icon: ICON_MAP[stack.icon_name] || Book,
+                             content: stack.content ? {
+                                 en: { 
+                                     name: stack.content.en.name, 
+                                     tagline: stack.content.en.tagline, 
+                                     description: stack.content.en.description 
+                                 },
+                                 ar: { 
+                                     name: stack.content.ar.name, 
+                                     tagline: stack.content.ar.tagline, 
+                                     description: stack.content.ar.description 
+                                }
+                             } : { en: {}, ar: {} }
+                         }));
+                         // Sort them based on the order in stackIds
+                         processedStacks.sort((a, b) => {
+                             return stackIds.indexOf(a.id) - stackIds.indexOf(b.id);
+                         });
+                         setStacks(processedStacks);
+                     }
+                 }
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchData();
+  }, [category]);
   
+  if (loading) {
+      return (
+          <div className="w-full pt-32 pb-12 flex justify-center items-center min-h-[50vh]">
+             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+          </div>
+      );
+  }
+
   if (!categoryData) {
     return (
       <div className="w-full pt-32 pb-12 text-center">
@@ -27,13 +116,6 @@ const AcademyCategory = ({ lang }) => {
     );
   }
 
-  const stacks = categoryData.stacks
-    .map(stackId => ({
-      id: stackId,
-      ...ACADEMY_TUTORIALS[stackId],
-    }))
-    .filter(stack => stack && stack.content); // Filter out any missing tutorials
-
   const categoryContent = categoryData.content[lang];
 
   return (
@@ -45,7 +127,7 @@ const AcademyCategory = ({ lang }) => {
             className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 sm:mb-8 transition-colors min-h-[44px]"
           >
             <ArrowLeft className={`w-5 h-5 ${isRTL ? 'rotate-180 ml-2' : 'mr-2'}`} />
-            {t.academy.backToCategories}
+            {getText('academy.backToCategories')}
           </button>
         </FadeIn>
 
@@ -67,7 +149,7 @@ const AcademyCategory = ({ lang }) => {
 
         <FadeIn delay={0.3}>
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 sm:mb-8">
-            {t.academy.chooseStack}
+            {getText('academy.chooseStack')}
           </h2>
         </FadeIn>
 
@@ -75,10 +157,11 @@ const AcademyCategory = ({ lang }) => {
           {stacks.map((stack) => {
             const stackContent = stack.content[lang];
             const StackIcon = stack.icon;
+            // Fetch translations from hook or use generic map
             const difficultyLabels = {
-              beginner: t.academy.beginner,
-              intermediate: t.academy.intermediate,
-              advanced: t.academy.advanced,
+              beginner: getText('academy.beginner', 'Beginner'),
+              intermediate: getText('academy.intermediate', 'Intermediate'),
+              advanced: getText('academy.advanced', 'Advanced'),
             };
 
             return (
@@ -108,10 +191,10 @@ const AcademyCategory = ({ lang }) => {
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
                     <div className="flex flex-col gap-1">
                       <span className="text-xs text-gray-500">
-                        {t.academy.difficulty}: <span className="text-gray-400">{difficultyLabels[stack.difficulty]}</span>
+                        {getText('academy.difficulty')}: <span className="text-gray-400">{difficultyLabels[stack.difficulty] || stack.difficulty}</span>
                       </span>
                       <span className="text-xs text-gray-500">
-                        {t.academy.estimatedTime}: <span className="text-gray-400">{stack.estimatedTime}</span>
+                        {getText('academy.estimatedTime')}: <span className="text-gray-400">{stack.estimatedTime}</span>
                       </span>
                     </div>
                     <span className={`text-sm font-medium bg-gradient-to-r ${stack.color} bg-clip-text text-transparent group-hover:translate-x-1 transition-transform`}>

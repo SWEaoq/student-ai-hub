@@ -71,9 +71,9 @@ const AdminPrompts = () => {
             const content = editingItem.content || {};
             setFormData({
                 category: editingItem.category,
-                en_title: content.en?.title,
-                en_text: content.en?.text,
-                en_tag: content.en?.tag,
+                en_title: content.en?.title || editingItem.title,
+                en_text: content.en?.text || editingItem.text || editingItem.body,
+                en_tag: content.en?.tag || editingItem.tag,
                 ar_title: content.ar?.title,
                 ar_text: content.ar?.text,
                 ar_tag: content.ar?.tag,
@@ -82,6 +82,14 @@ const AdminPrompts = () => {
             setFormData({});
         }
     }, [editingItem]);
+
+    const getPromptTitle = (prompt) => {
+        return prompt.content?.en?.title || prompt.title || 'Untitled Prompt';
+    };
+
+    const getPromptText = (prompt) => {
+        return prompt.content?.en?.text || prompt.text || prompt.body || '';
+    };
 
     return (
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl mt-8">
@@ -98,21 +106,30 @@ const AdminPrompts = () => {
                 </button>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-                {prompts.map((prompt) => (
-                    <div key={prompt.id} className="bg-white/5 p-4 rounded-xl border border-white/10 text-white">
-                        <div className="flex justify-between items-start mb-2">
-                            <span className="bg-white/10 px-2 py-1 rounded text-xs text-zinc-400">{prompt.category}</span>
-                            <div className="flex gap-2">
-                                <button onClick={() => { setEditingItem(prompt); setShowModal(true); }}><Edit2 size={16} className="text-zinc-400 hover:text-white" /></button>
-                                <button onClick={() => handleDelete(prompt.id)}><Trash2 size={16} className="text-red-400 hover:text-red-300" /></button>
+            {loading ? (
+                <div className="text-zinc-500 text-center py-8">Loading prompts...</div>
+            ) : (
+                <div className="grid md:grid-cols-2 gap-4">
+                    {prompts.map((prompt) => (
+                        <div key={prompt.id} className="bg-white/5 p-4 rounded-xl border border-white/10 text-white">
+                            <div className="flex justify-between items-start mb-2">
+                                <span className="bg-white/10 px-2 py-1 rounded text-xs text-zinc-400">{prompt.category}</span>
+                                <div className="flex gap-2">
+                                    <button onClick={() => { setEditingItem(prompt); setShowModal(true); }}><Edit2 size={16} className="text-zinc-400 hover:text-white" /></button>
+                                    <button onClick={() => handleDelete(prompt.id)}><Trash2 size={16} className="text-red-400 hover:text-red-300" /></button>
+                                </div>
                             </div>
+                            <h3 className="font-bold mb-1">{getPromptTitle(prompt)}</h3>
+                            <p className="text-sm text-zinc-400 line-clamp-3 font-mono bg-black/20 p-2 rounded">{getPromptText(prompt)}</p>
                         </div>
-                        <h3 className="font-bold mb-1">{prompt.content?.en?.title}</h3>
-                        <p className="text-sm text-zinc-400 line-clamp-3 font-mono bg-black/20 p-2 rounded">{prompt.content?.en?.text}</p>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                    {prompts.length === 0 && (
+                        <div className="col-span-2 text-center text-zinc-500 py-8">
+                            No prompts found. Click "Add Prompt" to create one.
+                        </div>
+                    )}
+                </div>
+            )}
 
             {showModal && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">

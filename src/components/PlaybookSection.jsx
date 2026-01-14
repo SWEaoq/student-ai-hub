@@ -2,26 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Workflow, Book } from 'lucide-react';
-import { GUIDES, CONTENT } from '../data/content';
+import { useSiteContent } from '../hooks/useSiteContent';
+import { ICON_MAP } from '../lib/iconMap';
 import StaggerContainer from './animations/StaggerContainer';
 import AnimatedCard from './animations/AnimatedCard';
+import { GUIDES } from '../data/content'; // Import static guides (Step 172)
 
-const PlaybookSection = ({ lang }) => {
-  const t = CONTENT[lang];
-  const [guides, setGuides] = useState(GUIDES); // Use GUIDES as initial fallback if needed, or empty
+const PlaybookSection = () => {
+  const { lang, getText } = useSiteContent();
+  const [guides, setGuides] = useState([]);
 
   useEffect(() => {
     const fetchPlaybooks = async () => {
-        const { data } = await supabase.from('playbooks').select('*').order('created_at', { ascending: false });
+        const { data } = await supabase.from('playbooks').select('*').order('id', { ascending: false });
         if (data && data.length > 0) {
-            setGuides(data.map(item => ({
-                id: item.id,
-                icon: Book, // Default icon since DB has image_url mostly. Or map category to icon?
-                content: {
-                    en: { title: item.title?.en, desc: item.description?.en },
-                    ar: { title: item.title?.ar, desc: item.description?.ar }
+            setGuides(data.map(item => {
+                let enTitle = item.content?.en?.title || item.title?.en || (typeof item.title === 'string' ? item.title : 'Untitled');
+                let arTitle = item.content?.ar?.title || item.title?.ar || (typeof item.title === 'string' ? item.title : 'Untitled');
+                let enDesc = item.content?.en?.description || item.description?.en || (typeof item.description === 'string' ? item.description : '');
+                let arDesc = item.content?.ar?.description || item.description?.ar || (typeof item.description === 'string' ? item.description : '');
+
+                // Fallback to static GUIDES if descriptions are missing
+                if (!enDesc || !arDesc) {
+                    const staticMatch = GUIDES.find(g => 
+                        g.content?.en?.title === enTitle || 
+                        g.content?.ar?.title === arTitle ||
+                        g.id === item.id // In case ID matches
+                    );
+                    if (staticMatch) {
+                        if (!enDesc) enDesc = staticMatch.content?.en?.desc || '';
+                        if (!arDesc) arDesc = staticMatch.content?.ar?.desc || '';
+                    }
                 }
-            })));
+
+                return {
+                    id: item.id,
+                    icon: ICON_MAP[item.icon_name] || Book,
+                    content: {
+                        en: { title: enTitle, desc: enDesc },
+                        ar: { title: arTitle, desc: arDesc }
+                    }
+                };
+            }));
         }
     };
     fetchPlaybooks();
@@ -33,16 +55,15 @@ const PlaybookSection = ({ lang }) => {
         <div className="h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent flex-1 opacity-50" />
         <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white text-center uppercase tracking-widest flex items-center gap-2 sm:gap-3">
           <Workflow className="text-cyan-500 w-5 h-5 sm:w-6 sm:h-6" />
-          {t.playbook.title} <span className="text-cyan-500">{t.playbook.title_accent}</span>
+          {getText('playbook.title')} <span className="text-cyan-500">{getText('playbook.title_accent')}</span>
         </h2>
         <div className="h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent flex-1 opacity-50" />
       </div>
 
-      <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-stretch">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 items-stretch">
         {guides.map((guide) => {
-          const content = guide.content ? guide.content[lang] : {};
+          const content = guide.content[lang] || {};
           const Icon = guide.icon || Book;
-          
           
           return (
             <AnimatedCard key={guide.id} enableHover={true} className="h-full" initial="visible">
@@ -69,7 +90,7 @@ const PlaybookSection = ({ lang }) => {
             </AnimatedCard>
           );
         })}
-      </StaggerContainer>
+      </div>
     </section>
   );
 };

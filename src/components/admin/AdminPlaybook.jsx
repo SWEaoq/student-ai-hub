@@ -12,9 +12,12 @@ const AdminPlaybook = () => {
 
     const fetchPlaybooks = async () => {
         setLoading(true);
-        const { data, error } = await supabase.from('playbooks').select('*').order('created_at', { ascending: false });
+        const { data, error } = await supabase.from('playbooks').select('*').order('id', { ascending: false });
         if (error) console.error(error);
-        else setPlaybooks(data || []);
+        else {
+            console.log('Playbooks Data:', data);
+            setPlaybooks(data || []);
+        }
         setLoading(false);
     };
 
@@ -104,8 +107,12 @@ const AdminPlaybook = () => {
                         </div>
                         <div className="p-4">
                             <span className="text-xs font-bold text-emerald-400 mb-1 block uppercase tracking-wider">{item.category}</span>
-                            <h3 className="font-bold text-white mb-2">{item.title?.en}</h3>
-                            <p className="text-sm text-zinc-400 line-clamp-2">{item.description?.en}</p>
+                            <h3 className="font-bold text-white mb-2">
+                                {typeof item.title === 'string' ? item.title : (item.title?.en || item.content?.en?.title || 'Untitled')}
+                            </h3>
+                            <p className="text-sm text-zinc-400 line-clamp-2">
+                                {typeof item.description === 'string' ? item.description : (item.description?.en || item.content?.en?.description || '')}
+                            </p>
                             <a href={item.link} target="_blank" rel="noreferrer" className="mt-3 block text-purple-400 text-xs hover:underline">View Playbook &rarr;</a>
                         </div>
                     </div>

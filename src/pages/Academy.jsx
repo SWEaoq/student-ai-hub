@@ -1,37 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { ACADEMY_CATEGORIES, CONTENT } from '../data/content';
+import { useSiteContent } from '../hooks/useSiteContent';
 import { ICON_MAP } from '../lib/iconMap';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import AnimatedCard from '../components/animations/AnimatedCard';
 import FadeIn from '../components/animations/FadeIn';
 import { GraduationCap } from 'lucide-react';
 
-const Academy = ({ lang }) => {
-  const t = CONTENT[lang];
-  const [categories, setCategories] = useState(ACADEMY_CATEGORIES);
+const Academy = () => {
+  const { lang, getText } = useSiteContent();
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data } = await supabase.from('academy_categories').select('*').order('created_at');
+      const { data } = await supabase.from('academy_categories').select('*').order('id');
       if (data && data.length > 0) {
-        setCategories(data.map(cat => ({
-          ...cat,
-          // content structure matching fallback
-          content: cat.title ? {
-            en: { name: cat.title.en, description: cat.description?.en },
-            ar: { name: cat.title.ar, description: cat.description?.ar }
-          } : { en: {}, ar: {} },
-          // Resolve icon
-          icon: ICON_MAP[cat.icon_name] || GraduationCap,
-          // Generate gradient color based on index or random? Or store in DB? DB doesn't have color.
-          // Fallback to random or blue
-          color: 'from-blue-500 to-cyan-500', 
-          stacks: [] // DB 'academy_tutorials' join? For now empty or fetched separately.
-        })));
-        
-        // Fetch stacks count if possible? keeping simple for now.
+        setCategories(data.map(cat => {
+            // Robust content resolution
+            const enName = cat.content?.en?.name || cat.title?.en || (typeof cat.title === 'string' ? cat.title : 'Untitled');
+            const arName = cat.content?.ar?.name || cat.title?.ar || (typeof cat.title === 'string' ? cat.title : 'Untitled');
+            const enDesc = cat.content?.en?.description || cat.description?.en || (typeof cat.description === 'string' ? cat.description : '');
+            const arDesc = cat.content?.ar?.description || cat.description?.ar || (typeof cat.description === 'string' ? cat.description : '');
+
+            return {
+              ...cat,
+              content: {
+                en: { name: enName, description: enDesc },
+                ar: { name: arName, description: arDesc }
+              },
+              icon: ICON_MAP[cat.icon_name] || GraduationCap,
+              color: cat.color || 'from-blue-500 to-cyan-500', 
+              stacks: cat.stacks || []
+            };
+        }));
       }
     };
     fetchCategories();
@@ -47,22 +49,22 @@ const Academy = ({ lang }) => {
                 <GraduationCap className="w-8 h-8 sm:w-10 sm:h-10 text-purple-400" />
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
-                {t.academy.title} <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">{t.academy.title_accent}</span>
+                {getText('academy.title')} <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">{getText('academy.title_accent')}</span>
               </h1>
             </div>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              {t.academy.subtitle}
+              {getText('academy.subtitle')}
             </p>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.2}>
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 sm:mb-8">
-            {t.academy.chooseCategory}
+            {getText('academy.chooseCategory')}
           </h2>
         </FadeIn>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {categories.map((category) => {
             const content = category.content[lang] || {};
             const CategoryIcon = category.icon || GraduationCap;
@@ -99,11 +101,10 @@ const Academy = ({ lang }) => {
               </AnimatedCard>
             );
           })}
-        </StaggerContainer>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Academy;
-

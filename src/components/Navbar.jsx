@@ -11,7 +11,7 @@ const Navbar = ({ lang, setLang }) => {
             animate={{ y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
-            <div className={`max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-24 flex items-center justify-between`}>
+            <div className={`max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-24 flex items-center justify-between relative`}>
                 <motion.div 
                     className="text-xl sm:text-2xl font-bold tracking-tighter text-white relative group cursor-pointer"
                     whileHover={{ scale: 1.05 }}
@@ -26,7 +26,7 @@ const Navbar = ({ lang, setLang }) => {
                         transition={{ duration: 0.3, ease: "easeOut" }}
                     />
                 </motion.div>
-                <div className="hidden md:flex items-center gap-6">
+                <div className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
                     <a 
                         href="/chat"
                         className="text-sm font-medium transition-colors hover:text-purple-400 text-gray-300"

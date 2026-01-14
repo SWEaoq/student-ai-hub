@@ -6,10 +6,11 @@ import { ICON_MAP } from '../lib/iconMap';
 import Hero from '../components/Hero';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import AnimatedCard from '../components/animations/AnimatedCard';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 
-const Home = ({ lang }) => {
-    const t = CONTENT[lang] || CONTENT['en'];
+const Home = () => {
+    const { lang, getText } = useSiteContent();
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -48,6 +49,66 @@ const Home = ({ lang }) => {
         <div className="w-full">
             <Hero lang={lang} showFilters={false} />
 
+            {/* VibeQuest Spotlight Section */}
+            <section className="px-4 sm:px-6 py-8 sm:py-12 max-w-7xl mx-auto">
+                <div className="relative rounded-3xl overflow-hidden">
+                    {/* Background with gradient and mesh */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/50 via-purple-900/50 to-pink-900/50 backdrop-blur-xl border border-white/10" />
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                    
+                    {/* Glowing orbs */}
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/30 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/30 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+
+                    <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center p-8 sm:p-12">
+                        <div className="space-y-6">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sm text-purple-200">
+                                <span className="relative flex h-2 w-2">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                                </span>
+                                {lang === 'ar' ? 'جديد! تجربة غامرة' : 'New! Immersive Experience'}
+                            </div>
+                            
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                                VibeQuest <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">21</span>
+                            </h2>
+                            
+                            <p className="text-lg text-gray-300 leading-relaxed max-w-xl">
+                                {lang === 'ar' 
+                                    ? 'انطلق في رحلة تعليمية تفاعلية. اكتشف، تعلم، وارتقِ بمهاراتك في بيئة ثلاثية الأبعاد مذهلة.'
+                                    : 'Embark on an interactive learning journey. Explore, learn, and level up your skills in a stunning 3D environment.'}
+                            </p>
+
+                            <div className="flex flex-wrap gap-4 pt-2">
+                                <a 
+                                    href="https://vibequest21.vercel.app" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="px-8 py-4 rounded-xl bg-white text-black font-bold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-white/10 flex items-center gap-2"
+                                >
+                                    {lang === 'ar' ? 'ابدأ الرحلة' : 'Start the Quest'}
+                                    <Zap size={20} className={lang === 'ar' ? 'rotate-180' : ''} />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 group-hover:scale-110 transition-transform duration-700" />
+                            {/* Placeholder for visual visual - using a game-like composition */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="text-center space-y-4">
+                                    <div className="w-20 h-20 mx-auto bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(168,85,247,0.3)] animate-bounce">
+                                        <GraduationCap size={40} className="text-white" />
+                                    </div>
+                                    <div className="text-2xl font-bold text-white tracking-widest uppercase">Level Up</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section className="px-4 sm:px-6 pb-12 sm:pb-16 md:pb-20 max-w-7xl mx-auto">
                 <StaggerContainer className={`grid grid-cols-1 sm:grid-cols-2 ${cards.length === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'} gap-4 sm:gap-6 items-stretch`}>
                     {cards.map((card) => (
@@ -64,7 +125,7 @@ const Home = ({ lang }) => {
 
                                 {card.isFeatured && (
                                     <div className="absolute top-3 right-3 px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold rounded-full">
-                                        ⭐ {t.common.gem}
+                                        ⭐ {getText('common.gem')}
                                     </div>
                                 )}
 

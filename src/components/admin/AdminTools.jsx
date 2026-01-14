@@ -27,10 +27,11 @@ const AdminTools = () => {
 
     const fetchTools = async () => {
         setLoading(true);
-        const { data, error } = await supabase.from('tools').select('*').order('created_at', { ascending: false });
+        const { data, error } = await supabase.from('tools').select('*').order('id', { ascending: false });
         if (error) {
             console.error('Error fetching tools:', error);
         } else {
+            console.log('Tools data:', data);
             setTools(data || []);
         }
         setLoading(false);
@@ -151,10 +152,12 @@ const AdminTools = () => {
                         <div className="flex items-center gap-4">
                             <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${tool.color || 'from-gray-700 to-gray-800'}`}></div>
                             <div>
-                                <h3 className="font-bold text-white text-lg mb-1 group-hover:text-purple-400 transition-colors">{tool.name}</h3>
+                                <h3 className="font-bold text-white text-lg mb-1 group-hover:text-purple-400 transition-colors">
+                                    {tool.name || tool.content?.en?.name || 'Untitled Tool'}
+                                </h3>
                                 <p className="text-sm text-zinc-500 font-medium">
                                     <span className="bg-white/5 px-2 py-0.5 rounded text-xs mr-2 border border-white/5">{tool.category}</span>
-                                    {tool.tag_line}
+                                    {tool.tag_line || tool.content?.en?.tag || ''}
                                 </p>
                             </div>
                         </div>

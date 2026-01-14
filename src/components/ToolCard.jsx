@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 import { enhancedCardHover, getAnimationConfig } from '../utils/animations';
 
-const ToolCard = ({ tool, lang }) => {
-    const t = CONTENT[lang];
-    const { id, icon: Icon, color = 'blue', website } = tool;
+const ToolCard = ({ tool }) => {
+    const { lang, getText } = useSiteContent();
+    const { id, icon: Icon, color = 'blue' } = tool;
     const content = tool.content?.[lang] || tool.content?.['en'] || {};
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const cardRef = useRef(null);
@@ -101,7 +102,7 @@ const ToolCard = ({ tool, lang }) => {
                         onClick={(e) => e.stopPropagation()}
                         className="text-[10px] sm:text-xs text-gray-500 font-mono hover:text-purple-400 active:text-purple-400 transition-colors cursor-pointer underline decoration-dotted underline-offset-2"
                     >
-                        {t.cards.freeTier}
+                        {getText('cards.freeTier')}
                     </a>
                 )}
                 {!tool.hasFreeTier && (

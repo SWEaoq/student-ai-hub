@@ -1,7 +1,9 @@
 import React from 'react';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 
-const FilterBar = ({ activeCategory, setActiveCategory, lang }) => {
+const FilterBar = ({ activeCategory, setActiveCategory }) => {
+    const { getText } = useSiteContent();
     const categories = ['all', 'writing', 'coding', 'slides', 'productivity', 'design', 'research'];
 
     return (
@@ -15,7 +17,7 @@ const FilterBar = ({ activeCategory, setActiveCategory, lang }) => {
                             : 'bg-white/5 text-gray-400 border-white/10 hover:bg-white/10 hover:border-white/30'
                         }`}
                 >
-                    {CONTENT[lang].filters[cat]}
+                    {getText(`filters.${cat}`, cat)}
                 </button>
             ))}
         </div>

@@ -1,55 +1,41 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Book } from 'lucide-react';
-import { GUIDES, CONTENT } from '../data/content';
+// import { GUIDES, CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 import FadeIn from '../components/animations/FadeIn';
 import StaggerContainer from '../components/animations/StaggerContainer';
+import { supabase } from '../lib/supabase';
+import { ICON_MAP } from '../lib/iconMap';
 
-const PlaybookDetail = ({ lang }) => {
+const PlaybookDetail = () => {
+  const { lang, getText } = useSiteContent();
   const { id } = useParams();
   const navigate = useNavigate();
-  // Fetch from Supabase or Fallback
+  // Fetch from Supabase
   const [dbGuide, setDbGuide] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    // 1. Try to find in static GUIDES first (if ID matches static IDs like 'uml')
-    const staticGuide = GUIDES.find(g => g.id === id);
-    if (staticGuide) {
-        setDbGuide(staticGuide);
-        setLoading(false);
-        return;
-    }
-
-    // 2. If not found, or if we want to prioritize DB, fetch from Supabase
-    // Note: If we want DB to override static, we should fetch DB first.
-    // Let's try fetching DB.
     const fetchGuide = async () => {
         try {
-            const { data, error } = await import('../lib/supabase').then(m => m.supabase.from('playbooks').select('*').eq('id', id).single());
+            const { data, error } = await supabase.from('playbooks').select('*').eq('id', id).single();
             
             if (error || !data) {
-                // If DB check fails/empty, fallback to static if available
-                if (staticGuide) setDbGuide(staticGuide);
-                else setDbGuide(null);
+                setDbGuide(null);
             } else {
-                // Transform DB data to match component structure
-                // DB structure: title (jsonb), description (jsonb), content (jsonb), image_url, etc.
-                // Component expects: icon (we'll use default), content: { en: { title, desc, steps }, ar: ... }
-                
-                // Construct the object
                 const transformed = {
                     id: data.id,
-                    icon: null, // We'll handle icon fallback in render
+                    icon: ICON_MAP[data.icon_name] || Book, // Map icon
                     content: {
                         en: {
-                            title: data.title?.en || '',
-                            desc: data.description?.en || '',
+                            title: data.content?.en?.title || '',
+                            desc: data.content?.en?.description || '',
                             steps: data.content?.en?.steps || []
                         },
                         ar: {
-                            title: data.title?.ar || '',
-                            desc: data.description?.ar || '',
+                            title: data.content?.ar?.title || '',
+                            desc: data.content?.ar?.description || '',
                             steps: data.content?.ar?.steps || []
                         }
                     }
@@ -58,7 +44,7 @@ const PlaybookDetail = ({ lang }) => {
             }
         } catch (e) {
             console.error(e);
-            if (staticGuide) setDbGuide(staticGuide);
+            setDbGuide(null);
         } finally {
             setLoading(false);
         }
@@ -71,14 +57,13 @@ const PlaybookDetail = ({ lang }) => {
 
   const content = dbGuide.content[lang] || dbGuide.content['en'];
   const GuideIcon = dbGuide.icon || Book;
-  const t = CONTENT[lang];
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       <FadeIn delay={0.1}>
         <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-gray-400 hover:text-white active:text-white mb-6 sm:mb-8 transition-colors min-h-[44px]">
           {lang === 'ar' ? <ArrowRight size={20} /> : <ArrowLeft size={20} />}
-          {t.common.back}
+          {getText('common.back')}
         </button>
       </FadeIn>
 

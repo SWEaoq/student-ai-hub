@@ -72,4 +72,14 @@ export const ICON_MAP = {
   Layout: Layout,
   Cpu: Cpu,
   Palette: Palette,
+  // Added for Academy
+  Smartphone: Smartphone,
+  Globe: Globe,
+  Server: Server,
+  Layers: Layers,
+  GraduationCap: GraduationCap,
+  Briefcase: Briefcase,
+  MessageSquare: MessageSquare,
+  Brain: Brain,
+  User: User,
 };

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { ACADEMY_TUTORIALS, ACADEMY_CATEGORIES, CONTENT } from '../data/content';
+import { ArrowLeft, ArrowRight, CheckCircle2, Smartphone, Code } from 'lucide-react'; // Added likely icons
+import { ACADEMY_CATEGORIES, CONTENT } from '../data/content';
 import FadeIn from '../components/animations/FadeIn';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import CodeBlock from '../components/CodeBlock';
 import Checkpoint from '../components/Checkpoint';
 import ProgressTracker from '../components/ProgressTracker';
+import { supabase } from '../lib/supabase';
+import { ICON_MAP } from '../lib/iconMap';
 
 const AcademyTutorial = ({ lang }) => {
   const { category, stack } = useParams();
@@ -14,10 +16,45 @@ const AcademyTutorial = ({ lang }) => {
   const t = CONTENT[lang];
   const isRTL = lang === 'ar';
 
-  const tutorial = ACADEMY_TUTORIALS[stack];
+  const [tutorial, setTutorial] = useState(null);
+  const [loading, setLoading] = useState(true);
   const categoryData = ACADEMY_CATEGORIES.find(cat => cat.id === category);
 
   const [activeSection, setActiveSection] = useState(null);
+
+  useEffect(() => {
+    const fetchTutorial = async () => {
+        try {
+            setLoading(true);
+            const { data, error } = await supabase
+                .from('academy_tutorials')
+                .select('*')
+                .eq('id', stack)
+                .single();
+
+            if (error) throw error;
+            
+            if (data) {
+                // Map icon name to component
+                const TutorialIcon = ICON_MAP[data.icon_name] || Code;
+                setTutorial({
+                    ...data,
+                    icon: TutorialIcon
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching tutorial:', error);
+            // Fallback to static if needed, or handle error
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    if (stack) {
+        fetchTutorial();
+    }
+  }, [stack]);
+
 
   useEffect(() => {
     // Set first section as active by default
@@ -42,6 +79,14 @@ const AcademyTutorial = ({ lang }) => {
       }
     }
   }, [tutorial, stack]);
+
+  if (loading) {
+      return (
+          <div className="w-full pt-32 pb-12 flex justify-center items-center min-h-[50vh]">
+             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
+          </div>
+      );
+  }
 
   if (!tutorial || !categoryData) {
     return (

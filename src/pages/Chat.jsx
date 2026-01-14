@@ -8,7 +8,7 @@ const Chat = () => {
     const { lang } = useSiteContent();
 
     return (
-        <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-8 flex flex-col h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)]">
+        <div className="w-full max-w-4xl mx-auto px-4 pt-20 md:pt-32 pb-4 flex flex-col min-h-screen">
             {/* Header Section */}
             <div className="mb-6 flex items-center justify-between">
                 <div>

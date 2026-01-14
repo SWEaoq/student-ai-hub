@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { CONTENT } from '../data/content'; // Fallback
+import { CONTENT } from '../data/content'; // Fallback restored
 
 const SiteContentContext = createContext();
 
@@ -44,8 +44,6 @@ export const SiteContentProvider = ({ children }) => {
                 
             } catch (error) {
                 console.error('Error fetching site content:', error);
-                // Fallback to local content is strictly for emergencies, 
-                // but ideally we want to rely on DB.
             } finally {
                 setLoading(false);
             }
@@ -56,7 +54,24 @@ export const SiteContentProvider = ({ children }) => {
 
     // Helper to get text by key and language
     const getText = (key, defaultText = '') => {
-        return settings[key]?.[lang] || defaultText;
+        // 1. Try DB Settings
+        const dbValue = settings[key]?.[lang];
+        if (dbValue) return dbValue;
+
+        // 2. Fallback to Local Content
+        try {
+            const parts = key.split('.');
+            let current = CONTENT[lang];
+            for (const part of parts) {
+                if (current === undefined || current === null) break;
+                current = current[part];
+            }
+            if (current !== undefined && typeof current !== 'object') return current;
+        } catch (e) {
+            console.warn(`Error resolving content for key: ${key}`, e);
+        }
+
+        return defaultText;
     };
 
     return (

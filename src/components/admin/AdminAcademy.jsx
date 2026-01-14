@@ -14,11 +14,12 @@ const AdminAcademy = () => {
 
     const fetchData = async () => {
         setLoading(true);
-        const { data: cats, error: err1 } = await supabase.from('academy_categories').select('*').order('created_at');
-        const { data: tuts, error: err2 } = await supabase.from('academy_tutorials').select('*, academy_categories(id, title)').order('created_at');
+        const { data: cats, error: err1 } = await supabase.from('academy_categories').select('*').order('id');
+        const { data: tuts, error: err2 } = await supabase.from('academy_tutorials').select('*').order('id');
         
         if (err1 || err2) console.error(err1, err2);
         else {
+            console.log('Academy Data:', { cats, tuts });
             setCategories(cats || []);
             setTutorials(tuts || []);
         }
@@ -43,17 +44,27 @@ const AdminAcademy = () => {
             const table = activeSection === 'categories' ? 'academy_categories' : 'academy_tutorials';
             let payload = {};
 
+            const content = {
+                en: {
+                    name: formData.en_title,
+                    description: formData.en_desc
+                },
+                ar: {
+                    name: formData.ar_title,
+                    description: formData.ar_desc
+                }
+            };
+
             if (activeSection === 'categories') {
                 payload = {
                     icon_name: formData.icon_name,
-                    title: { en: formData.en_title, ar: formData.ar_title },
-                    description: { en: formData.en_desc, ar: formData.ar_desc }
+                    content: content
                 };
             } else {
                 payload = {
                     category: formData.category_id,
                     link: formData.link,
-                    title: { en: formData.en_title, ar: formData.ar_title }
+                    content: content
                 };
             }
 
@@ -75,13 +86,13 @@ const AdminAcademy = () => {
 
     useEffect(() => {
         if (editingItem) {
-            const en = editingItem.title?.en;
+            const content = editingItem.content || {};
             setFormData({
                 icon_name: editingItem.icon_name,
-                en_title: editingItem.title?.en,
-                ar_title: editingItem.title?.ar,
-                en_desc: editingItem.description?.en,
-                ar_desc: editingItem.description?.ar,
+                en_title: content.en?.name || (typeof editingItem.title === 'string' ? editingItem.title : editingItem.title?.en),
+                ar_title: content.ar?.name || (typeof editingItem.title === 'string' ? editingItem.title : editingItem.title?.ar),
+                en_desc: content.en?.description || (typeof editingItem.description === 'string' ? editingItem.description : editingItem.description?.en),
+                ar_desc: content.ar?.description || (typeof editingItem.description === 'string' ? editingItem.description : editingItem.description?.ar),
                 category_id: editingItem.category,
                 link: editingItem.link
             });
@@ -89,6 +100,20 @@ const AdminAcademy = () => {
             setFormData({});
         }
     }, [editingItem]);
+
+    const getItemName = (item) => {
+        if (item.content?.en?.name) return item.content.en.name;
+        if (typeof item.title === 'string') return item.title;
+        if (item.title?.en) return item.title.en;
+        return 'Untitled';
+    };
+
+    const getItemDescription = (item) => {
+        if (item.content?.en?.description) return item.content.en.description;
+        if (typeof item.description === 'string') return item.description;
+        if (item.description?.en) return item.description.en;
+        return '';
+    };
 
     return (
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl mt-8">
@@ -122,17 +147,26 @@ const AdminAcademy = () => {
                                     <button onClick={() => handleDelete(cat.id, 'academy_categories')}><Trash2 className="text-red-400 hover:text-red-300" size={16} /></button>
                                 </div>
                             </div>
-                            <h3 className="font-bold text-white mb-1">{cat.title?.en}</h3>
-                            <p className="text-sm text-zinc-400">{cat.description?.en}</p>
+                            <h3 className="font-bold text-white mb-1">
+                                {getItemName(cat)}
+                            </h3>
+                            <p className="text-sm text-zinc-400">
+                                {getItemDescription(cat)}
+                            </p>
                         </div>
                     )) : tutorials.map(tut => (
                          <div key={tut.id} className="bg-white/5 p-4 rounded-xl border border-white/10 group flex items-center gap-4">
                             <div className="bg-blue-500/20 text-blue-400 p-3 rounded-full"><Video size={20} /></div>
                             <div className="flex-1">
-                                <h3 className="font-bold text-white mb-1">{tut.title?.en}</h3>
+                                <h3 className="font-bold text-white mb-1">
+                                    {getItemName(tut)}
+                                </h3>
                                 <a href={tut.link} target="_blank" rel="noreferrer" className="text-xs text-blue-400 hover:underline">{tut.link}</a>
                                 <p className="text-xs text-zinc-500 mt-1">
-                                    In: {categories.find(c => c.id === tut.category)?.title?.en || 'Unknown Category'}
+                                    In: {(() => {
+                                        const cat = categories.find(c => c.id === tut.category);
+                                        return cat ? getItemName(cat) : 'Unknown Category';
+                                    })()}
                                 </p>
                             </div>
                             <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -169,7 +203,7 @@ const AdminAcademy = () => {
                                     <input className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" placeholder="Video Link" value={formData.link || ''} onChange={e => setFormData({...formData, link: e.target.value})} />
                                     <select className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" value={formData.category_id || ''} onChange={e => setFormData({...formData, category_id: e.target.value})} required>
                                         <option value="">Select Category</option>
-                                        {categories.map(c => <option key={c.id} value={c.id}>{c.title?.en}</option>)}
+                                        {categories.map(c => <option key={c.id} value={c.id}>{getItemName(c)}</option>)}
                                     </select>
                                 </>
                              )}

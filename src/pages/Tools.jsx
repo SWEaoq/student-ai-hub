@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 import Hero from '../components/Hero';
 import ToolCard from '../components/ToolCard';
-import { CONTENT } from '../data/content';
+// import { CONTENT } from '../data/content'; // Removed static
+import { useSiteContent } from '../hooks/useSiteContent';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import SearchBar from '../components/ui/SearchBar';
 import EmptyState from '../components/ui/EmptyState';
 import { supabase } from '../lib/supabase';
 import { ICON_MAP } from '../lib/iconMap';
 
-const Tools = ({ lang }) => {
-    // Ensure t is defined with a fallback
-    const t = CONTENT[lang] || CONTENT['en'];
+const Tools = () => {
+    const { lang, getText } = useSiteContent();
     const navigate = useNavigate();
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -100,7 +100,7 @@ const Tools = ({ lang }) => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 md:pt-32">
                 <button onClick={() => navigate(-1)} className="inline-flex items-center text-gray-400 hover:text-white active:text-white mb-6 sm:mb-8 transition-colors min-h-[44px]">
                     <ArrowLeft className={`w-5 h-5 ${isRTL ? 'ml-2 rotate-180' : 'mr-2'}`} />
-                    {t.common.back}
+                    {getText('common.back')}
                 </button>
             </div>
 
@@ -109,6 +109,7 @@ const Tools = ({ lang }) => {
                 setActiveCategory={setActiveCategory}
                 lang={lang}
                 showFilters={true}
+                compact={true}
             />
 
             {/* Tool Grid Section */}
@@ -116,7 +117,7 @@ const Tools = ({ lang }) => {
                 <div className="mb-6 sm:mb-8">
                     <SearchBar
                         onSearch={setSearchQuery}
-                        placeholder={t.common.searchPlaceholder}
+                        placeholder={getText('common.searchPlaceholder')}
                     />
                 </div>
 
@@ -125,14 +126,17 @@ const Tools = ({ lang }) => {
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
                     </div>
                 ) : filteredTools.length > 0 ? (
-                    <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
+                    <StaggerContainer 
+                        key={`${activeCategory}-${searchQuery}`}
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch"
+                    >
                         {filteredTools.map((tool) => (
                             <ToolCard key={tool.id} tool={tool} lang={lang} />
                         ))}
                     </StaggerContainer>
                 ) : (
                     <EmptyState
-                        message={t.common.noResults}
+                        message={getText('common.noResults')}
                     />
                 )}
             </section>
