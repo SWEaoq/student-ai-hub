@@ -1,5 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { MessageSquare, Send, Sparkles, Copy, ExternalLink, Bot, User, Loader2 } from 'lucide-react';
 import { getChatRecommendation } from '../../lib/aiService';
 import { TOOLS } from '../../data/content';
@@ -107,16 +108,24 @@ const ChatInterface = ({ className = "" }) => {
     const [loading, setLoading] = useState(false);
     const [messages, setMessages] = useState([]);
     const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null); // Ref for the scrollable container
     const inputRef = useRef(null);
 
-    // Scroll to bottom
+    // Scroll to bottom logic
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        // Use the container ref to scroll instead of window scroll
+        if (messagesContainerRef.current) {
+            const { scrollHeight, clientHeight } = messagesContainerRef.current;
+            messagesContainerRef.current.scrollTo({
+                top: scrollHeight - clientHeight,
+                behavior: 'smooth'
+            });
+        }
     };
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [messages, loading]);
 
     // Initial greeting
     useEffect(() => {
@@ -181,9 +190,12 @@ const ChatInterface = ({ className = "" }) => {
     };
 
     return (
-        <div className={`flex flex-col h-full bg-[#050505]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden ${className}`}>
+        <div className={`flex flex-col h-full bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl overflow-hidden ${className}`}>
              {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+            <div 
+                ref={messagesContainerRef}
+                className="flex-1 overflow-y-auto p-4 custom-scrollbar scroll-smooth"
+            >
                 {messages.map((msg) => (
                     <MessageBubble key={msg.id} message={msg} lang={lang} />
                 ))}

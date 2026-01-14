@@ -89,7 +89,7 @@ const PlaybookDetail = ({ lang }) => {
           <div className="relative z-10">
             <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
               <div className="p-3 sm:p-4 bg-cyan-500/10 rounded-xl sm:rounded-2xl text-cyan-400">
-                <guide.icon className="w-6 h-6 sm:w-8 sm:h-8" />
+                <GuideIcon className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white">{content.title}</h1>
             </div>

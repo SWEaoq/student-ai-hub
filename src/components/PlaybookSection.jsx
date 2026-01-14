@@ -43,8 +43,9 @@ const PlaybookSection = ({ lang }) => {
           const content = guide.content ? guide.content[lang] : {};
           const Icon = guide.icon || Book;
           
+          
           return (
-            <AnimatedCard key={guide.id} enableHover={true} className="h-full">
+            <AnimatedCard key={guide.id} enableHover={true} className="h-full" initial="visible">
               <Link to={`/playbook/${guide.id}`} className="flex h-full">
                 <div className="bg-gray-900/40 border border-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 relative overflow-hidden group hover:border-cyan-500/30 active:border-cyan-500/30 transition-all h-full flex flex-col w-full">
                 <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-cyan-500/10 rounded-full blur-[40px] sm:blur-[50px] pointer-events-none group-hover:bg-cyan-500/20 transition-all" />
