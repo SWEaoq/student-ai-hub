@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Plus, Trash2, Edit2, Save, X, Database, PenTool } from 'lucide-react';
+import AIGenerator from './AIGenerator';
 
 const GRADIENTS = [
     { label: 'Blue', value: 'from-blue-500 to-blue-700' },
@@ -204,9 +205,114 @@ const AdminTools = () => {
                                      <button type="button" onClick={() => setFormLang('ar')} className={`px-4 py-1.5 rounded-lg text-sm font-medium ${formLang === 'ar' ? 'bg-purple-600' : 'bg-white/5'}`}>Arabic</button>
                                 </div>
                                 <div className="space-y-4">
-                                    <input className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white" placeholder={`Name (${formLang.toUpperCase()})`} value={formData[`${formLang}_name`] || ''} onChange={e => setFormData({...formData, [`${formLang}_name`]: e.target.value})} dir={formLang === 'ar' ? 'rtl' : 'ltr'} />
-                                    <input className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white" placeholder={`Short Tagline (${formLang.toUpperCase()})`} value={formData[`${formLang}_tag`] || ''} onChange={e => setFormData({...formData, [`${formLang}_tag`]: e.target.value})} dir={formLang === 'ar' ? 'rtl' : 'ltr'} />
-                                    <textarea className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white" placeholder={`Description (${formLang.toUpperCase()})`} rows={3} value={formData[`${formLang}_description`] || ''} onChange={e => setFormData({...formData, [`${formLang}_description`]: e.target.value})} dir={formLang === 'ar' ? 'rtl' : 'ltr'} />
+                                    {/* Name Field */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                                            Name ({formLang.toUpperCase()})
+                                        </label>
+                                        <div className="flex gap-2">
+                                            <input 
+                                                className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-white" 
+                                                placeholder={`Enter tool name (${formLang.toUpperCase()})`} 
+                                                value={formData[`${formLang}_name`] || ''} 
+                                                onChange={e => setFormData({...formData, [`${formLang}_name`]: e.target.value})} 
+                                                dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                            />
+                                            {formLang === 'en' && formData.en_name && (
+                                                <AIGenerator
+                                                    type="translation"
+                                                    context={{ text: formData.en_name }}
+                                                    lang="ar"
+                                                    onGenerate={(text) => setFormData({...formData, ar_name: text})}
+                                                    label="🌐"
+                                                    className="shrink-0"
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Tagline Field */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                                            Short Tagline ({formLang.toUpperCase()})
+                                        </label>
+                                        <div className="flex gap-2">
+                                            <input 
+                                                className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-white" 
+                                                placeholder={`Enter tagline (${formLang.toUpperCase()})`} 
+                                                value={formData[`${formLang}_tag`] || ''} 
+                                                onChange={e => setFormData({...formData, [`${formLang}_tag`]: e.target.value})} 
+                                                dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                            />
+                                            <div className="flex gap-2 shrink-0">
+                                                {formLang === 'en' && formData.en_name && (
+                                                    <AIGenerator
+                                                        type="tagline"
+                                                        context={{ 
+                                                            toolName: formData.en_name,
+                                                            description: formData.en_description || ''
+                                                        }}
+                                                        lang="en"
+                                                        onGenerate={(text) => setFormData({...formData, en_tag: text})}
+                                                        label="✨"
+                                                        className="shrink-0"
+                                                    />
+                                                )}
+                                                {formLang === 'en' && formData.en_tag && (
+                                                    <AIGenerator
+                                                        type="translation"
+                                                        context={{ text: formData.en_tag }}
+                                                        lang="ar"
+                                                        onGenerate={(text) => setFormData({...formData, ar_tag: text})}
+                                                        label="🌐"
+                                                        className="shrink-0"
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Description Field */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                                            Description ({formLang.toUpperCase()})
+                                        </label>
+                                        <div className="flex gap-2">
+                                            <textarea 
+                                                className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-white resize-none" 
+                                                placeholder={`Enter description (${formLang.toUpperCase()})`} 
+                                                rows={4} 
+                                                value={formData[`${formLang}_description`] || ''} 
+                                                onChange={e => setFormData({...formData, [`${formLang}_description`]: e.target.value})} 
+                                                dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                            />
+                                            <div className="flex flex-col gap-2 shrink-0">
+                                                {formLang === 'en' && formData.en_name && formData.category && (
+                                                    <AIGenerator
+                                                        type="description"
+                                                        context={{ 
+                                                            toolName: formData.en_name,
+                                                            category: formData.category
+                                                        }}
+                                                        lang="en"
+                                                        onGenerate={(text) => setFormData({...formData, en_description: text})}
+                                                        label="🎯"
+                                                        className="shrink-0"
+                                                    />
+                                                )}
+                                                {formLang === 'en' && formData.en_description && (
+                                                    <AIGenerator
+                                                        type="translation"
+                                                        context={{ text: formData.en_description }}
+                                                        lang="ar"
+                                                        onGenerate={(text) => setFormData({...formData, ar_description: text})}
+                                                        label="🌐"
+                                                        className="shrink-0"
+                                                    />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="p-6 border-t border-white/10 flex justify-end gap-3">

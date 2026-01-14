@@ -17,6 +17,7 @@ const Tools = ({ lang }) => {
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [tools, setTools] = useState([]);
+    const [semanticResults, setSemanticResults] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Predefined gradients for fallback
@@ -66,10 +67,32 @@ const Tools = ({ lang }) => {
         fetchTools();
     }, []);
 
+    const handleSemanticSearch = (results, query) => {
+        if (results && results.length > 0) {
+            setSemanticResults(results);
+        } else {
+            setSemanticResults(null);
+        }
+    };
+
     const filteredTools = useMemo(() => {
         if (!tools) return [];
         
-        // Safely filter by category
+        // If semantic search results are available, use them
+        if (semanticResults && semanticResults.length > 0) {
+            // Filter semantic results by category if needed
+            let filtered = activeCategory === 'all'
+                ? semanticResults
+                : semanticResults.filter(tool => tool.category && tool.category.toLowerCase() === activeCategory.toLowerCase());
+            
+            // Map results to include icon
+            return filtered.map(tool => ({
+                ...tool,
+                icon: ICON_MAP[tool.icon_name] || Sparkles
+            }));
+        }
+        
+        // Fallback to keyword search
         let filtered = activeCategory === 'all'
             ? tools
             : tools.filter(tool => tool.category && tool.category.toLowerCase() === activeCategory.toLowerCase());
@@ -90,7 +113,7 @@ const Tools = ({ lang }) => {
         }
 
         return filtered;
-    }, [activeCategory, searchQuery, lang, tools]);
+    }, [activeCategory, searchQuery, lang, tools, semanticResults]);
 
     const isRTL = lang === 'ar';
 
@@ -114,7 +137,15 @@ const Tools = ({ lang }) => {
             <section className="px-4 sm:px-6 pb-12 sm:pb-16 md:pb-20 max-w-7xl mx-auto">
                 <div className="mb-6 sm:mb-8">
                     <SearchBar
-                        onSearch={setSearchQuery}
+                        onSearch={(value) => {
+                            setSearchQuery(value);
+                            if (!value.trim()) {
+                                setSemanticResults(null);
+                            }
+                        }}
+                        onSemanticSearch={handleSemanticSearch}
+                        enableSemanticSearch={true}
+                        searchType="tool"
                         placeholder={t.common.searchPlaceholder}
                     />
                 </div>

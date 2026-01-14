@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Plus, Trash2, Edit2, Save, X, MessageSquare } from 'lucide-react';
+import AIGenerator from './AIGenerator';
 
 const AdminPrompts = () => {
     const [prompts, setPrompts] = useState([]);
@@ -124,10 +125,108 @@ const AdminPrompts = () => {
                                 <button type="button" onClick={() => setFormLang('ar')} className={`px-3 py-1 rounded text-sm ${formLang === 'ar' ? 'bg-purple-600' : 'bg-white/5'}`}>AR</button>
                             </div>
 
-                            <input className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" placeholder={`Title (${formLang})`} value={formData[`${formLang}_title`] || ''} onChange={e => setFormData({...formData, [`${formLang}_title`]: e.target.value})} dir={formLang === 'ar' ? 'rtl' : 'ltr'} />
-                            <input className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" placeholder="Category" value={formData.category || ''} onChange={e => setFormData({...formData, category: e.target.value})} />
-                            <textarea className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white font-mono" placeholder={`Prompt Text (${formLang})`} value={formData[`${formLang}_text`] || ''} onChange={e => setFormData({...formData, [`${formLang}_text`]: e.target.value})} rows={6} dir={formLang === 'ar' ? 'rtl' : 'ltr'} />
-                            <input className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" placeholder={`Tag (${formLang})`} value={formData[`${formLang}_tag`] || ''} onChange={e => setFormData({...formData, [`${formLang}_tag`]: e.target.value})} dir={formLang === 'ar' ? 'rtl' : 'ltr'} />
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">
+                                    Title ({formLang.toUpperCase()})
+                                </label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        className="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white" 
+                                        placeholder={`Enter title (${formLang})`} 
+                                        value={formData[`${formLang}_title`] || ''} 
+                                        onChange={e => setFormData({...formData, [`${formLang}_title`]: e.target.value})} 
+                                        dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                    />
+                                    {formLang === 'en' && formData.en_title && (
+                                        <AIGenerator
+                                            type="translation"
+                                            context={{ text: formData.en_title }}
+                                            lang="ar"
+                                            onGenerate={(text) => setFormData({...formData, ar_title: text})}
+                                            label="🌐"
+                                            className="shrink-0"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">
+                                    Category
+                                </label>
+                                <input 
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white" 
+                                    placeholder="Category" 
+                                    value={formData.category || ''} 
+                                    onChange={e => setFormData({...formData, category: e.target.value})} 
+                                />
+                            </div>
+                            
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">
+                                    Prompt Text ({formLang.toUpperCase()})
+                                </label>
+                                <div className="flex gap-2">
+                                    <textarea 
+                                        className="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white font-mono resize-none" 
+                                        placeholder={`Enter prompt text (${formLang})`} 
+                                        value={formData[`${formLang}_text`] || ''} 
+                                        onChange={e => setFormData({...formData, [`${formLang}_text`]: e.target.value})} 
+                                        rows={6} 
+                                        dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                    />
+                                    <div className="flex flex-col gap-2 shrink-0">
+                                        {formLang === 'en' && formData.category && formData.en_title && (
+                                            <AIGenerator
+                                                type="prompt"
+                                                context={{ 
+                                                    category: formData.category,
+                                                    title: formData.en_title
+                                                }}
+                                                lang="en"
+                                                onGenerate={(text) => setFormData({...formData, en_text: text})}
+                                                label="🤖"
+                                                className="shrink-0"
+                                            />
+                                        )}
+                                        {formLang === 'en' && formData.en_text && (
+                                            <AIGenerator
+                                                type="translation"
+                                                context={{ text: formData.en_text }}
+                                                lang="ar"
+                                                onGenerate={(text) => setFormData({...formData, ar_text: text})}
+                                                label="🌐"
+                                                className="shrink-0"
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">
+                                    Tag ({formLang.toUpperCase()})
+                                </label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        className="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 text-white" 
+                                        placeholder={`Enter tag (${formLang})`} 
+                                        value={formData[`${formLang}_tag`] || ''} 
+                                        onChange={e => setFormData({...formData, [`${formLang}_tag`]: e.target.value})} 
+                                        dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                    />
+                                    {formLang === 'en' && formData.en_tag && (
+                                        <AIGenerator
+                                            type="translation"
+                                            context={{ text: formData.en_tag }}
+                                            lang="ar"
+                                            onGenerate={(text) => setFormData({...formData, ar_tag: text})}
+                                            label="🌐"
+                                            className="shrink-0"
+                                        />
+                                    )}
+                                </div>
+                            </div>
 
                             <div className="flex justify-end gap-3 pt-4">
                                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-zinc-400">Cancel</button>

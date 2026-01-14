@@ -11,6 +11,7 @@ import AdminNavigation from '../components/admin/AdminNavigation';
 import AdminHome from '../components/admin/AdminHome';
 import AdminAcademy from '../components/admin/AdminAcademy';
 import AdminPlaybook from '../components/admin/AdminPlaybook';
+import AITestButton from '../components/admin/AITestButton';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -63,6 +64,9 @@ const AdminDashboard = () => {
             </nav>
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* AI Connection Test */}
+                <AITestButton />
+                
                 {/* Tabs Navigation */}
                 <div className="flex flex-wrap gap-2 mb-8 border-b border-white/10 pb-4">
                     {tabs.map((tab) => (

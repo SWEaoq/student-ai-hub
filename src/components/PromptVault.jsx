@@ -10,6 +10,7 @@ const PromptVault = ({ lang }) => {
     const t = CONTENT[lang];
     const [searchQuery, setSearchQuery] = useState('');
     const [prompts, setPrompts] = useState([]);
+    const [semanticResults, setSemanticResults] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Fetch prompts from Supabase
@@ -26,7 +27,21 @@ const PromptVault = ({ lang }) => {
         fetchPrompts();
     }, []);
 
+    const handleSemanticSearch = (results, query) => {
+        if (results && results.length > 0) {
+            setSemanticResults(results);
+        } else {
+            setSemanticResults(null);
+        }
+    };
+
     const filteredPrompts = useMemo(() => {
+        // If semantic search results are available, use them
+        if (semanticResults && semanticResults.length > 0) {
+            return semanticResults;
+        }
+        
+        // Fallback to keyword search
         let filtered = prompts;
         if (!searchQuery.trim()) return filtered;
         
@@ -41,7 +56,7 @@ const PromptVault = ({ lang }) => {
                 content.tag?.toLowerCase().includes(query)
             );
         });
-    }, [searchQuery, lang, prompts]);
+    }, [searchQuery, lang, prompts, semanticResults]);
 
     return (
         <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 max-w-7xl mx-auto" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
@@ -55,7 +70,15 @@ const PromptVault = ({ lang }) => {
 
             <div className="mb-6 sm:mb-8">
                 <SearchBar
-                    onSearch={setSearchQuery}
+                    onSearch={(value) => {
+                        setSearchQuery(value);
+                        if (!value.trim()) {
+                            setSemanticResults(null);
+                        }
+                    }}
+                    onSemanticSearch={handleSemanticSearch}
+                    enableSemanticSearch={true}
+                    searchType="prompt"
                     placeholder={lang === 'en' ? 'Search prompts...' : 'ابحث عن الأوامر...'}
                 />
             </div>
