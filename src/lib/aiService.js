@@ -379,15 +379,15 @@ export const getChatRecommendation = async (userQuery, tools, lang = 'en') => {
        - Studying, exams, and academic research
        - Coding and development
        - Productivity and workflow
-    2. REFUSAL: If the user asks about ANY other topic (politics, religion, dating, violence, illegal acts, etc.), you MUST refuse politely by saying:
-       "${lang === 'ar' 
-          ? 'عذراً، أنا متخصص فقط في مساعدتك في دراستك وأدوات الذكاء الاصطناعي.' 
-          : 'I can only assist with educational topics and AI tools.'}"
-    3. LANGUAGE: Detect the language of the User Query. If it is Arabic, your entire JSON response (reasoning and prompt) MUST be in Arabic. If English, use English.
+       - YOURSELF (e.g., "Who are you?", "What is this app?")
+    2. REFUSAL: If the user asks about ANY other topic (politics, religion, dating, violence, illegal acts, etc.), you MUST refuse politely.
+    3. LANGUAGE: Detect the language of the User Query. If it is Arabic, ALL fields in your JSON response (reply, reasoning, prompt) MUST be in Arabic. If English, use English.
 
     TASK:
-    Analyze the User Query and select the SINGLE BEST tool from the "Available Tools" list to solve their problem.
-    Then, write a specific, high-quality prompt that the user can copy and paste into that tool.
+    Analyze the User Query.
+    1. Formulate a friendly, conversational "reply" to the user (answer their question directly or confirm you can help).
+    2. Select the SINGLE BEST tool from the "Available Tools" list to solve their problem.
+    3. Write a specific, high-quality prompt that the user can copy and paste into that tool.
 
     AVAILABLE TOOLS:
     ${JSON.stringify(toolsContext)}
@@ -395,15 +395,16 @@ export const getChatRecommendation = async (userQuery, tools, lang = 'en') => {
     OUTPUT FORMAT:
     Return strictly valid JSON with no markdown formatting:
     {
+      "reply": "A helpful, conversational answer to the user in their language. (e.g. 'I am the Student AI Assistant. For that task, I recommend...')",
       "toolId": "id_of_the_best_tool",
-      "reasoning": "A short, helpful explanation of why this tool is best for this specific task (max 1 sentence).",
-      "usagePrompt": "The actual prompt the user should copy. Make it detailed and fill in placeholders where possible."
+      "reasoning": "A short explanation of why this tool is best (max 1 sentence).",
+      "usagePrompt": "The actual prompt the user should copy."
     }
   `;
 
   const response = await generateContent(systemPrompt + `\n\nUser Query: "${userQuery}"`, { 
-    model: 'gpt-4o-mini',
-    temperature: 0.3, // Lower temp for more consistent logical tool selection
+    model: 'gpt-4o',
+    temperature: 0.3,
     maxTokens: 500
   });
 

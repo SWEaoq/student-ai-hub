@@ -152,7 +152,7 @@ const AIChatAssistant = () => {
             const aiMsg = {
                 id: Date.now() + 1,
                 role: 'assistant',
-                text: null, // No plain text, just the card, or maybe a short intro?
+                text: recommendation.reply, 
                 recipe: {
                     toolName,
                     toolUrl,
