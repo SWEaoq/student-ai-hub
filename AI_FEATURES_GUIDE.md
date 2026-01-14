@@ -2,56 +2,14 @@
 
 ## 🎯 Complete List of AI Features
 
-### 1. **Semantic Search** 🔍
-**What it does:** AI-powered search that understands meaning, not just keywords.
-
-**Where to find it:**
-- `/tools` page - Search bar with sparkle icon
-- `/prompts` page - Search bar with sparkle icon
-
-**How to test:**
-1. Go to `/tools` page
-2. Click the **✨ sparkle icon** in the search bar (enables AI search)
-3. Type something like "code editor" or "help me write"
-4. Results should match based on meaning, not exact keywords
-5. Try searching for "AI assistant" - should find tools related to assistants even if they don't have those exact words
-
-**What to expect:**
-- Search icon turns purple when AI mode is active
-- Loading spinner appears while searching
-- Results are more relevant to your intent
-
----
-
-### 2. **Smart Recommendations** 💡
-**What it does:** Shows similar tools based on AI similarity analysis.
-
-**Where to find it:**
-- `/tool/:id` pages (tool detail pages)
-
-**How to test:**
-1. Go to `/tools` page
-2. Click on any tool to view its detail page
-3. Scroll down - you should see a **"Similar Tools"** section
-4. It shows 3 tools that are semantically similar
-
-**What to expect:**
-- Section appears below the tool details
-- Shows 3 recommended tools
-- Only appears if the tool has embeddings generated
-
-**Note:** Recommendations only work if embeddings have been generated for tools. New tools need embeddings first.
-
----
-
-### 3. **AI Content Generation** ✨
+### 1. **AI Content Generation** ✨
 **What it does:** Generates descriptions, taglines, and translations using AI.
 
 **Where to find it:**
 - Admin Dashboard → **Tools** tab
 - Admin Dashboard → **Prompts** tab
 
-#### 3a. Generate Tool Description
+#### 1a. Generate Tool Description
 **How to test:**
 1. Go to `/admin/dashboard`
 2. Click **Tools** tab
@@ -64,21 +22,21 @@
 7. Wait 2-5 seconds
 8. Description should auto-fill with AI-generated text
 
-#### 3b. Generate Tagline
+#### 1b. Generate Tagline
 **How to test:**
 1. In the same tool form
 2. Make sure you have a tool name filled in
 3. Click **✨** button next to Tagline field
 4. Tagline should auto-generate
 
-#### 3c. Auto-Translate
+#### 1c. Auto-Translate
 **How to test:**
 1. Fill in English name, tagline, or description
 2. Click **🌐** button next to any field
 3. Switch to **Arabic** tab
 4. The Arabic translation should appear automatically
 
-#### 3d. Generate Prompt Text
+#### 1d. Generate Prompt Text
 **How to test:**
 1. Go to **Prompts** tab in admin dashboard
 2. Click **"Add Prompt"**
@@ -97,7 +55,7 @@
 
 ---
 
-### 4. **AI Connection Test** 🧪
+### 2. **AI Connection Test** 🧪
 **What it does:** Tests your OpenAI API connection and diagnoses issues.
 
 **Where to find it:**
@@ -127,19 +85,6 @@
 - [ ] Dev server restarted after adding API key
 - [ ] Logged into admin dashboard
 
-### Test Semantic Search
-- [ ] Go to `/tools` page
-- [ ] Click sparkle icon ✨
-- [ ] Search for "code editor"
-- [ ] Results appear based on meaning
-- [ ] Try `/prompts` page search too
-
-### Test Recommendations
-- [ ] Go to any tool detail page
-- [ ] Scroll to bottom
-- [ ] See "Similar Tools" section
-- [ ] Click on recommended tools
-
 ### Test Content Generation
 - [ ] Admin → Tools → Add New Tool
 - [ ] Generate description (🎯)
@@ -155,23 +100,6 @@
 ---
 
 ## 🐛 Troubleshooting
-
-### Semantic Search Not Working
-**Symptoms:** Sparkle icon doesn't do anything, or shows error
-
-**Fix:**
-1. Check browser console (F12) for errors
-2. Verify API key is set
-3. Check if embeddings exist for your content
-4. Try refreshing the page
-
-### Recommendations Not Showing
-**Symptoms:** No "Similar Tools" section appears
-
-**Fix:**
-1. Tools need embeddings generated first
-2. Check if tool has `embedding` field in database
-3. Generate embeddings for tools (see database setup)
 
 ### Content Generation Fails
 **Symptoms:** Error message when clicking AI buttons
@@ -205,20 +133,12 @@
 2. **Test Content Generation** (1 minute)
    - Admin → Tools → Add Tool → Click 🎯 → Should generate text
 
-3. **Test Semantic Search** (30 seconds)
-   - Go to `/tools` → Click ✨ → Search → Should find results
-
-4. **Test Recommendations** (30 seconds)
-   - Click any tool → Scroll down → Should see similar tools
-
 ---
 
 ## 📊 Feature Status
 
 | Feature | Status | Location | Requires |
 |---------|--------|----------|----------|
-| Semantic Search | ✅ Active | Tools & Prompts pages | API Key + Embeddings |
-| Smart Recommendations | ✅ Active | Tool detail pages | API Key + Embeddings |
 | Content Generation | ✅ Active | Admin panels | API Key |
 | Auto-Translation | ✅ Active | Admin panels | API Key |
 | Connection Test | ✅ Active | Admin dashboard | API Key |
@@ -227,19 +147,17 @@
 
 ## 💡 Pro Tips
 
-1. **Generate embeddings first:** For search and recommendations to work, you need embeddings for your content
-2. **Use test button:** Always test connection before using features
-3. **Check console:** Browser console (F12) shows detailed logs
-4. **Rate limits:** If you hit limits, increase `VITE_AI_MIN_INTERVAL` in `.env`
-5. **Monitor usage:** Check OpenAI dashboard regularly
+1. **Use test button:** Always test connection before using features
+2. **Check console:** Browser console (F12) shows detailed logs
+3. **Rate limits:** If you hit limits, increase `VITE_AI_MIN_INTERVAL` in `.env`
+4. **Monitor usage:** Check OpenAI dashboard regularly
 
 ---
 
 ## 🚀 Next Steps
 
 1. ✅ Test all features using checklist above
-2. ✅ Generate embeddings for existing tools/prompts
-3. ✅ Set up rate limits in `.env` if needed
-4. ✅ Monitor OpenAI usage dashboard
+2. ✅ Set up rate limits in `.env` if needed
+3. ✅ Monitor OpenAI usage dashboard
 
 Enjoy your AI-powered features! 🎉
