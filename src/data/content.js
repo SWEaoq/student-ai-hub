@@ -760,13 +760,13 @@ export const GUIDES = [
         ]
       },
       ar: {
-        title: 'ارسم مخططات UML بثواني',
-        desc: 'لا تضيع وقتك ترسم مربعات. خل الذكاء الاصطناعي يكتب كود الرسمة.',
+        title: 'أنشئ مخططات UML فوراً',
+        desc: 'لا تضيع وقتك في الرسم اليدوي. استخدم الذكاء الاصطناعي لإنشاء المخططات.',
         steps: [
           'افتح ChatGPT أو Claude.',
           'اكتب الأمر: "Generate a Class Diagram for a [E-commerce App] using Mermaid.js syntax."',
-          'انسخ كود الـ Mermaid اللي طلع لك.',
-          'الصقه في موقع Mermaid.live (أداة مجانية) وبيتحول لرسمة فوراً.'
+          'انسخ كود Mermaid الناتج.',
+          'الصقه في موقع Mermaid.live (أداة مجانية) وسيتحول إلى مخطط فوراً.'
         ]
       }
     }
@@ -786,13 +786,13 @@ export const GUIDES = [
         ]
       },
       ar: {
-        title: 'حول ملخصاتك لاختبارات',
-        desc: 'أفضل طريقة للمراجعة هي اختبار نفسك (Active Recall).',
+        title: 'حوّل ملاحظاتك إلى اختبارات',
+        desc: 'أفضل طريقة للمراجعة هي اختبار نفسك (الاسترجاع النشط).',
         steps: [
           'ارفع ملف المحاضرة (PDF) على Claude أو Gemini.',
-          'اكتب الأمر: "سوي لي اختبار صعب من ١٠ أسئلة خيارات متعددة بناءً على الملف، مع الإجابات في النهاية."',
-          'حل الاختبار بدون ما تغش.',
-          'اطلب من AI يشرح لك الأسئلة اللي غلطت فيها.'
+          'اكتب الأمر: "أنشئ لي اختباراً صعباً من ١٠ أسئلة خيارات متعددة بناءً على الملف، مع وضع الإجابات في النهاية."',
+          'حل الاختبار دون النظر إلى الإجابات.',
+          'اطلب من الذكاء الاصطناعي شرح الأسئلة التي تعثرت فيها.'
         ]
       }
     }
@@ -813,12 +813,12 @@ export const GUIDES = [
       },
       ar: {
         title: 'تصحيح الأخطاء المنطقية',
-        desc: 'صلح الكود اللي يشتغل بس يعطيك نتائج غلط.',
+        desc: 'أصلح الكود الذي يعمل ولكن يعطي نتائج خاطئة.',
         steps: [
-          'انسخ الكود حقك.',
-          'اشرح المشكلة: "الكود شغال بس يرجع لي Null وأنا أتوقع Array".',
-          'اكتب الأمر: "تتبع الكود خطوة بخطوة وطلع لي وين المشكلة في المنطق."',
-          'انسخ الحل وعدله في Cursor.'
+          'انسخ جزء الكود الخاص بك.',
+          'اشرح المشكلة: "الكود يعمل ولكن يعيد لي Null بينما أتوقع Array".',
+          'اكتب الأمر: "تتبع الكود خطوة بخطوة واكتشف الخلل المنطقي."',
+          'انسخ الحل وعدله في المحرر.'
         ]
       }
     }
@@ -838,13 +838,13 @@ export const GUIDES = [
         ]
       },
       ar: {
-        title: 'لخص الأوراق العلمية بسرعة',
-        desc: 'حول الأوراق العلمية المعقدة لملخصات سهلة الفهم.',
+        title: 'تلخيص الأوراق العلمية بسرعة',
+        desc: 'حوّل الأوراق العلمية المعقدة إلى ملخصات سهلة الفهم.',
         steps: [
           'ارفع ملف الـ PDF على Claude أو Gemini.',
           'اكتب الأمر: "لخص هذه الورقة في 3 نقاط: المنهجية، النتائج، والتطبيقات."',
-          'اسأل أسئلة متابعة: "اشرح لي [مفهوم معين] بطريقة بسيطة."',
-          'استخدم Perplexity عشان تلقى أوراق مشابهة.'
+          'اسأل أسئلة متابعة: "اشرح لي [مفهوم معين] بطريقة مبسطة."',
+          'استخدم Perplexity للعثور على أوراق مشابهة.'
         ]
       }
     }
@@ -865,14 +865,14 @@ export const GUIDES = [
         ]
       },
       ar: {
-        title: 'اكتب إيميلات باردة تجذب الرد',
-        desc: 'احصل على فرصتك مع إيميلات مخصصة.',
+        title: 'كتابة رسائل بريد احترافية',
+        desc: 'احصل على فرص أفضل مع رسائل مخصصة وجذابة.',
         steps: [
-          'استخدم ChatGPT عشان تسوي هيكل الإيميل.',
-          'اكتب الأمر: "اكتب إيميل بارد لـ [الهدف] أعرض فيه [الخدمة]. خله أقل من 100 كلمة ومخصص."',
-          'استخدم Perplexity عشان تبحث عن أخبار الشركة أو الشخص.',
-          'اطلب من AI يعدل: "خله يبدو أكثر محادثة وأقل تسويق."',
-          'أرسل خلال ساعات العمل (9-11 صباحاً بالتوقيت المحلي).'
+          'استخدم ChatGPT لإنشاء هيكل الرسالة.',
+          'اكتب الأمر: "اكتب رسالة باردة (Cold Email) لـ [الهدف] أعرض فيها [الخدمة]. اجعلها أقل من 100 كلمة ومخصصة."',
+          'استخدم Perplexity للبحث عن أخبار الشركة أو الشخص.',
+          'اطلب من الذكاء الاصطناعي التعديل: "اجعل النبرة أكثر ودية وأقل تسويقاً."',
+          'أرسل الرسالة خلال ساعات العمل (9-11 صباحاً بالتوقيت المحلي).'
         ]
       }
     }
@@ -894,13 +894,13 @@ export const GUIDES = [
       },
       ar: {
         title: 'حسّن سيرتك الذاتية بالذكاء الاصطناعي',
-        desc: 'اجعل سيرتك متوافقة مع أنظمة الفحص وجذابة.',
+        desc: 'اجعل سيرتك متوافقة مع أنظمة الفرز الإلكتروني (ATS) وجذابة.',
         steps: [
           'ارفع سيرتك الذاتية على Claude أو ChatGPT.',
-          'اكتب الأمر: "راجع هذه السيرة لشغل [المسمى الوظيفي]. اقترح تحسينات لـ ATS وركز على المهارات المطلوبة."',
-          'اطلب: "أعد كتابة خبراتي باستخدام أفعال إنجليزية ونتائج قابلة للقياس."',
-          'استخدم Gamma أو ChatGPT عشان تسوي خطاب تغطية متطابق.',
-          'اختبر السيرة مع أداة ATS (أدوات مجانية متوفرة).'
+          'اكتب الأمر: "راجع هذه السيرة لوظيفة [المسمى الوظيفي]. اقترح تحسينات لنظام ATS وركز على المهارات المطلوبة."',
+          'اطلب: "أعد صياغة الخبرات باستخدام أفعال قوية (Action Verbs) ونتائج قابلة للقياس."',
+          'استخدم Gamma أو ChatGPT لإنشاء خطاب تغطية (Cover Letter) مناسب.',
+          'اختبر السيرة باستخدام أدوات فحص ATS المجانية.'
         ]
       }
     }
@@ -921,13 +921,13 @@ export const GUIDES = [
         ]
       },
       ar: {
-        title: 'أنشئ محتوى فيروسي لوسائل التواصل',
-        desc: 'انشئ منشورات جذابة تلامس جمهورك.',
+        title: 'أنشئ محتوى واسع الانتشار',
+        desc: 'أنشئ منشورات جذابة تلقى صدى لدى جمهورك.',
         steps: [
-          'استخدم ChatGPT عشان تسوي عصف ذهني: "اعطني 10 أفكار لمنشورات LinkedIn عن [الموضوع] للجمهور [الجمهور المستهدف]."',
-          'اكتب الأمر: "اكتب thread تويتر (5 تغريدات) عن [الموضوع]. خله جذاب مع hooks وخلاصات واضحة."',
-          'استخدم Gamma عشان تسوي منشورات Carousel بصرية لـ Instagram/LinkedIn.',
-          'اطلب من AI يعدل نفس المحتوى لمواقع مختلفة (نبرة تويتر مختلفة عن LinkedIn).',
+          'استخدم ChatGPT للعصف الذهني: "أعطني 10 أفكار لمنشورات LinkedIn حول [الموضوع] تستهدف [الجمهور]."',
+          'اكتب الأمر: "اكتب سلسلة تغريدات (Thread) من 5 تغريدات عن [الموضوع]. اجعلها جذابة مع بدايات قوية وفوائد واضحة."',
+          'استخدم Gamma لإنشاء منشورات متتابعة (Carousel) بصرية لـ Instagram أو LinkedIn.',
+          'اطلب من الذكاء الاصطناعي تكييف المحتوى للمنصات المختلفة (نبرة Twitter تختلف عن LinkedIn).',
           'جدول المنشورات باستخدام أدوات مجانية مثل Buffer.'
         ]
       }
@@ -950,13 +950,13 @@ export const GUIDES = [
       },
       ar: {
         title: 'أنشئ توثيق للكود',
-        desc: 'سوي توثيق احترافي لمشاريعك.',
+        desc: 'أنشئ توثيقاً احترافياً لمشاريعك البرمجية.',
         steps: [
-          'انسخ الدالة/الكلاس للكود على ChatGPT أو Claude.',
-          'اكتب الأمر: "سوي توثيق شامل لهذا الكود يتضمن: وصف الدالة، المعاملات، القيم المرجعة، وأمثلة استخدام."',
-          'اطلب: "حول هذا لصيغة JSDoc/TypeDoc."',
-          'استخدم التوثيق عشان تسوي README.md للمشروع على GitHub.',
-          'حدّث التوثيق كل ما عدلت الكود.'
+          'انسخ الدالة أو الكلاس (Class) إلى ChatGPT أو Claude.',
+          'اكتب الأمر: "أنشئ توثيقاً شاملاً لهذا الكود يتضمن: وصف الدالة، المعاملات، القيم المرجعة، وأمثلة الاستخدام."',
+          'اطلب: "حول هذا التوثيق لصيغة JSDoc/TypeDoc."',
+          'استخدم التوثيق لإنشاء ملف README.md للمشروع على GitHub.',
+          'حدّث التوثيق عند كل تحديث للكود.'
         ]
       }
     }
@@ -978,13 +978,13 @@ export const GUIDES = [
       },
       ar: {
         title: 'خطط مشروعك من الصفر',
-        desc: 'قسم المشاريع المعقدة لخطوات عملية.',
+        desc: 'قسّم المشاريع المعقدة إلى خطوات عملية قابلة للتنفيذ.',
         steps: [
-          'اشرح فكرة مشروعك لـ ChatGPT: "أبي أبني [فكرة التطبيق] يخدم [المستخدمين المستهدفين]."',
-          'اطلب: "قسم هذا لخارطة طريق خطوة بخطوة مع معالم وقوائم مهام."',
-          'اسأل: "اقترح لي tech stack مع شرح لكل خيار."',
-          'اكتب الأمر: "سوي تصميم قاعدة بيانات لـ [الميزة] مع العلاقات."',
-          'استخدم Notion أو Gamma عشان ترسم الخارطة وتتابع التقدم.'
+          'اشرح فكرة مشروعك لـ ChatGPT: "أريد بناء [فكرة التطبيق] يخدم [المستخدمين المستهدفين]."',
+          'اطلب: "قسم هذا المشروع لخارطة طريق خطوة بخطوة مع معالم رئيسية ومهام محددة."',
+          'اسأل: "اقترح لي حزمة تقنية (Tech Stack) مع شرح أسباب الاختيار."',
+          'اكتب الأمر: "أنشئ تصميم قاعدة بيانات لـ [الميزة] مع توضيح العلاقات."',
+          'استخدم Notion أو Gamma لرسم الخارطة ومتابعة التقدم.'
         ]
       }
     }
@@ -1002,8 +1002,8 @@ export const ACADEMY_CATEGORIES = [
         description: 'Build native and cross-platform mobile apps with Flutter, React Native, and more.',
       },
       ar: {
-        name: 'تطوير التطبيقات',
-        description: 'ابني تطبيقات موبايل محلية ومتعددة المنصات باستخدام Flutter و React Native وغيرها.',
+        name: 'تطوير تطبيقات الجوال',
+        description: 'ابنِ تطبيقات جوال أصلية (Native) وعابرة للمنصات (Cross-platform) باستخدام Flutter و React Native وغيرها.',
       },
     },
     stacks: ['flutter', 'react-native'],
@@ -1018,8 +1018,8 @@ export const ACADEMY_CATEGORIES = [
         description: 'Create stunning web interfaces with React, Vue, Angular, and modern frameworks.',
       },
       ar: {
-        name: 'واجهات الويب',
-        description: 'سوي واجهات ويب رهيبة باستخدام React و Vue و Angular وإطارات العمل الحديثة.',
+        name: 'واجهات الويب (Frontend)',
+        description: 'أنشئ واجهات ويب مذهلة باستخدام React و Vue و Angular وأطر العمل الحديثة.',
       },
     },
     stacks: ['react', 'vue', 'angular'],
@@ -1034,8 +1034,8 @@ export const ACADEMY_CATEGORIES = [
         description: 'Build robust APIs and server-side applications with Node.js, Python, and more.',
       },
       ar: {
-        name: 'تطوير الخوادم',
-        description: 'ابني APIs قوية وتطبيقات الخادم باستخدام Node.js و Python وغيرها.',
+        name: 'تطوير الواجهة الخلفية (Backend)',
+        description: 'ابنِ واجهات برمجة تطبيقات (APIs) وأنظمة خوادم قوية باستخدام Node.js و Python وغيرها.',
       },
     },
     stacks: ['nodejs', 'python-django', 'python-flask'],
@@ -1050,8 +1050,8 @@ export const ACADEMY_CATEGORIES = [
         description: 'End-to-end solutions with Next.js, Remix, SvelteKit, and modern full-stack tools.',
       },
       ar: {
-        name: 'إطارات العمل الكاملة',
-        description: 'حلول شاملة من البداية للنهاية باستخدام Next.js و Remix و SvelteKit وغيرها.',
+        name: 'أطر العمل الشاملة (Full Stack)',
+        description: 'حلول متكاملة من البداية للنهاية باستخدام Next.js و Remix و SvelteKit وغيرها.',
       },
     },
     stacks: ['nextjs', 'remix', 'sveltekit'],
@@ -1073,8 +1073,8 @@ export const ACADEMY_TUTORIALS = {
       },
       ar: {
         name: 'تطوير تطبيقات Flutter',
-        tagline: 'ابني تطبيقات محلية رهيبة لـ iOS و Android',
-        description: 'تعلم Flutter من الصفر وابني أول تطبيق موبايل مع مساعدة الذكاء الاصطناعي. هذا الدليل الشامل يغطي الإعداد، الأساسيات، إدارة الحالة، واستخدام AI لتسريع التطوير.',
+        tagline: 'أنشئ تطبيقات أصلية (Native) رائعة لـ iOS و Android',
+        description: 'تعلم Flutter من الصفر وأنشئ أول تطبيق جوال لك بمساعدة الذكاء الاصطناعي. يغطي هذا الدليل الشامل الإعداد والأساسيات وإدارة الحالة واستخدام الذكاء الاصطناعي لتسريع التطوير.',
       },
     },
     sections: [
@@ -1114,20 +1114,20 @@ export const ACADEMY_TUTORIALS = {
           },
           ar: {
             title: 'الإعداد والتركيب',
-            description: 'ثبت Flutter وجهز بيئة التطوير.',
+            description: 'قم بتثبيت Flutter وتجهيز بيئة التطوير.',
             steps: [
-              'حمّل Flutter SDK من flutter.dev لنظام التشغيل حقك (Windows أو macOS أو Linux)',
-              'استخرج ملف الـ zip وحط Flutter في متغير البيئة PATH',
-              'شغّل `flutter doctor` في الطرفية عشان تتأكد من كل المتطلبات',
-              'ثبت Android Studio (للتطوير على Android) أو Xcode (لـ iOS على macOS)',
-              'شغّل `flutter doctor` مرة ثانية وثبت أي أدوات إضافية يقترحها',
-              'أنشئ أول مشروع Flutter: `flutter create my_first_app`',
-              'انتقل للمشروع: `cd my_first_app`',
-              'شغّل التطبيق: `flutter run` أو استخدم زر التشغيل في الـ IDE',
+              'حمّل Flutter SDK من flutter.dev لنظام التشغيل الخاص بك (Windows أو macOS أو Linux)',
+              'استخرج ملف zip وأضف Flutter إلى متغير البيئة PATH',
+              'شغّل `flutter doctor` في الطرفية للتحقق من أي متطلبات مفقودة',
+              'ثبت Android Studio (لتطوير Android) أو Xcode (لـ iOS على macOS)',
+              'شغّل `flutter doctor` مرة أخرى وثبت أي أدوات إضافية مقترحة',
+              'أنشئ أول مشروع Flutter باستخدام الأمر: `flutter create my_first_app`',
+              'انتقل إلى مجلد المشروع: `cd my_first_app`',
+              'شغّل التطبيق: `flutter run` أو استخدم زر التشغيل في بيئة التطوير (IDE)',
             ],
             codeExamples: [
               {
-                title: 'تحقق من تثبيت Flutter',
+                title: 'التحقق من تثبيت Flutter',
                 code: 'flutter doctor',
                 language: 'bash',
               },
@@ -1138,9 +1138,9 @@ export const ACADEMY_TUTORIALS = {
               },
             ],
             checkpoints: [
-              'Flutter SDK مثبت ومضاف للـ PATH',
-              'flutter doctor ما يطلع أخطاء حرجة',
-              'أول تطبيق Flutter يشتغل بنجاح',
+              'تم تثبيت Flutter SDK وإضافته إلى مسار النظام (PATH)',
+              'الأمر flutter doctor لا يظهر أي مشاكل حرجة',
+              'أول تطبيق Flutter يعمل بنجاح',
             ],
           },
         },
@@ -1226,78 +1226,78 @@ class _CounterState extends State<Counter> {
           },
           ar: {
             title: 'أساسيات Flutter',
-            description: 'فهم الـ Widgets وإدارة الحالة وبنية Flutter.',
+            description: 'فهم العناصر (Widgets) وإدارة الحالة وبنية Flutter.',
             steps: [
-              'افهم إن كل شيء في Flutter هو Widget - الأزرار، النصوص، التخطيطات، كل شيء',
-              'تعلم عن StatelessWidget (ثابت) و StatefulWidget (حالة متغيرة)',
-              'استكشف مفهوم شجرة الـ Widgets: الـ Widgets تتكون من widgets أخرى',
-              'تمرّن على الـ Widgets الأساسية: Text و Container و Column و Row و Scaffold',
-              'تعلم عن Material Design widgets (MaterialApp و AppBar و FloatingActionButton)',
-              'افهم Hot Reload: اضغط `r` في الطرفية أو احفظ الملف عشان تشوف التغييرات فوراً',
-              'سوي أول Widget مخصص بإنك تستخرج widget في كلاس منفصل',
-              'تعلم عن BuildContext و كيف الـ Widgets تصل لسياقها',
+              'افهم أن كل شيء في Flutter هو عبارة عن Widget - الأزرار، النصوص، التخطيطات، كل شيء',
+              'تعلم الفرق بين StatelessWidget (ثابت) و StatefulWidget (حالة متغيرة)',
+              'استكشف مفهوم شجرة العناصر (Widget Tree): العناصر تتكون من عناصر أخرى',
+              'تدرب على العناصر الأساسية: Text و Container و Column و Row و Scaffold',
+              'تعلم عن عناصر تصميم المواد (Material Design) مثل MaterialApp و AppBar و FloatingActionButton',
+              'افهم خاصية إعادة التحميل السريع (Hot Reload): اضغط `r` في الطرفية أو احفظ الملف لرؤية التغييرات فوراً',
+              'أنشئ أول Widget مخصص لك عن طريق استخراج widget إلى كلاس منفصل',
+              'تعلم عن BuildContext وكيف تصل العناصر إلى سياقها',
             ],
             codeExamples: [
               {
                 title: 'هيكل تطبيق Flutter الأساسي',
                 code: `import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My First App',
-      home: Scaffold(
-        appBar: AppBar(title: Text('Hello Flutter')),
-        body: Center(
-          child: Text('Welcome to Flutter!'),
-        ),
-      ),
-    );
-  }
-}`,
+ 
+ void main() {
+   runApp(MyApp());
+ }
+ 
+ class MyApp extends StatelessWidget {
+   @override
+   Widget build(BuildContext context) {
+     return MaterialApp(
+       title: 'My First App',
+       home: Scaffold(
+         appBar: AppBar(title: Text('Hello Flutter')),
+         body: Center(
+           child: Text('Welcome to Flutter!'),
+         ),
+       ),
+     );
+   }
+ }`,
                 language: 'dart',
               },
               {
-                title: 'مثال Stateful Widget',
+                title: 'مثال على Stateful Widget',
                 code: `class Counter extends StatefulWidget {
-  @override
-  _CounterState createState() => _CounterState();
-}
-
-class _CounterState extends State<Counter> {
-  int _count = 0;
-
-  void _increment() {
-    setState(() {
-      _count++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('Count: $_count'),
-        ElevatedButton(
-          onPressed: _increment,
-          child: Text('Increment'),
-        ),
-      ],
-    );
-  }
-}`,
+   @override
+   _CounterState createState() => _CounterState();
+ }
+ 
+ class _CounterState extends State<Counter> {
+   int _count = 0;
+ 
+   void _increment() {
+     setState(() {
+       _count++;
+     });
+   }
+ 
+   @override
+   Widget build(BuildContext context) {
+     return Column(
+       children: [
+         Text('Count: $_count'),
+         ElevatedButton(
+           onPressed: _increment,
+           child: Text('Increment'),
+         ),
+       ],
+     );
+   }
+ }`,
                 language: 'dart',
               },
             ],
             checkpoints: [
-              'أنشأت تطبيق Flutter أساسي مع MaterialApp و Scaffold',
-              'بنت StatefulWidget مع تغييرات حالة شغالة',
-              'فهمت الفرق بين Stateless و Stateful widgets',
+              'تم إنشاء تطبيق Flutter أساسي باستخدام MaterialApp و Scaffold',
+              'تم بناء Stateful Widget تعمل بشكل صحيح',
+              'فهم الفرق بين Stateless و Stateful widgets',
             ],
           },
         },
@@ -1368,63 +1368,63 @@ class TodoItem extends StatelessWidget {
           },
           ar: {
             title: 'استخدام الذكاء الاصطناعي لبناء الميزات',
-            description: 'استخدم أدوات AI مثل Cursor و ChatGPT لتسريع تطوير Flutter.',
+            description: 'استخدم أدوات الذكاء الاصطناعي مثل Cursor و ChatGPT لتسريع تطوير Flutter.',
             steps: [
-              'افتح Cursor (محرر الكود بالـ AI) أو الـ IDE مع مساعدة الذكاء الاصطناعي',
-              'اشرح الميزة اللي تبيها: "سوي شاشة تسجيل دخول مع حقول email و password وزر تسجيل وvalidation"',
-              'خل AI يولد هيكل الـ Widget - راجع وفهم الكود اللي طلع',
-              'اطلب من AI يشرح مفاهيم Flutter المعقدة: "اشرح لي كيف BuildContext يشتغل في Flutter"',
-              'استخدم AI لتصحيح الأخطاء: الصق رسالة الخطأ والكود واطلب الحل',
-              'سوي كود تكامل API: "سوي دالة تجيب بيانات المستخدم من هذا الـ API endpoint"',
-              'اطلب من AI يعيد هيكلة الكود: "خلي هذا الـ Widget قابلة لإعادة الاستخدام واتبع best practices"',
-              'استخدم AI لتوليد اختبارات: "اكتب unit tests لهذا الـ Widget"',
-              'كرّر مع AI: اسأل أسئلة متابعة وصقّل الكود اللي طلع',
+              'افتح Cursor (محرر أكواد مدعوم بالذكاء الاصطناعي) أو بيئة التطوير الخاصة بك مع مساعد الذكاء الاصطناعي',
+              'اشرح الميزة المطلوبة: "أنشئ شاشة تسجيل دخول تحتوي على حقول للبريد الإلكتروني وكلمة المرور، وزر تسجيل، والتحقق من صحة البيانات (Validation)"',
+              'دع الذكاء الاصطناعي يولد هيكل الـ Widget - راجع وافهم الكود الناتج',
+              'اطلب من الذكاء الاصطناعي شرح مفاهيم Flutter المعقدة: "اشرح لي كيفية عمل BuildContext في Flutter"',
+              'استخدم الذكاء الاصطناعي لتصحيح الأخطاء: الصق رسالة الخطأ والكود واطلب الحل',
+              'أنشئ كود تكامل API: "أنشئ دالة لجلب بيانات المستخدم من نقطة الاتصال (API endpoint) هذه"',
+              'اطلب من الذكاء الاصطناعي إعادة هيكلة الكود: "اجعل هذا الـ Widget قابلاً لإعادة الاستخدام واتبع أفضل الممارسات"',
+              'استخدم الذكاء الاصطناعي لتوليد اختبارات: "اكتب اختبارات الوحدات (Unit Tests) لهذا الـ Widget"',
+              'كرر العملية مع الذكاء الاصطناعي: اطرح أسئلة متابعة وحسن الكود الناتج',
             ],
             codeExamples: [
               {
-                title: 'مثال أمر AI لـ Flutter',
-                code: `// اطلب من AI: "سوي Flutter widget لعنصر قائمة مهام مع checkbox ونص وزر حذف"
-
-class TodoItem extends StatelessWidget {
-  final String text;
-  final bool isCompleted;
-  final VoidCallback onToggle;
-  final VoidCallback onDelete;
-
-  TodoItem({
-    required this.text,
-    required this.isCompleted,
-    required this.onToggle,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Checkbox(
-        value: isCompleted,
-        onChanged: (_) => onToggle(),
-      ),
-      title: Text(
-        text,
-        style: TextStyle(
-          decoration: isCompleted ? TextDecoration.lineThrough : null,
-        ),
-      ),
-      trailing: IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: onDelete,
-      ),
-    );
-  }
-}`,
+                title: 'مثال لأمر الذكاء الاصطناعي لـ Flutter',
+                code: `// اطلب من الذكاء الاصطناعي: "أنشئ Flutter widget لعنصر قائمة مهام مع مربع اختيار، نص، وزر حذف"
+ 
+ class TodoItem extends StatelessWidget {
+   final String text;
+   final bool isCompleted;
+   final VoidCallback onToggle;
+   final VoidCallback onDelete;
+ 
+   TodoItem({
+     required this.text,
+     required this.isCompleted,
+     required this.onToggle,
+     required this.onDelete,
+   });
+ 
+   @override
+   Widget build(BuildContext context) {
+     return ListTile(
+       leading: Checkbox(
+         value: isCompleted,
+         onChanged: (_) => onToggle(),
+       ),
+       title: Text(
+         text,
+         style: TextStyle(
+           decoration: isCompleted ? TextDecoration.lineThrough : null,
+         ),
+       ),
+       trailing: IconButton(
+         icon: Icon(Icons.delete),
+         onPressed: onDelete,
+       ),
+     );
+   }
+ }`,
                 language: 'dart',
               },
             ],
             checkpoints: [
-              'استخدمت AI بنجاح لتوليد Flutter widget',
-              'ركبت الكود اللي AI ولده في التطبيق',
-              'استخدمت AI لتصحيح خطأ واحد على الأقل',
+              'تم استخدام الذكاء الاصطناعي بنجاح لتوليد Flutter widget',
+              'تم دمج الكود الذي ولده الذكاء الاصطناعي في التطبيق',
+              'تم استخدام الذكاء الاصطناعي لتصحيح خطأ واحد على الأقل',
             ],
           },
         },
@@ -1444,9 +1444,9 @@ class TodoItem extends StatelessWidget {
         description: 'Master React from the ground up. Learn components, hooks, state management, and how to use AI tools to build features faster.',
       },
       ar: {
-        name: 'تطوير الويب بـ React',
-        tagline: 'ابني تطبيقات ويب حديثة وتفاعلية',
-        description: 'احترف React من الصفر. تعلم الـ Components و Hooks وإدارة الحالة وكيف تستخدم أدوات AI عشان تبني الميزات بسرعة.',
+        name: 'تطوير الويب باستخدام React',
+        tagline: 'أنشئ تطبيقات ويب حديثة وتفاعلية',
+        description: 'احترف React من البداية. تعلم المكونات (Components)، والـ Hooks، وإدارة الحالة، وكيفية استخدام أدوات الذكاء الاصطناعي لبناء الميزات بشكل أسرع.',
       },
     },
     sections: [
@@ -1481,27 +1481,27 @@ class TodoItem extends StatelessWidget {
           },
           ar: {
             title: 'الإعداد والتركيب',
-            description: 'جهز بيئة تطوير React.',
+            description: 'جهز بيئة تطوير React الخاصة بك.',
             steps: [
-              'ثبت Node.js من nodejs.org (النسخة LTS موصى بها)',
-              'تحقق من التثبيت: شغّل `node --version` و `npm --version` في الطرفية',
-              'ثبت محرر كود: VS Code موصى به مع إضافة ES7+ React/Redux',
-              'أنشئ تطبيق React جديد باستخدام Vite: `npm create vite@latest my-react-app -- --template react`',
-              'انتقل للمشروع: `cd my-react-app`',
-              'ثبت التبعيات: `npm install`',
-              'شغّل خادم التطوير: `npm run dev`',
-              'افتح http://localhost:5173 في المتصفح عشان تشوف التطبيق',
+              'ثبت Node.js من موقع nodejs.org (يوصى بإصدار LTS)',
+              'تحقق من التثبيت: شغل `node --version` و `npm --version` في الطرفية',
+              'ثبت محرر أكواد: يوصى بـ VS Code مع إضافة ES7+ React/Redux',
+              'أنشئ تطبيق React جديد باستخدام Vite بالأمر: `npm create vite@latest my-react-app -- --template react`',
+              'انتقل إلى المجلد: `cd my-react-app`',
+              'ثبت المكتبات اللازمة: `npm install`',
+              'شغل خادم التطوير: `npm run dev`',
+              'افتح http://localhost:5173 في المتصفح لرؤية تطبيقك',
             ],
             codeExamples: [
               {
-                title: 'إنشاء تطبيق React مع Vite',
+                title: 'إنشاء تطبيق React باستخدام Vite',
                 code: 'npm create vite@latest my-react-app -- --template react\ncd my-react-app\nnpm install\nnpm run dev',
                 language: 'bash',
               },
             ],
             checkpoints: [
-              'Node.js و npm مثبتين',
-              'تطبيق React منشأ وشغال',
+              'تم تثبيت Node.js و npm',
+              'تطبيق React تم إنشاؤه ويعمل',
               'خادم التطوير يعرض التطبيق في المتصفح',
             ],
           },
@@ -1567,57 +1567,57 @@ function Counter() {
           },
           ar: {
             title: 'أساسيات React',
-            description: 'تعلم الـ Components و JSX و Props وإدارة الحالة.',
+            description: 'تعلم المكونات (Components) و JSX و Props وإدارة الحالة.',
             steps: [
-              'افهم JSX: صيغة JavaScript تشبه HTML بس هي في الواقع JavaScript',
-              'تعلم عن Components: أجزاء UI قابلة لإعادة الاستخدام ترجع JSX',
-              'اتقن Props: البيانات اللي تُمرر من الـ Component الأب للابن',
-              'افهم State: بيانات الـ Component اللي ممكن تتغير (استخدم useState hook)',
-              'تمرّن على Event Handlers: onClick و onChange و onSubmit',
-              'تعلم عن Conditional Rendering: {condition && <Component />}',
-              'افهم Lists و Keys: استخدم map على المصفوفات عشان ترسم القوائم',
-              'تعلم عن useEffect: شغّل كود لما الـ Component يتحمّل أو يتحدّث',
+              'افهم JSX: صيغة تشبه HTML ولكنها في الواقع JavaScript محسن',
+              'تعلم عن المكونات (Components): أجزاء واجهة مستخدم قابلة لإعادة الاستخدام تُرجع JSX',
+              'أتقن الخصائص (Props): البيانات التي تُمرر من المكون الأب إلى الابن',
+              'افهم الحالة (State): بيانات المكون التي يمكن أن تتغير (استخدم useState hook)',
+              'تدرب على معالجات الأحداث (Event Handlers) مثل: onClick و onChange و onSubmit',
+              'تعلم عن العرض الشرطي (Conditional Rendering): {condition && <Component />}',
+              'افهم القوائم والمفاتيح (Lists & Keys): استخدم map على المصفوفات لعرض القوائم',
+              'تعلم عن useEffect: لتشغيل كود عندما يتم تحميل المكون أو تحديثه',
             ],
             codeExamples: [
               {
                 title: 'مكون React أساسي',
                 code: `function Welcome({ name }) {
-  return <h1>Hello, {name}!</h1>;
-}
-
-function App() {
-  return (
-    <div>
-      <Welcome name="Sara" />
-      <Welcome name="Ahmed" />
-    </div>
-  );
-}`,
+   return <h1>Hello, {name}!</h1>;
+ }
+ 
+ function App() {
+   return (
+     <div>
+       <Welcome name="Sara" />
+       <Welcome name="Ahmed" />
+     </div>
+   );
+ }`,
                 language: 'jsx',
               },
               {
-                title: 'مكون مع State',
+                title: 'مكون يستخدم State',
                 code: `import { useState } from 'react';
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-    </div>
-  );
-}`,
+ 
+ function Counter() {
+   const [count, setCount] = useState(0);
+ 
+   return (
+     <div>
+       <p>You clicked {count} times</p>
+       <button onClick={() => setCount(count + 1)}>
+         Click me
+       </button>
+     </div>
+   );
+ }`,
                 language: 'jsx',
               },
             ],
             checkpoints: [
-              'أنشأت functional component مع props',
-              'بنت مكون مع useState hook',
-              'طبّقت event handlers و conditional rendering',
+              'تم إنشاء مكون وظيفي (Functional Component) مع props',
+              'تم بناء مكون يستخدم useState hook',
+              'تم تطبيق معالجات الأحداث والعرض الشرطي',
             ],
           },
         },
@@ -1691,66 +1691,66 @@ function TodoList() {
           },
           ar: {
             title: 'استخدام الذكاء الاصطناعي لبناء الميزات',
-            description: 'سرّع تطوير React بأدوات AI مثل Cursor و ChatGPT و Claude.',
+            description: 'سرّع تطوير React باستخدام أدوات الذكاء الاصطناعي مثل Cursor و ChatGPT و Claude.',
             steps: [
-              'افتح Cursor أو الـ IDE مع تفعيل محادثة AI',
-              'اشرح الـ Component: "سوي React component لبطاقة منتج مع صورة وعنوان وسعر وزر إضافة للسلة"',
-              'خل AI يولد كود الـ Component - راجع الهيكل والـ props',
-              'اطلب من AI يضيف ميزات: "ضيف loading state و error handling لهذا الـ API call"',
-              'استخدم AI لتصحيح الأخطاء: الصق رسالة الخطأ واطرح "وش المشكلة في كود React هذا؟"',
-              'سوي custom hooks: "سوي useFetch hook يتعامل مع loading و error states"',
-              'اطلب best practices: "كيف أقدر أحسّن هذا الـ Component للأداء؟"',
-              'استخدم AI لكتابة اختبارات: "وّل React Testing Library tests لهذا الـ Component"',
-              'أعد الهيكلة مع AI: "خلي هذا الكود أسهل صيانة واتبع React patterns"',
+              'افتح Cursor أو بيئة التطوير الخاصة بك مع تفعيل محادثة الذكاء الاصطناعي',
+              'اشرح المكون المطلوب: "أنشئ React component لبطاقة منتج مع صورة وعنوان وسعر وزر إضافة للسلة"',
+              'دع الذكاء الاصطناعي يولد كود المكون - راجع الهيكل والـ props',
+              'اطلب من الذكاء الاصطناعي إضافة ميزات: "أضف حالة التحميل (loading state) ومعالجة الأخطاء (error handling) لطلب الـ API هذا"',
+              'استخدم الذكاء الاصطناعي لتصحيح الأخطاء: الصق رسالة الخطأ واسأل "ما المشكلة في كود React هذا؟"',
+              'أنشئ خطافات مخصصة (Custom Hooks): "أنشئ useFetch hook يتعامل مع حالات التحميل والأخطاء"',
+              'اطلب أفضل الممارسات: "كيف يمكنني تحسين أداء هذا المكون؟"',
+              'استخدم الذكاء الاصطناعي لكتابة الاختبارات: "ولد اختبارات باستخدام React Testing Library لهذا المكون"',
+              'أعد الهيكلة مع الذكاء الاصطناعي: "اجعل هذا الكود أسهل في الصيانة واتبع أنماط React القياسية"',
             ],
             codeExamples: [
               {
-                title: 'مثال Component من AI',
-                code: `// اطلب من AI: "سوي React component لقائمة مهام مع إضافة وحذف"
-
-import { useState } from 'react';
-
-function TodoList() {
-  const [todos, setTodos] = useState([]);
-  const [input, setInput] = useState('');
-
-  const addTodo = () => {
-    if (input.trim()) {
-      setTodos([...todos, { id: Date.now(), text: input }]);
-      setInput('');
-    }
-  };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  return (
-    <div>
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Add a todo"
-      />
-      <button onClick={addTodo}>Add</button>
-      <ul>
-        {todos.map(todo => (
-          <li key={todo.id}>
-            {todo.text}
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}`,
+                title: 'مثال لمكون مولد بالذكاء الاصطناعي',
+                code: `// اطلب من الذكاء الاصطناعي: "أنشئ React component لقائمة مهام مع وظائف الإضافة والحذف"
+ 
+ import { useState } from 'react';
+ 
+ function TodoList() {
+   const [todos, setTodos] = useState([]);
+   const [input, setInput] = useState('');
+ 
+   const addTodo = () => {
+     if (input.trim()) {
+       setTodos([...todos, { id: Date.now(), text: input }]);
+       setInput('');
+     }
+   };
+ 
+   const deleteTodo = (id) => {
+     setTodos(todos.filter(todo => todo.id !== id));
+   };
+ 
+   return (
+     <div>
+       <input
+         value={input}
+         onChange={(e) => setInput(e.target.value)}
+         placeholder="Add a todo"
+       />
+       <button onClick={addTodo}>Add</button>
+       <ul>
+         {todos.map(todo => (
+           <li key={todo.id}>
+             {todo.text}
+             <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+           </li>
+         ))}
+       </ul>
+     </div>
+   );
+ }`,
                 language: 'jsx',
               },
             ],
             checkpoints: [
-              'استخدمت AI لتوليد React component',
-              'تكاملت الكود من AI في المشروع',
-              'استخدمت AI لتصحيح وتحسين الكود',
+              'تم استخدام الذكاء الاصطناعي لتوليد React component',
+              'تم دمج كود الذكاء الاصطناعي في المشروع',
+              'تم استخدام الذكاء الاصطناعي لتصحيح وتحسين الكود',
             ],
           },
         },

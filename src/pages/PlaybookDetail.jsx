@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Book } from 'lucide-react';
 import { GUIDES, CONTENT } from '../data/content';
 import FadeIn from '../components/animations/FadeIn';
 import StaggerContainer from '../components/animations/StaggerContainer';
@@ -8,12 +8,69 @@ import StaggerContainer from '../components/animations/StaggerContainer';
 const PlaybookDetail = ({ lang }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const guide = GUIDES.find(g => g.id === id);
+  // Fetch from Supabase or Fallback
+  const [dbGuide, setDbGuide] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
+  React.useEffect(() => {
+    // 1. Try to find in static GUIDES first (if ID matches static IDs like 'uml')
+    const staticGuide = GUIDES.find(g => g.id === id);
+    if (staticGuide) {
+        setDbGuide(staticGuide);
+        setLoading(false);
+        return;
+    }
 
-  if (!guide) return <div className="text-white text-center py-20">Guide not found</div>;
+    // 2. If not found, or if we want to prioritize DB, fetch from Supabase
+    // Note: If we want DB to override static, we should fetch DB first.
+    // Let's try fetching DB.
+    const fetchGuide = async () => {
+        try {
+            const { data, error } = await import('../lib/supabase').then(m => m.supabase.from('playbooks').select('*').eq('id', id).single());
+            
+            if (error || !data) {
+                // If DB check fails/empty, fallback to static if available
+                if (staticGuide) setDbGuide(staticGuide);
+                else setDbGuide(null);
+            } else {
+                // Transform DB data to match component structure
+                // DB structure: title (jsonb), description (jsonb), content (jsonb), image_url, etc.
+                // Component expects: icon (we'll use default), content: { en: { title, desc, steps }, ar: ... }
+                
+                // Construct the object
+                const transformed = {
+                    id: data.id,
+                    icon: null, // We'll handle icon fallback in render
+                    content: {
+                        en: {
+                            title: data.title?.en || '',
+                            desc: data.description?.en || '',
+                            steps: data.content?.en?.steps || []
+                        },
+                        ar: {
+                            title: data.title?.ar || '',
+                            desc: data.description?.ar || '',
+                            steps: data.content?.ar?.steps || []
+                        }
+                    }
+                };
+                setDbGuide(transformed);
+            }
+        } catch (e) {
+            console.error(e);
+            if (staticGuide) setDbGuide(staticGuide);
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchGuide();
+  }, [id]);
 
-  const content = guide.content[lang];
+  if (loading) return <div className="text-white text-center py-20">Loading...</div>;
+  if (!dbGuide) return <div className="text-white text-center py-20">Guide not found</div>;
+
+  const content = dbGuide.content[lang] || dbGuide.content['en'];
+  const GuideIcon = dbGuide.icon || Book;
   const t = CONTENT[lang];
 
   return (

@@ -27,6 +27,12 @@ const Navbar = ({ lang, setLang }) => {
                     />
                 </motion.div>
                 <div className="hidden md:flex items-center gap-6">
+                    <a 
+                        href="/chat"
+                        className="text-sm font-medium transition-colors hover:text-purple-400 text-gray-300"
+                    >
+                        {lang === 'ar' ? 'المساعد' : 'Assistant'}
+                    </a>
                     {navigation.map((navItem) => (
                         <a 
                             key={navItem.id} 

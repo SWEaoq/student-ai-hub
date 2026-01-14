@@ -27,6 +27,7 @@ const AcademyTutorial = lazy(() => import('./pages/AcademyTutorial'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const Chat = lazy(() => import('./pages/Chat'));
 
 function AppContent() {
   const { lang, setLang } = useSiteContent();
@@ -46,7 +47,9 @@ function AppContent() {
   }, [lang]);
 
   // Check if current path is admin to conditionally render layout
-  const isAdmin = window.location.pathname.startsWith('/admin');
+  const location = window.location;
+  const isAdmin = location.pathname.startsWith('/admin');
+  const isChatPage = location.pathname === '/chat';
 
   return (
     <div className={`min-h-screen bg-black text-white selection:bg-neon-purple selection:text-white`} style={{ fontFamily: lang === 'ar' ? 'Tajawal, sans-serif' : 'Inter, sans-serif' }}>
@@ -87,6 +90,10 @@ function AppContent() {
                 element={<PageTransition><Prompts lang={lang} /></PageTransition>}
               />
               <Route
+                path="/chat"
+                element={<PageTransition><Chat lang={lang} /></PageTransition>}
+              />
+              <Route
                 path="/tool/:id"
                 element={<PageTransition><ToolDetail lang={lang} /></PageTransition>}
               />
@@ -120,7 +127,7 @@ function AppContent() {
 
         {!isAdmin && <Footer lang={lang} />}
       </div>
-      {!isAdmin && <AIChatAssistant />}
+      {!isAdmin && !isChatPage && <AIChatAssistant />}
       <ScrollToTop />
     </div>
   );
