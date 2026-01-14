@@ -6,7 +6,6 @@ import FadeIn from '../components/animations/FadeIn';
 import StaggerContainer from '../components/animations/StaggerContainer';
 import { supabase } from '../lib/supabase';
 import { ICON_MAP } from '../lib/iconMap';
-import Recommendations from '../components/Recommendations';
 
 const ToolDetail = ({ lang }) => {
     const t = CONTENT[lang];
@@ -141,11 +140,6 @@ const ToolDetail = ({ lang }) => {
                     </div>
                 </div>
             </StaggerContainer>
-
-            {/* Similar Tools Recommendations */}
-            {tool.embedding && (
-                <Recommendations item={tool} type="tool" lang={lang} limit={3} />
-            )}
         </div>
     );
 };

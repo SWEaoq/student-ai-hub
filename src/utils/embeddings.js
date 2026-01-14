@@ -196,29 +196,79 @@ export const findSimilarItems = async (queryEmbedding, type, options = {}) => {
 
     if (error) {
       // Fallback: fetch all and filter client-side (not recommended for large datasets)
-      console.warn('RPC function not available, using fallback method');
-      const { data: allItems } = await supabase
+      console.warn('[Embeddings] RPC function not available, using fallback method');
+      
+      // Fetch all items first, then filter client-side
+      const { data: allItems, error: fetchError } = await supabase
         .from(table)
         .select('*')
-        .not('embedding', 'is', null);
+        .limit(100); // Limit to avoid fetching too much
 
-      if (!allItems) {
+      if (fetchError) {
+        console.error('[Embeddings] Error fetching items:', fetchError);
         return [];
       }
 
+      if (!allItems || allItems.length === 0) {
+        console.warn('[Embeddings] No items found in database');
+        return [];
+      }
+
+      // Filter items that have embeddings (client-side)
+      // Handle both array format and Supabase vector format
+      const itemsWithEmbeddings = allItems.filter(item => {
+        if (!item.embedding) return false;
+        
+        // Check if it's an array
+        if (Array.isArray(item.embedding)) {
+          return item.embedding.length > 0;
+        }
+        
+        // Check if it's a string (Supabase might return it as string)
+        if (typeof item.embedding === 'string') {
+          try {
+            const parsed = JSON.parse(item.embedding);
+            return Array.isArray(parsed) && parsed.length > 0;
+          } catch {
+            return false;
+          }
+        }
+        
+        return false;
+      });
+
+      if (itemsWithEmbeddings.length === 0) {
+        console.warn(`[Embeddings] No items with embeddings found out of ${allItems.length} total items. Generate embeddings first.`);
+        return [];
+      }
+
+      console.log(`[Embeddings] Found ${itemsWithEmbeddings.length} items with embeddings out of ${allItems.length} total`);
+
       // Calculate cosine similarity for each item
-      const results = allItems
+      const results = itemsWithEmbeddings
         .map(item => {
-          if (!item.embedding || item.embedding.length === 0) return null;
           if (excludeId && item.id === excludeId) return null;
 
-          const similarity = cosineSimilarity(queryEmbedding, item.embedding);
+          // Parse embedding if it's a string
+          let embedding = item.embedding;
+          if (typeof embedding === 'string') {
+            try {
+              embedding = JSON.parse(embedding);
+            } catch {
+              return null;
+            }
+          }
+          
+          if (!embedding || !Array.isArray(embedding) || embedding.length === 0) return null;
+
+          const similarity = cosineSimilarity(queryEmbedding, embedding);
           return { ...item, similarity };
         })
         .filter(item => item !== null && item.similarity >= threshold)
         .sort((a, b) => b.similarity - a.similarity)
         .slice(0, limit);
 
+      console.log(`[Embeddings] Found ${results.length} similar items (threshold: ${threshold})`);
       return results;
     }
 

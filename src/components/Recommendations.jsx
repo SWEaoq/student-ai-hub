@@ -22,8 +22,147 @@ const Recommendations = ({ item, type, lang, limit = 4 }) => {
 
     useEffect(() => {
         const fetchRecommendations = async () => {
-            if (!item || !item.embedding) {
+            if (!item) {
                 setLoading(false);
+                return;
+            }
+
+            // Check if embedding exists and is valid
+            let hasValidEmbedding = false;
+            let parsedEmbedding = null;
+            
+            if (item.embedding) {
+                // Try to parse if it's a string
+                if (typeof item.embedding === 'string') {
+                    try {
+                        parsedEmbedding = JSON.parse(item.embedding);
+                    } catch {
+                        parsedEmbedding = null;
+                    }
+                } else if (Array.isArray(item.embedding)) {
+                    parsedEmbedding = item.embedding;
+                }
+                
+                // Validate it's a proper array with numbers
+                if (parsedEmbedding && Array.isArray(parsedEmbedding) && parsedEmbedding.length > 0) {
+                    // Check if it's actually numbers (not empty or invalid)
+                    const isValid = parsedEmbedding.every(val => typeof val === 'number' && !isNaN(val));
+                    if (isValid) {
+                        hasValidEmbedding = true;
+                    }
+                }
+            }
+
+            // If no valid embedding, try to generate one on the fly OR use category fallback
+            if (!hasValidEmbedding) {
+                console.log('[Recommendations] No embedding found for item:', item.id, '- generating on the fly...');
+                try {
+                    const { findSimilarItems } = await import('../utils/embeddings');
+                    const { generateEmbedding } = await import('../lib/aiService');
+                    const { generateAndStoreEmbedding } = await import('../utils/embeddings');
+                    
+                    // Generate embedding on the fly
+                    const content = item.content?.[lang] || item.content?.['en'] || {};
+                    const textToEmbed = [
+                        content.name || item.name || '',
+                        content.description || item.description || '',
+                        content.tag || item.tag_line || '',
+                        item.category || ''
+                    ].filter(Boolean).join(' ');
+                    
+                    if (textToEmbed.trim()) {
+                        console.log('[Recommendations] Generating embedding for:', textToEmbed.substring(0, 50) + '...');
+                        const embedding = await generateEmbedding(textToEmbed);
+                        
+                        // Store embedding for future use (async, don't wait)
+                        generateAndStoreEmbedding(item, type).catch(err => {
+                            console.warn('[Recommendations] Failed to store embedding:', err);
+                        });
+                        
+                        // Find similar items using the generated embedding
+                        console.log('[Recommendations] Finding similar items...');
+                        const results = await findSimilarItems(embedding, type, {
+                            limit: limit + 1,
+                            threshold: 0.4, // Lower threshold since we're generating on the fly
+                            excludeId: item.id,
+                        });
+                        
+                        console.log('[Recommendations] Found', results.length, 'similar items');
+                        
+                        // If no results with embeddings, try category-based fallback
+                        if (results.length === 0) {
+                            console.log('[Recommendations] No embeddings found, trying category-based fallback...');
+                            const { supabase } = await import('../lib/supabase');
+                            const { data: categoryTools } = await supabase
+                                .from(type === 'tool' ? 'tools' : 'prompts')
+                                .select('*')
+                                .eq('category', item.category)
+                                .neq('id', item.id)
+                                .limit(limit);
+                            
+                            if (categoryTools && categoryTools.length > 0) {
+                                const filtered = categoryTools
+                                    .slice(0, limit)
+                                    .map(rec => ({
+                                        ...rec,
+                                        icon: type === 'tool' ? (ICON_MAP[rec.icon_name] || Sparkles) : null,
+                                    }));
+                                console.log('[Recommendations] Found', filtered.length, 'items by category');
+                                setRecommendations(filtered);
+                            } else {
+                                setRecommendations([]);
+                            }
+                        } else {
+                            const filtered = results
+                                .filter(rec => rec.id !== item.id)
+                                .slice(0, limit)
+                                .map(rec => ({
+                                    ...rec,
+                                    icon: type === 'tool' ? (ICON_MAP[rec.icon_name] || Sparkles) : null,
+                                }));
+                            
+                            setRecommendations(filtered);
+                        }
+                    } else {
+                        console.warn('[Recommendations] No text to embed');
+                        setRecommendations([]);
+                    }
+                } catch (err) {
+                    console.error('[Recommendations] Error generating embedding or finding similar:', err);
+                    
+                    // Fallback to category-based recommendations
+                    if (item.category) {
+                        try {
+                            const { supabase } = await import('../lib/supabase');
+                            const { data: categoryItems } = await supabase
+                                .from(type === 'tool' ? 'tools' : 'prompts')
+                                .select('*')
+                                .eq('category', item.category)
+                                .neq('id', item.id)
+                                .limit(limit);
+                            
+                            if (categoryItems && categoryItems.length > 0) {
+                                const categoryFiltered = categoryItems
+                                    .slice(0, limit)
+                                    .map(rec => ({
+                                        ...rec,
+                                        icon: type === 'tool' ? (ICON_MAP[rec.icon_name] || Sparkles) : null,
+                                    }));
+                                console.log('[Recommendations] Using category fallback:', categoryFiltered.length, 'items');
+                                setRecommendations(categoryFiltered);
+                            } else {
+                                setRecommendations([]);
+                            }
+                        } catch (fallbackErr) {
+                            console.error('[Recommendations] Category fallback failed:', fallbackErr);
+                            setRecommendations([]);
+                        }
+                    } else {
+                        setRecommendations([]);
+                    }
+                } finally {
+                    setLoading(false);
+                }
                 return;
             }
 
@@ -31,12 +170,31 @@ const Recommendations = ({ item, type, lang, limit = 4 }) => {
                 setLoading(true);
                 setError(null);
 
+                // Parse embedding if it's a string
+                let embedding = item.embedding;
+                if (typeof embedding === 'string') {
+                    try {
+                        embedding = JSON.parse(embedding);
+                    } catch {
+                        console.warn('[Recommendations] Failed to parse embedding string, generating new one');
+                        // Fall through to generate new embedding
+                        embedding = null;
+                    }
+                }
+
+                // If embedding is still invalid, generate new one
+                if (!embedding || !Array.isArray(embedding) || embedding.length === 0) {
+                    console.log('[Recommendations] Invalid embedding format, generating new one...');
+                    // Fall through to the on-the-fly generation logic below
+                    throw new Error('Invalid embedding format');
+                }
+
                 const results = await findSimilarItems(
-                    item.embedding,
+                    parsedEmbedding,
                     type,
                     {
                         limit: limit + 1, // +1 to account for excluding current item
-                        threshold: 0.6,
+                        threshold: 0.5,
                         excludeId: item.id,
                     }
                 );
@@ -50,17 +208,73 @@ const Recommendations = ({ item, type, lang, limit = 4 }) => {
                         icon: type === 'tool' ? (ICON_MAP[rec.icon_name] || Sparkles) : null,
                     }));
 
-                setRecommendations(filtered);
+                // If no results, try category fallback
+                if (filtered.length === 0 && item.category) {
+                    console.log('[Recommendations] No AI results, trying category fallback...');
+                    const { supabase } = await import('../lib/supabase');
+                    const { data: categoryItems } = await supabase
+                        .from(type === 'tool' ? 'tools' : 'prompts')
+                        .select('*')
+                        .eq('category', item.category)
+                        .neq('id', item.id)
+                        .limit(limit);
+                    
+                    if (categoryItems && categoryItems.length > 0) {
+                        const categoryFiltered = categoryItems
+                            .slice(0, limit)
+                            .map(rec => ({
+                                ...rec,
+                                icon: type === 'tool' ? (ICON_MAP[rec.icon_name] || Sparkles) : null,
+                            }));
+                        setRecommendations(categoryFiltered);
+                    } else {
+                        setRecommendations([]);
+                    }
+                } else {
+                    setRecommendations(filtered);
+                }
             } catch (err) {
                 console.error('Error fetching recommendations:', err);
-                setError(err.message);
+                
+                // If error is about invalid embedding, try category fallback
+                if (err.message.includes('embedding') && item.category) {
+                    console.log('[Recommendations] Embedding error, using category fallback...');
+                    try {
+                        const { supabase } = await import('../lib/supabase');
+                        const { data: categoryItems } = await supabase
+                            .from(type === 'tool' ? 'tools' : 'prompts')
+                            .select('*')
+                            .eq('category', item.category)
+                            .neq('id', item.id)
+                            .limit(limit);
+                        
+                        if (categoryItems && categoryItems.length > 0) {
+                            const categoryFiltered = categoryItems
+                                .slice(0, limit)
+                                .map(rec => ({
+                                    ...rec,
+                                    icon: type === 'tool' ? (ICON_MAP[rec.icon_name] || Sparkles) : null,
+                                }));
+                            setRecommendations(categoryFiltered);
+                        } else {
+                            setRecommendations([]);
+                        }
+                    } catch (fallbackErr) {
+                        console.error('[Recommendations] Category fallback also failed:', fallbackErr);
+                        setError(null); // Don't show error, just show nothing
+                        setRecommendations([]);
+                    }
+                } else {
+                    setError(err.message);
+                    setRecommendations([]);
+                }
             } finally {
                 setLoading(false);
             }
         };
 
         fetchRecommendations();
-    }, [item, type, limit]);
+    }, [item, type, limit, lang]);
 
     if (loading) {
         return (
@@ -83,7 +297,13 @@ const Recommendations = ({ item, type, lang, limit = 4 }) => {
         );
     }
 
-    if (error || recommendations.length === 0) {
+    if (error) {
+        // Log error but don't show to user (silent fail)
+        console.warn('[Recommendations] Error:', error);
+        return null;
+    }
+
+    if (recommendations.length === 0) {
         return null; // Don't show section if no recommendations
     }
 
