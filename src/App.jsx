@@ -28,6 +28,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const Chat = lazy(() => import('./pages/Chat'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
 const AdminToolEditor = lazy(() => import('./pages/AdminToolEditor'));
 const AdminAcademyEditor = lazy(() => import('./pages/AdminAcademyEditor'));
 const AdminPlaybookEditor = lazy(() => import('./pages/AdminPlaybookEditor'));
@@ -126,6 +127,7 @@ function AppContent() {
               <Route path="/admin/playbooks/new" element={<AdminPlaybookEditor />} />
               <Route path="/admin/playbooks/edit/:id" element={<AdminPlaybookEditor />} />
               
+              <Route path="/about" element={<PageTransition><AboutUs /></PageTransition>} />
               <Route
                 path="*"
                 element={<PageTransition><NotFound lang={lang} /></PageTransition>}

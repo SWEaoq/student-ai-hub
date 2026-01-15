@@ -318,19 +318,21 @@ export const generatePlaybookSteps = async (title, category, lang = 'en') => {
     ? `أنشئ خطوات عملية ودراسية لكتيب إرشادي (Playbook) بعنوان "${title}" في قسم "${category}".
        يجب أن تكون الخطوات موجهة للطلاب.
        أرجع النتيجة بصيغة JSON فقط مصفوفة من النصوص (Strings)، كل نص يمثل خطوة كاملة.
+       مهم جداً: لا تقم بترقيم الخطوات. لا تكتب "الخطوة ١" أو "1." في البداية. اكتب نص الخطوة مباشرة.
        مثال:
        [
-         "الخطوة 1: افعل كذا...",
-         "الخطوة 2: ثم افعل كذا..."
+         "افعل كذا...",
+         "ثم افعل كذا..."
        ]
        بدون أي نصوص إضافية أو markdown code blocks.`
     : `Create practical study steps for a Playbook titled "${title}" in the "${category}" category.
        The steps should be student-focused.
        Return the result strictly as a valid JSON array of strings, where each string is a complete step.
+       IMPORTANT: Do NOT number the steps. Do NOT add "Step 1:" or "1." prefixes. Just write the step content.
        Example:
        [
-         "Step 1: Do this...",
-         "Step 2: Then do that..."
+         "Do this...",
+         "Then do that..."
        ]
        Do not include any extra text or markdown code blocks.`;
 

@@ -12,14 +12,7 @@ const AdminPlaybookEditor = () => {
     const [formData, setFormData] = useState({});
     const [formLang, setFormLang] = useState('en');
 
-    // Helper to safely get value from item or content JSONB
-    const getValue = (item, field, lang = 'en') => {
-        if (!item) return '';
-        if (item[field] && typeof item[field] === 'string') return item[field];
-        if (item.content && item.content[field]) return item.content[field];
-        if (item.content && item.content[lang] && item.content[lang][field]) return item.content[lang][field];
-        return '';
-    };
+
 
     useEffect(() => {
         if (id) {
@@ -90,24 +83,34 @@ const AdminPlaybookEditor = () => {
                     title: formData.en_title,
                     description: formData.en_desc,
                     steps: formData.en_steps.map(s => String(s)),
-                    link: formData.link,
-                    image_url: formData.image_url,
-                    category: formData.category
                 },
                 ar: {
                     title: formData.ar_title,
                     description: formData.ar_desc,
                     steps: formData.ar_steps.map(s => String(s)),
-                    link: formData.link,
-                    image_url: formData.image_url,
-                    category: formData.category
-                },
-                link: formData.link,
-                image_url: formData.image_url,
-                category: formData.category
+                }
+            };
+
+            // Helper to slugify text
+            const slugify = (text) => {
+                return text
+                    .toString()
+                    .toLowerCase()
+                    .trim()
+                    .replace(/\s+/g, '-')     // Replace spaces with -
+                    .replace(/[^\w-]+/g, '')  // Remove all non-word chars
+                    .replace(/--+/g, '-')     // Replace multiple - with single -
+                    .replace(/^-+/, '')       // Trim - from start of text
+                    .replace(/-+$/, '');      // Trim - from end of text
             };
 
             const payload = { content };
+            
+            // Generate ID from title if creating new
+            if (!id) {
+                const generatedId = slugify(formData.en_title || 'untitled-playbook-' + Date.now());
+                payload.id = generatedId;
+            }
 
             const query = id 
                 ? supabase.from('playbooks').update(payload).eq('id', id)
@@ -194,58 +197,30 @@ const AdminPlaybookEditor = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-semibold text-zinc-400">Description ({formLang})</label>
-                            <div className="flex gap-2 items-start">
-                                <textarea 
-                                    className="flex-1 bg-black/20 border border-white/10 rounded-xl p-3 text-white focus:ring-2 focus:ring-purple-600 focus:outline-none transition-all resize-none" 
-                                    placeholder={`Description (${formLang})`} 
-                                    value={formData[`${formLang}_desc`] || ''} 
-                                    onChange={e => setFormData({...formData, [`${formLang}_desc`]: e.target.value})} 
-                                    rows={3} 
-                                    dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
-                                />
-                                <div className="flex flex-col gap-2 shrink-0">
-                                    {formLang === 'en' && formData.category && formData[`${formLang}_title`] && (
-                                            <AIGenerator
-                                            type="description"
-                                            context={{ 
-                                                toolName: formData.en_title,
-                                                category: formData.category
-                                            }}
-                                            lang="en"
-                                            onGenerate={(text) => setFormData({...formData, en_desc: text})}
-                                            label="Draft"
-                                            className="shrink-0"
-                                        />
-                                    )}
-                                        <AIGenerator
-                                        type="translation"
-                                        context={{ text: formData[formLang === 'en' ? 'ar_desc' : 'en_desc'] }}
-                                        lang={formLang}
-                                        onGenerate={(text) => setFormData({...formData, [`${formLang}_desc`]: text})}
-                                        disabled={!formData[formLang === 'en' ? 'ar_desc' : 'en_desc']}
-                                        className="shrink-0"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-zinc-400">Image URL</label>
-                                <input className="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-white focus:ring-2 focus:ring-purple-600 focus:outline-none transition-all" placeholder="Image URL" value={formData.image_url || ''} onChange={e => setFormData({...formData, image_url: e.target.value})} />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-zinc-400">Link URL (Optional)</label>
-                                <input className="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-white focus:ring-2 focus:ring-purple-600 focus:outline-none transition-all" placeholder="Link URL" value={formData.link || ''} onChange={e => setFormData({...formData, link: e.target.value})} />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold text-zinc-400">Category</label>
-                                <input className="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-white focus:ring-2 focus:ring-purple-600 focus:outline-none transition-all" placeholder="Category" value={formData.category || ''} onChange={e => setFormData({...formData, category: e.target.value})} />
-                            </div>
-                        </div>
-
-                        {/* Steps Editor */}
+                             <label className="text-sm font-semibold text-zinc-400">Description ({formLang})</label>
+                             <div className="flex gap-2 items-start">
+                                 <textarea 
+                                     className="flex-1 bg-black/20 border border-white/10 rounded-xl p-3 text-white focus:ring-2 focus:ring-purple-600 focus:outline-none transition-all resize-none" 
+                                     placeholder={`Description (${formLang})`} 
+                                     value={formData[`${formLang}_desc`] || ''} 
+                                     onChange={e => setFormData({...formData, [`${formLang}_desc`]: e.target.value})} 
+                                     rows={3} 
+                                     dir={formLang === 'ar' ? 'rtl' : 'ltr'} 
+                                 />
+                                 <div className="flex flex-col gap-2 shrink-0">
+                                         <AIGenerator
+                                         type="translation"
+                                         context={{ text: formData[formLang === 'en' ? 'ar_desc' : 'en_desc'] }}
+                                         lang={formLang}
+                                         onGenerate={(text) => setFormData({...formData, [`${formLang}_desc`]: text})}
+                                         disabled={!formData[formLang === 'en' ? 'ar_desc' : 'en_desc']}
+                                         className="shrink-0"
+                                     />
+                                 </div>
+                             </div>
+                         </div>
+ 
+                         {/* Steps Editor */}
                         <div className="border-t border-white/10 pt-6">
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                                 <h4 className="font-bold text-white flex items-center gap-2">
@@ -257,13 +232,13 @@ const AdminPlaybookEditor = () => {
                                         type="steps"
                                         context={{ 
                                             title: formData[`${formLang}_title`],
-                                            category: formData.category
+                                            category: "General" // Default category since field is removed
                                         }}
                                         lang={formLang}
                                         onGenerate={(steps) => setFormData(prev => ({...prev, [`${formLang}_steps`]: steps}))}
                                         label={formLang === 'ar' ? 'توليد الخطوات AI' : 'Generate Steps (AI)'}
                                         className="w-full md:w-auto"
-                                        disabled={!formData[`${formLang}_title`] || !formData.category}
+                                        disabled={!formData[`${formLang}_title`]}
                                     />
                                     <button type="button" onClick={addStep} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg text-sm font-bold flex-1 md:flex-none whitespace-nowrap transition-colors">
                                         + {formLang === 'en' ? 'Add Step' : 'إضافة خطوة'}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useSiteContent } from '../../hooks/useSiteContent';
 import FadeIn from '../animations/FadeIn';
 import { CONTENT } from '../../data/content';
@@ -22,6 +23,9 @@ const Footer = ({ lang = 'en' }) => {
               {t.common.copyright}
             </p>
             <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-500">
+              <Link to="/about" className="hover:text-white active:text-white transition-colors min-h-[44px] flex items-center">
+                {lang === 'ar' ? 'من نحن' : 'About Us'}
+              </Link>
               <a href="#" className="hover:text-white active:text-white transition-colors min-h-[44px] flex items-center">
                 {t.common.privacy}
               </a>

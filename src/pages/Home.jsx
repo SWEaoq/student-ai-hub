@@ -25,7 +25,12 @@ const Home = () => {
                 if (error) throw error;
 
                 if (data) {
-                    const processedCards = data.map(card => ({
+                    const processedCards = data
+                        .filter(card => {
+                           const enTitle = card.title?.en || card.title;
+                           return enTitle !== 'Start Learning' && enTitle !== 'Academy';
+                        })
+                        .map(card => ({
                         ...card,
                         title: card.title[lang] || card.title['en'],
                         desc: card.description[lang] || card.description['en'],
@@ -114,7 +119,7 @@ const Home = () => {
                             </div>
                             
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
-                                VibeQuest <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">21</span>
+                                VibeQuest
                             </h2>
                             
                             <p className="text-lg text-gray-300 leading-relaxed max-w-xl">

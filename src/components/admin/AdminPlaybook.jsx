@@ -64,29 +64,23 @@ const AdminPlaybook = () => {
             ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {playbooks.map((item) => (
-                        <div key={item.id} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden group hover:bg-white/[0.07] transition-colors">
-                            <div className="h-40 bg-zinc-800 relative">
-                                {getValue(item, 'image_url') ? (
-                                    <img src={getValue(item, 'image_url')} alt="" className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-zinc-600"><Book size={48} /></div>
-                                )}
-                                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 p-1 rounded-lg">
+                        <div key={item.id} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden group hover:bg-white/[0.07] transition-colors flex flex-col">
+                            <div className="p-6 flex flex-col flex-1 relative">
+                                <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 p-1 rounded-lg">
                                     <button onClick={() => navigate(`/admin/playbooks/edit/${item.id}`)} className="text-white hover:text-purple-400 p-1"><Edit2 size={16} /></button>
                                     <button onClick={() => handleDelete(item.id)} className="text-red-400 hover:text-red-300 p-1"><Trash2 size={16} /></button>
                                 </div>
-                            </div>
-                            <div className="p-4">
-                                <span className="text-xs font-bold text-emerald-400 mb-1 block uppercase tracking-wider">
-                                    {getValue(item, 'category') || 'Uncategorized'}
-                                </span>
-                                <h3 className="font-bold text-white mb-2 line-clamp-1">
-                                    {getValue(item, 'title', 'en') || 'Untitled'}
-                                </h3>
-                                <p className="text-sm text-zinc-400 line-clamp-2">
+                                <div className="mb-4">
+                                     <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-400 mb-4">
+                                        <Book size={20} />
+                                     </div>
+                                    <h3 className="font-bold text-white text-lg mb-2">
+                                        {getValue(item, 'title', 'en') || 'Untitled'}
+                                    </h3>
+                                </div>
+                                <p className="text-sm text-zinc-400 line-clamp-3 mb-4 flex-1">
                                     {getValue(item, 'description', 'en')}
                                 </p>
-                                <a href={getValue(item, 'link')} target="_blank" rel="noreferrer" className="mt-3 block text-purple-400 text-xs hover:underline">View Playbook &rarr;</a>
                             </div>
                         </div>
                     ))}

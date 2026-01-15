@@ -93,9 +93,7 @@ const Academy = () => {
                     <span className="text-xs sm:text-sm text-gray-500">
                       {category.stacks?.length || 0} {lang === 'ar' ? 'تقنيات متاحة' : 'stacks available'}
                     </span>
-                    <span className={`text-sm font-medium bg-gradient-to-r ${category.color || 'from-purple-500 to-pink-500'} bg-clip-text text-transparent group-hover:translate-x-1 transition-transform`}>
-                      {lang === 'ar' ? 'ابدأ التعلم →' : 'Start Learning →'}
-                    </span>
+{/* Start Learning removed */}
                   </div>
                 </Link>
               </AnimatedCard>
