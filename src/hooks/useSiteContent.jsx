@@ -81,7 +81,16 @@ export const SiteContentProvider = ({ children }) => {
 
         // 2. Fallback to Local Content
         try {
-            const parts = key.split('.');
+            const keyMap = {
+                hero_title_1: 'hero.title1',
+                hero_title_1_accent: 'hero.title1_accent',
+                hero_title_2: 'hero.title2',
+                hero_title_2_accent: 'hero.title2_accent',
+                hero_subtitle: 'hero.subtitle',
+                footer_text: 'footer.text'
+            };
+            const resolvedKey = keyMap[key] || key;
+            const parts = resolvedKey.split('.');
             let current = CONTENT[lang];
             for (const part of parts) {
                 if (current === undefined || current === null) break;
