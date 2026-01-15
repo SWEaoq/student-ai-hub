@@ -4,8 +4,16 @@ import { CONTENT } from '../data/content'; // Fallback restored
 
 const SiteContentContext = createContext();
 
+const resolveInitialLang = () => {
+    if (typeof window === 'undefined') return 'en';
+    const stored = window.localStorage.getItem('aihub_lang');
+    if (stored === 'en' || stored === 'ar') return stored;
+    const browserLang = window.navigator?.language || '';
+    return browserLang.toLowerCase().startsWith('ar') ? 'ar' : 'en';
+};
+
 export const SiteContentProvider = ({ children }) => {
-    const [lang, setLang] = useState('en');
+    const [lang, setLang] = useState(resolveInitialLang);
     const [settings, setSettings] = useState({});
     const [navigation, setNavigation] = useState([]);
     const [tools, setTools] = useState([]); // Add tools state
@@ -59,6 +67,11 @@ export const SiteContentProvider = ({ children }) => {
 
         fetchGlobalContent();
     }, []);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        window.localStorage.setItem('aihub_lang', lang);
+    }, [lang]);
 
     // Helper to get text by key and language
     const getText = (key, defaultText = '') => {
