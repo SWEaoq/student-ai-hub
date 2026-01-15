@@ -232,7 +232,8 @@ const AdminPlaybookEditor = () => {
                                         type="steps"
                                         context={{ 
                                             title: formData[`${formLang}_title`],
-                                            category: "General" // Default category since field is removed
+                                            category: "General", // Default category since field is removed
+                                            description: formData[`${formLang}_desc`]
                                         }}
                                         lang={formLang}
                                         onGenerate={(steps) => setFormData(prev => ({...prev, [`${formLang}_steps`]: steps}))}

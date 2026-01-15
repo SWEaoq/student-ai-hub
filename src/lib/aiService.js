@@ -313,10 +313,14 @@ export const generateToolDescription = async (toolName, category, lang = 'en') =
  * @param {string} lang - Language ('en' or 'ar')
  * @returns {Promise<Array>} Array of steps { title, content }
  */
-export const generatePlaybookSteps = async (title, category, lang = 'en') => {
+export const generatePlaybookSteps = async (title, category, description = '', lang = 'en') => {
   const prompt = lang === 'ar'
-    ? `أنشئ خطوات عملية ودراسية لكتيب إرشادي (Playbook) بعنوان "${title}" في قسم "${category}".
-       يجب أن تكون الخطوات موجهة للطلاب.
+    ? `أنشئ خطوات قصيرة وفعّالة لكتيب إرشادي بعنوان "${title}" في قسم "${category}".
+       الوصف: "${description}"
+       الهدف: خطوات تعتمد على استخدام أدوات الذكاء الاصطناعي نفسها، وليس نصائح عامة.
+       إذا كان الوصف يذكر أداة محددة (مثل ChatGPT)، اجعل الخطوات تركز على استخدامها مباشرة.
+       اجعل الخطوات قليلة (3 إلى 5) ومباشرة وقابلة للتنفيذ.
+       تجنب نصائح الكتابة التقليدية أو العمل اليدوي الطويل.
        أرجع النتيجة بصيغة JSON فقط مصفوفة من النصوص (Strings)، كل نص يمثل خطوة كاملة.
        مهم جداً: لا تقم بترقيم الخطوات. لا تكتب "الخطوة ١" أو "1." في البداية. اكتب نص الخطوة مباشرة.
        مثال:
@@ -325,8 +329,12 @@ export const generatePlaybookSteps = async (title, category, lang = 'en') => {
          "ثم افعل كذا..."
        ]
        بدون أي نصوص إضافية أو markdown code blocks.`
-    : `Create practical study steps for a Playbook titled "${title}" in the "${category}" category.
-       The steps should be student-focused.
+    : `Create short, effective steps for a Playbook titled "${title}" in the "${category}" category.
+       Description: "${description}"
+       Goal: steps must focus on using AI tools directly, not generic advice.
+       If the description mentions a specific tool (e.g., ChatGPT), make the steps centered on using it.
+       Keep it concise (3 to 5 steps), direct, and actionable.
+       Avoid traditional writing tips or long manual work.
        Return the result strictly as a valid JSON array of strings, where each string is a complete step.
        IMPORTANT: Do NOT number the steps. Do NOT add "Step 1:" or "1." prefixes. Just write the step content.
        Example:

@@ -116,7 +116,7 @@ const AIGenerator = ({
                     }
                     // For steps, we return the object/array directly, not just text
                     generatedText = await import('../../lib/aiService').then(m => 
-                        m.generatePlaybookSteps(context.title, context.category, lang)
+                        m.generatePlaybookSteps(context.title, context.category, context.description, lang)
                     );
                     break;
 
