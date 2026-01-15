@@ -42,7 +42,7 @@ const AIChatAssistant = () => {
                                 <div className="flex items-center gap-2">
                                     <Sparkles className="text-purple-400" size={18} />
                                     <h3 className="font-bold text-white text-sm">
-                                        {lang === 'ar' ? 'مساعد الذكاء الاصطناعي' : 'Student AI Guide'}
+                                        {lang === 'ar' ? 'مساعد الذكاء الاصطناعي' : 'AI Guide'}
                                     </h3>
                                 </div>
                                 <button 

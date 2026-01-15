@@ -1,13 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react'; // ExternalLink removed if not used, but wait, check if I need to remove the line or edit it. 
+// Actually, ExternalLink is the only import from 'lucide-react' in that file?
+// Checking file content from Step 17...
+// line 4: import { ExternalLink } from 'lucide-react';
+// Yes. So I can remove the whole line.
 // import { CONTENT } from '../data/content'; // Removed static
 import { useSiteContent } from '../hooks/useSiteContent';
 import { enhancedCardHover, getAnimationConfig } from '../utils/animations';
 
 const ToolCard = ({ tool }) => {
-    const { lang, getText } = useSiteContent();
+    const { lang } = useSiteContent();
     const { id, icon: Icon, color = 'blue' } = tool;
     const content = tool.content?.[lang] || tool.content?.['en'] || {};
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -93,29 +97,7 @@ const ToolCard = ({ tool }) => {
                 </p>
             </div>
 
-            <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-white/5 flex justify-between items-center bg-black/20 mt-auto relative z-10">
-                {tool.hasFreeTier && (
-                    <a
-                        href={tool.studentLink || tool.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-[10px] sm:text-xs text-gray-500 font-mono hover:text-purple-400 active:text-purple-400 transition-colors cursor-pointer underline decoration-dotted underline-offset-2"
-                    >
-                        {getText('cards.freeTier')}
-                    </a>
-                )}
-                {!tool.hasFreeTier && (
-                    <span className="text-[10px] sm:text-xs text-gray-600 font-mono">Premium</span>
-                )}
-                <motion.div 
-                    className="text-white hover:text-purple-400 active:text-purple-400 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
-                    whileHover={{ scale: 1.2, rotate: 15 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    <ExternalLink size={18} className="sm:w-4 sm:h-4" />
-                </motion.div>
-            </div>
+
         </Link>
         </motion.div>
     );

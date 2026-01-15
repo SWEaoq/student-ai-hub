@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Terminal, MessageSquare, Sparkles } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Terminal, MessageSquare, Sparkles, Copy, Check } from 'lucide-react';
 // import { CONTENT } from '../data/content'; // Removed static
 import { useSiteContent } from '../hooks/useSiteContent';
 import FadeIn from '../components/animations/FadeIn';
@@ -14,6 +14,14 @@ const ToolDetail = () => {
     const navigate = useNavigate();
     const [tool, setTool] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [copiedIndex, setCopiedIndex] = useState(null);
+
+    const handleCopy = (text, index) => {
+        if (!text) return;
+        navigator.clipboard.writeText(text);
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+    };
 
     useEffect(() => {
         const fetchTool = async () => {
@@ -56,8 +64,9 @@ const ToolDetail = () => {
 
     const isRTL = lang === 'ar';
     const content = tool.content?.[lang] || tool.content?.['en'] || {};
-    const installation = tool.installation?.[lang] || tool.installation?.['en'] || '';
-    const prompts = tool.examplePrompts || [];
+    // Fallback order: 1. content field (new schema), 2. root legacy field
+    const installation = content.installation || tool.installation?.[lang] || tool.installation?.['en'] || '';
+    const prompts = content.examplePrompts || tool.examplePrompts || [];
 
     // Fallback for color if it's a tailwind class string
     const gradientColor = (tool.color && tool.color.includes('from-')) 
@@ -87,19 +96,9 @@ const ToolDetail = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                        {tool.hasFreeTier && (
-                            <a
-                                href={tool.studentLink || tool.website}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 active:bg-purple-700 transition-transform hover:scale-105 active:scale-95 min-h-[44px] w-full sm:w-auto justify-center`}
-                            >
-                                {getText('common.getFreeTier')}
-                                <ExternalLink className="w-4 h-4" />
-                            </a>
-                        )}
+
                         <a
-                            href={tool.website}
+                            href={tool.url || tool.website}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-white text-black rounded-full font-bold hover:bg-gray-200 active:bg-gray-200 transition-transform hover:scale-105 active:scale-95 min-h-[44px] w-full sm:w-auto justify-center`}
@@ -130,12 +129,29 @@ const ToolDetail = () => {
                         <h2 className="text-xl sm:text-2xl font-bold">{getText('common.examplePrompts')}</h2>
                     </div>
                     <div className="space-y-3 sm:space-y-4 flex-grow">
-                        {prompts.length > 0 ? prompts.map((item, index) => (
-                            <div key={index} className="group p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/10 border border-white/5 transition-all cursor-pointer">
-                                <h3 className="text-neon-purple font-bold mb-1 sm:mb-2 text-xs sm:text-sm uppercase tracking-wider">{item.title?.[lang] || item.title?.['en'] || 'Prompt'}</h3>
-                                <p className="text-gray-300 text-xs sm:text-sm">{item.prompt?.[lang] || item.prompt?.['en'] || ''}</p>
-                            </div>
-                        )) : (
+                        {prompts.length > 0 ? prompts.map((item, index) => {
+                            const getVal = (val) => {
+                                if (!val) return '';
+                                if (typeof val === 'string') return val;
+                                return val[lang] || val['en'] || '';
+                            };
+                            const promptText = getVal(item.prompt);
+                            const isCopied = copiedIndex === index;
+                            
+                            return (
+                                <div 
+                                    key={index} 
+                                    onClick={() => handleCopy(promptText, index)}
+                                    className="group relative p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/10 border border-white/5 transition-all cursor-pointer"
+                                >
+                                    <div className="absolute top-3 right-3 p-1.5 rounded-md bg-white/10 text-gray-400 opacity-0 group-hover:opacity-100 transition-all">
+                                        {isCopied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
+                                    </div>
+                                    <h3 className="text-neon-purple font-bold mb-1 sm:mb-2 text-xs sm:text-sm uppercase tracking-wider">{getVal(item.title) || 'Prompt'}</h3>
+                                    <p className="text-gray-300 text-xs sm:text-sm">{promptText}</p>
+                                </div>
+                            );
+                        }) : (
                             <p className="text-gray-500 italic">No example prompts available.</p>
                         )}
                     </div>

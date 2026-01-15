@@ -300,10 +300,50 @@ export const findSimilar = async (queryEmbedding, table, options = {}) => {
  */
 export const generateToolDescription = async (toolName, category, lang = 'en') => {
   const prompt = lang === 'ar'
-    ? `اكتب وصفًا مختصرًا وجذابًا لأداة AI اسمها "${toolName}" في فئة "${category}". يجب أن يكون الوصف بالعربية، واضحًا، ومفيدًا للطلاب. (حد أقصى 150 كلمة)`
-    : `Write a concise and engaging description for an AI tool named "${toolName}" in the "${category}" category. The description should be clear, helpful for students, and highlight key features. (Maximum 150 words)`;
+    ? `اكتب وصفاً عملياً ومختصراً جداً لأداة الذكاء الاصطناعي "${toolName}" في فئة "${category}". الشروط: سطرين كحد أقصى. ممنوع استخدام لغة تسويقية أو مبالغات. ممنوع القوائم. ركز فقط على وظيفة الأداة.`
+    : `Write a strictly factual, concise description for an AI tool named "${toolName}" in the "${category}" category. Constraints: Maximum 2 lines. NO promotional language or fluff. NO bullet points. Focus only on what it does.`;
 
   return await generateContent(prompt, { maxTokens: 200 });
+};
+
+/**
+ * Generate steps for a playbook
+ * @param {string} title - Title of the playbook
+ * @param {string} category - Category of the playbook
+ * @param {string} lang - Language ('en' or 'ar')
+ * @returns {Promise<Array>} Array of steps { title, content }
+ */
+export const generatePlaybookSteps = async (title, category, lang = 'en') => {
+  const prompt = lang === 'ar'
+    ? `أنشئ خطوات عملية ودراسية لكتيب إرشادي (Playbook) بعنوان "${title}" في قسم "${category}".
+       يجب أن تكون الخطوات موجهة للطلاب.
+       أرجع النتيجة بصيغة JSON فقط مصفوفة من النصوص (Strings)، كل نص يمثل خطوة كاملة.
+       مثال:
+       [
+         "الخطوة 1: افعل كذا...",
+         "الخطوة 2: ثم افعل كذا..."
+       ]
+       بدون أي نصوص إضافية أو markdown code blocks.`
+    : `Create practical study steps for a Playbook titled "${title}" in the "${category}" category.
+       The steps should be student-focused.
+       Return the result strictly as a valid JSON array of strings, where each string is a complete step.
+       Example:
+       [
+         "Step 1: Do this...",
+         "Step 2: Then do that..."
+       ]
+       Do not include any extra text or markdown code blocks.`;
+
+  const response = await generateContent(prompt, { maxTokens: 1000, temperature: 0.7 });
+  
+  try {
+    const cleanJson = response.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(cleanJson);
+  } catch (e) {
+    console.error("Failed to parse playbook steps:", e);
+    // Return a fallback single step so the UI doesn't crash
+    return [{ title: lang === 'ar' ? "خطوة مولدة" : "Generated Step", content: response }];
+  }
 };
 
 /**
@@ -355,6 +395,28 @@ export const generatePromptText = async (category, title, lang = 'en') => {
 };
 
 /**
+ * Generate a Lucide icon name suggestion
+ * @param {string} name - Name of the item
+ * @param {string} description - Description of the item
+ * @returns {Promise<string>} Generated icon name
+ */
+export const generateIconSuggestion = async (name, description) => {
+  const prompt = `Based on the following item name and description, suggest a SINGLE, suitable Lucide icon name.
+  
+  Item Name: "${name}"
+  Description: "${description}"
+  
+  Popular Lucide Icons: Zap, Book, GraduationCap, Code, PenTool, Database, Brain, Rocket, Lightbulb, Search, MessageCircle, FileText, Image, Video, Music, Calendar, Clock, User, Users, Settings, Tool, Wrench, Briefcase, DollarSign, Calculator, Globe, Map, Compass, Camera, Mic, Speaker, Heart, Star, Flag, Check, X, Plus, Minus, Info, Help, AlertTriangle, Shield, Lock, Unlock, Key, Trash, Edit, Save, Share, Link, ExternalLink, Download, Upload, Copy, Printer, Eye, EyeOff, Layout, Grid, List, Menu, Home, ArrowRight, ArrowLeft, ArrowUp, ArrowDown, ChevronRight, ChevronLeft, ChevronUp, ChevronDown.
+  
+  Return ONLY the icon name (e.g., "Zap" or "GraduationCap"). No extra text, no markdown.`;
+  
+  const icon = await generateContent(prompt, { maxTokens: 10, temperature: 0.3 });
+  
+  // Clean up result just in case
+  return icon.replace(/[^a-zA-Z]/g, '').trim();
+};
+
+/**
  * Get tool recommendation and prompt based on user chat
  * @param {string} userQuery - The user's question or request
  * @param {Array} tools - List of available tools
@@ -371,35 +433,46 @@ export const getChatRecommendation = async (userQuery, tools, lang = 'en') => {
   }));
 
   const systemPrompt = `
-    You are a specialized AI assistant for "Student AI Hub", an educational platform.
+    You are a specialized AI assistant for "Student AI Hub".
     
-    CRITICAL SAFETY & SCOPE INSTRUCTIONS:
-    1. SCOPE: You are ONLY allowed to answer questions related to:
-       - AI tools and software
-       - Studying, exams, and academic research
-       - Coding and development
-       - Productivity and workflow
-       - YOURSELF (e.g., "Who are you?", "What is this app?")
-    2. REFUSAL: If the user asks about ANY other topic (politics, religion, dating, violence, illegal acts, etc.), you MUST refuse politely.
-    3. LANGUAGE: Detect the language of the User Query. If it is Arabic, ALL fields in your JSON response (reply, reasoning, prompt) MUST be in Arabic. If English, use English.
+    CRITICAL INSTRUCTIONS:
+    1. SCOPE: Answer questions about AI tools, coding, studying, and productivity. Refuse off-topic queries politely.
+    2. LANGUAGE: The user's interface language is "${lang}". If "${lang}" is "ar", EVERYTHING must be in Arabic. Otherwise, English.
+    
+    RECOMMENDATION LOGIC:
+    - Analyze the user's request.
+    - Select the best tool from the "AVAILABLE TOOLS" list below.
+    - If the user asks about building a project, YOU MUST ALSO recommended a "stack".
+    - IMPORTANT: You can (and often should) return BOTH a "toolId" AND a "stack". For example, if the user wants to code, recommend "Cursor" (toolId: "cursor") AND the tech stack.
 
-    TASK:
-    Analyze the User Query.
-    1. Formulate a friendly, conversational "reply" to the user (answer their question directly or confirm you can help).
-    2. Select the SINGLE BEST tool from the "Available Tools" list to solve their problem.
-    3. Write a specific, high-quality prompt that the user can copy and paste into that tool.
+    FEW-SHOT EXAMPLES:
+    User: "I need to write a blog post"
+    Result: {
+      "reply": "I recommend ChatGPT for writing content.",
+      "toolId": "chatgpt",
+      "usagePrompt": "Write a 500-word blog post about the future of AI in education. Use a professional but engaging tone.", 
+      "stack": null
+    }
+
+    User: "How do I build a react app?"
+    Result: {
+      "reply": "You should use Cursor, it's great for React development.",
+      "toolId": "cursor",
+      "usagePrompt": "Act as a senior React developer. Initialize a new React project using Vite and explain the folder structure.",
+      "stack": ["React", "Vite", "TailwindCSS"]
+    }
+    
+    RESPONSE FORMAT (JSON ONLY):
+    {
+      "reply": "Conversational, helpful answer. Mention the recommended tool by name here if applicable.",
+      "toolId": "EXACT_ID_FROM_LIST OR null. (If you mention a tool in reply, you MUST put its ID here)",
+      "reasoning": "A short, direct explanation TO THE USER about why this tool/stack is good for them.",
+      "usagePrompt": "STRICTLY ONLY the prompt text to copy. NO introductions like 'Here is the prompt'. NO quotes around it. Example: 'Explain quantum physics to a 5 year old.'",
+      "stack": ["Tech 1", "Tech 2", "Tech 3"] (Required for build/code requests)
+    }
 
     AVAILABLE TOOLS:
     ${JSON.stringify(toolsContext)}
-
-    OUTPUT FORMAT:
-    Return strictly valid JSON with no markdown formatting:
-    {
-      "reply": "A helpful, conversational answer to the user in their language. (e.g. 'I am the Student AI Assistant. For that task, I recommend...')",
-      "toolId": "id_of_the_best_tool",
-      "reasoning": "A short explanation of why this tool is best (max 1 sentence).",
-      "usagePrompt": "The actual prompt the user should copy."
-    }
   `;
 
   const response = await generateContent(systemPrompt + `\n\nUser Query: "${userQuery}"`, { 
@@ -411,7 +484,66 @@ export const getChatRecommendation = async (userQuery, tools, lang = 'en') => {
   try {
     // Clean potential markdown code blocks if the model adds them
     const cleanJson = response.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(cleanJson);
+    const result = JSON.parse(cleanJson);
+
+    // FIX: Handle "null" string from AI
+    if (result.toolId === 'null' || result.toolId === 'undefined') {
+        result.toolId = null;
+    }
+    // Validate stack to prevent crashes
+    if (result.stack) {
+      if (!Array.isArray(result.stack)) {
+         if (typeof result.stack === 'string') {
+             // If the AI returned a string (e.g. "React, Node"), split it
+             result.stack = result.stack.split(',').map(s => s.trim());
+         } else {
+             // If invalid type, fallback to empty
+             result.stack = [];
+         }
+      }
+
+      // Final Check: Ensure every item in stack is a string. 
+      // Sometimes AI returns [{name: "React"}] which crashes React render.
+      result.stack = result.stack
+          .filter(item => typeof item === 'string' && item.trim().length > 0)
+          .map(item => item.trim()); // normalize
+    } else {
+        result.stack = [];
+    }
+
+    // fallback: if toolId is missing but we mention a tool in the reply, try to find it
+    if (!result.toolId && tools && Array.isArray(tools)) {
+        const lowerReply = (result.reply || '').toLowerCase();
+        
+        // Console log for debugging
+        console.log('[AI Service] Attempting fallback tool detection. Reply excerpt:', lowerReply.substring(0, 50));
+
+        const foundTool = tools.find(t => {
+            const nameEn = t.content?.en?.name?.toLowerCase();
+            const nameAr = t.content?.ar?.name?.toLowerCase();
+            const id = t.id.toLowerCase();
+            
+            // Check for ID match or Name match in the text
+            // We use word boundary logic or simple includes
+            const matchesId = id && lowerReply.includes(id);
+            const matchesNameEn = nameEn && lowerReply.includes(nameEn);
+            const matchesNameAr = nameAr && lowerReply.includes(nameAr);
+            
+            if (matchesId || matchesNameEn || matchesNameAr) {
+                console.log(`[AI Service] Fallback match found: ${t.id} (Matches: ID=${matchesId}, Name=${matchesNameEn})`);
+                return true;
+            }
+            return false;
+        });
+
+        if (foundTool) {
+            result.toolId = foundTool.id;
+        } else {
+             console.log('[AI Service] No fallback tool found.');
+        }
+    }
+
+    return result;
   } catch (e) {
     console.error("Failed to parse AI recommendation:", e);
     // Fallback or error

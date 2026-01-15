@@ -7,7 +7,7 @@
  * @param {string} title - Page title
  */
 export const setPageTitle = (title) => {
-  document.title = title ? `${title} | Student AI Hub` : 'Student AI Hub';
+  document.title = title ? `${title} | AI Hub` : 'AI Hub';
 };
 
 /**
@@ -21,7 +21,7 @@ export const setMetaDescription = (description) => {
     meta.name = 'description';
     document.head.appendChild(meta);
   }
-  meta.content = description || 'The ultimate toolkit for students, founders, and creators. From aceing exams to launching your first startup.';
+  meta.content = description || 'The ultimate toolkit for founders, creators, and professionals.';
 };
 
 /**

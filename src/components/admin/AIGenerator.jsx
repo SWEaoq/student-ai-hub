@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Sparkles, Loader2, Check, X } from 'lucide-react';
-import { generateToolDescription, generateToolTagline, translateText, generatePromptText } from '../../lib/aiService';
+import { generateToolDescription, generateToolTagline, translateText, generatePromptText, generateIconSuggestion } from '../../lib/aiService';
 
 /**
  * AIGenerator - Reusable AI content generation component
  * @param {Object} props
- * @param {string} props.type - Type of generation: 'description', 'tagline', 'translation', 'prompt'
+ * @param {string} props.type - Type of generation: 'description', 'tagline', 'translation', 'prompt', 'steps'
  * @param {Function} props.onGenerate - Callback with generated text
- * @param {Object} props.context - Context data (toolName, category, description, etc.)
+ * @param {Object} props.context - Context data (toolName, category, description, title, etc.)
  * @param {string} props.lang - Language ('en' or 'ar')
  * @param {string} props.label - Button label
  * @param {string} props.className - Additional CSS classes
@@ -38,6 +38,10 @@ const AIGenerator = ({
                 return '🌐';
             case 'prompt':
                 return '🤖';
+            case 'steps':
+                return '📝';
+            case 'icon':
+                return '🎨';
             default:
                 return '✨';
         }
@@ -92,6 +96,30 @@ const AIGenerator = ({
                     );
                     break;
 
+
+                case 'icon':
+                    if (!context.name || !context.description) {
+                        throw new Error('Name and description are required for icon generation');
+                    }
+                    generatedText = await generateIconSuggestion(
+                        context.name,
+                        context.description
+                    );
+                    break;
+
+                case 'steps':
+                    // Dynamically import to avoid circular dependency issues if any,
+                    // or just assume it's available in the imports (need to add import)
+                    // Actually, I need to add generatePlaybookSteps to imports first.
+                    if (!context.title || !context.category) {
+                        throw new Error('Title and category are required');
+                    }
+                    // For steps, we return the object/array directly, not just text
+                    generatedText = await import('../../lib/aiService').then(m => 
+                        m.generatePlaybookSteps(context.title, context.category, lang)
+                    );
+                    break;
+
                 default:
                     throw new Error('Invalid generation type');
             }
@@ -126,8 +154,9 @@ const AIGenerator = ({
                 onClick={handleGenerate}
                 disabled={loading || disabled}
                 className={`
-                    flex items-center justify-center w-10 h-10 rounded-lg text-sm font-medium
+                    flex items-center justify-center rounded-lg text-sm font-medium
                     transition-all duration-200 shrink-0
+                    ${label ? 'w-auto px-4 py-2 gap-2' : 'w-10 h-10'}
                     ${loading || disabled
                         ? 'bg-white/5 text-gray-500 cursor-not-allowed'
                         : success
@@ -148,6 +177,10 @@ const AIGenerator = ({
                         ? (lang === 'ar' ? 'توليد السطر' : 'Generate Tagline')
                         : type === 'translation'
                         ? (lang === 'ar' ? 'ترجمة' : 'Translate')
+                        : type === 'steps'
+                        ? (lang === 'ar' ? 'توليد الخطوات' : 'Generate Steps')
+                        : type === 'icon'
+                        ? (lang === 'ar' ? 'اقترح أيقونة' : 'Suggest Icon')
                         : (lang === 'ar' ? 'توليد' : 'Generate')
                 }
             >
@@ -158,7 +191,7 @@ const AIGenerator = ({
                 ) : error ? (
                     <X size={18} />
                 ) : (
-                    <span className="text-lg">{getButtonLabel()}</span>
+                    <span className={label ? 'text-sm font-bold' : 'text-lg'}>{getButtonLabel()}</span>
                 )}
             </button>
             

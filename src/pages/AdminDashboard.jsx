@@ -35,7 +35,7 @@ const AdminDashboard = () => {
         { id: 'navigation', label: 'Navigation', icon: LinkIcon, component: <AdminNavigation /> },
         { id: 'home', label: 'Home Cards', icon: Layout, component: <AdminHome /> },
         { id: 'tools', label: 'Tools', icon: PenTool, component: <AdminTools /> },
-        { id: 'academy', label: 'Academy', icon: GraduationCap, component: <AdminAcademy /> },
+        // { id: 'academy', label: 'Academy', icon: GraduationCap, component: <AdminAcademy /> },
         { id: 'playbooks', label: 'Playbooks', icon: Book, component: <AdminPlaybook /> },
         { id: 'prompts', label: 'Prompts', icon: MessageSquare, component: <AdminPrompts /> },
     ];

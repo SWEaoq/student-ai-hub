@@ -52,7 +52,7 @@ export const CONTENT = {
       title2: "BUILD THE",
       title2_accent: "FUTURE.",
       subtitle:
-        "The ultimate toolkit for students, founders, and creators. From aceing exams to launching your first startup.",
+        "The ultimate toolkit for founders, creators, and professionals. From ideation to launch.",
     },
     categories: {
       all: "All Tools",
@@ -65,7 +65,6 @@ export const CONTENT = {
     },
     cards: {
       hackTitle: "PRO TIP",
-      freeTier: "Free Tier Available",
       hack: "HACK",
     },
     vault: {
@@ -75,8 +74,8 @@ export const CONTENT = {
       copied: "Copied!",
     },
     footer: {
-      text: "BUILT FOR BUILDERS. POWERED BY STUDENTS.",
-      sub: "Use AI to create value, not just to pass exams.",
+      text: "BUILT FOR BUILDERS. POWERED BY AI.",
+      sub: "Use AI to create value, not just to work hard.",
     },
     playbook: {
       title: "The AI",
@@ -130,7 +129,7 @@ export const CONTENT = {
       title2: "اصنع",
       title2_accent: "المستقبل.",
       subtitle:
-        "الأدوات اللي تحتاجها، سواء للمذاكرة، للمشاريع الجانبية، أو حتى لو تبي تبدأ ستارت أب.",
+        "الأدوات اللي تحتاجها، سواء للمشاريع، العمل، أو حتى لو تبي تبدأ مشروعك الخاص.",
     },
     categories: {
       all: "الكل",
@@ -139,11 +138,10 @@ export const CONTENT = {
       design: "تصميم وبناء",
       productivity: "إنتاجية",
       coding: "برمجة وتطوير",
-      research: "بحث ودراسة",
+      research: "بحث وتحليل",
     },
     cards: {
       hackTitle: "نصيحة محترف",
-      freeTier: "فيه خطة مجانية",
       hack: "نصيحة",
     },
     vault: {
@@ -154,7 +152,7 @@ export const CONTENT = {
     },
     footer: {
       text: "تم التطوير بواسطة المبدعين، للمبدعين",
-      sub: "استخدم الذكاء الاصطناعي عشان تبني قيمة حقيقية، مو بس عشان تنجح.",
+      sub: "استخدم الذكاء الاصطناعي عشان تبني قيمة حقيقية.",
     },
     playbook: {
       title: "الشروحات",
@@ -312,24 +310,23 @@ export const TOOLS = [
     icon: SiNotion,
     website: "https://www.notion.so/product/notion-for-education",
     hasFreeTier: true,
-    studentLink: "https://www.notion.so/product/notion-for-education",
     content: {
       en: {
         name: "Notion AI",
         tag: "Second Brain",
         description:
-          "All-in-one workspace with integrated AI. Organize notes, manage projects, and automate workflows. Students get Personal Pro plan free with verified .edu email.",
+          "All-in-one workspace with integrated AI. Organize notes, manage projects, and automate workflows. Education plans available.",
       },
       ar: {
         name: "Notion AI",
         tag: "العقل الثاني",
         description:
-          "مساحة عمل شاملة مع ذكاء اصطناعي متكامل. نظم ملاحظاتك، أدر مشاريعك، وأتمت المهام. الطلاب يحصلون على خطة Personal Pro مجاناً بإيميل الجامعة.",
+          "مساحة عمل شاملة مع ذكاء اصطناعي متكامل. نظم ملاحظاتك، أدر مشاريعك، وأتمت المهام. خطط تعليمية متاحة.",
       },
     },
     installation: {
-      en: "1. Visit notion.so/product/notion-for-education\n2. Sign up with your .edu email address\n3. Verify student status to get Personal Pro free\n4. Enable AI in settings to access AI features",
-      ar: "1. زر notion.so/product/notion-for-education\n2. سجل بإيميل الجامعة\n3. تحقق من حالة الطالب للحصول على Personal Pro مجاناً\n4. فعل الذكاء الاصطناعي في الإعدادات",
+      en: "1. Visit notion.so\n2. Sign up with your email\n3. Enable AI in settings to access AI features",
+      ar: "1. زر notion.so\n2. سجل بإيميلك\n3. فعل الذكاء الاصطناعي في الإعدادات",
     },
     examplePrompts: [
       {
@@ -388,27 +385,27 @@ export const TOOLS = [
         name: "Midjourney",
         tag: "Art Director",
         description:
-          "Premium AI image generation tool for creating stunning, artistic visuals. Accessible via Discord. Subscription required after trial period.",
+          "Premium AI image generation tool for creating stunning, artistic visuals. Accessible via Discord.",
       },
       ar: {
         name: "Midjourney",
         tag: "المخرج الفني",
         description:
-          "أداة متميزة لتوليد الصور بالذكاء الاصطناعي لإنشاء صور فنية مذهلة. متاح عبر Discord. يتطلب اشتراك بعد فترة التجربة.",
+          "أداة متميزة لتوليد الصور بالذكاء الاصطناعي لإنشاء صور فنية مذهلة. متاح عبر Discord.",
       },
     },
     installation: {
       en: "1. Join the Midjourney Discord server.\n2. Go to a #newbies channel.\n3. Type /imagine.",
       ar: "1. انضم إلى خادم Midjourney على Discord.\n2. اذهب إلى قناة #newbies.\n3. اكتب /imagine.",
-    },
-    examplePrompts: [
-      {
-        title: { en: "Logo Design", ar: "تصميم الشعار" },
-        prompt: { en: "/imagine prompt: minimal vector logo of a fox, flat design", ar: "/imagine prompt: شعار متجه بسيط لثعلب، تصميم مسطح" },
       },
-    ],
-  },
-  {
+      examplePrompts: [
+        {
+          title: { en: "Logo Design", ar: "تصميم الشعار" },
+          prompt: { en: "/imagine prompt: minimal vector logo of a fox, flat design", ar: "/imagine prompt: شعار متجه بسيط لثعلب، تصميم مسطح" },
+        },
+      ],
+    },
+    {
     id: "antigravity",
     category: "design",
     color: "from-blue-500 to-cyan-400",
@@ -455,13 +452,13 @@ export const TOOLS = [
         name: "Gemini Advanced",
         tag: "Data Analyst",
         description:
-          "Google's AI assistant with strong data analysis capabilities. Process large documents, analyze datasets, and get insights from uploaded files. Free tier available with usage limits.",
+          "Google's AI assistant with strong data analysis capabilities. Process large documents, analyze datasets, and get insights from uploaded files.",
       },
       ar: {
         name: "Gemini Advanced",
         tag: "محلل البيانات",
         description:
-          "مساعد Google للذكاء الاصطناعي بقدرات تحليل بيانات قوية. معالجة مستندات كبيرة، تحليل مجموعات البيانات، والحصول على رؤى من الملفات المرفوعة. خطة مجانية متاحة.",
+          "مساعد Google للذكاء الاصطناعي بقدرات تحليل بيانات قوية. معالجة مستندات كبيرة، تحليل مجموعات البيانات، والحصول على رؤى من الملفات المرفوعة.",
       },
     },
     installation: {
@@ -490,7 +487,7 @@ export const TOOLS = [
         name: "Gamma App",
         tag: "Pitch Deck Pro",
         description:
-          "AI-powered presentation tool that creates beautiful pitch decks and websites from simple text prompts. Perfect for startup presentations and project showcases.",
+          "AI-powered presentation tool that creates beautiful pitch decks and websites from simple text prompts. Perfect for startup presentations.",
       },
       ar: {
         name: "Gamma App",
@@ -561,18 +558,18 @@ export const TOOLS = [
         name: "Figma AI",
         tag: "Product Designer",
         description:
-          "Professional design tool with AI features for creating UI/UX mockups and prototypes. Students and educators get free access to Figma Education with verified academic email.",
+          "Professional design tool with AI features for creating UI/UX mockups and prototypes. Education access enabled.",
       },
       ar: {
         name: "Figma AI",
         tag: "مصمم المنتجات",
         description:
-          "أداة تصميم احترافية مع ميزات الذكاء الاصطناعي لإنشاء نماذج وواجهات UI/UX. الطلاب والمعلمون يحصلون على وصول مجاني لـ Figma Education بإيميل أكاديمي.",
+          "أداة تصميم احترافية مع ميزات الذكاء الاصطناعي لإنشاء نماذج وواجهات UI/UX. الدخول التعليمي متاح.",
       },
     },
     installation: {
-      en: "1. Visit figma.com/education\n2. Sign up with your academic email (.edu or university domain)\n3. Verify your student/educator status\n4. Create designs and use AI features like Figma Make",
-      ar: "1. زر figma.com/education\n2. سجل بإيميل الجامعة\n3. تحقق من حالة الطالب/المعلم\n4. أنشئ تصاميم واستخدم ميزات AI مثل Figma Make",
+      en: "1. Visit figma.com/education\n2. Sign up with your email\n3. Verify your status\n4. Create designs and use AI features like Figma Make",
+      ar: "1. زر figma.com/education\n2. سجل بإيميلك\n3. تحقق من حالتك\n4. أنشئ تصاميم واستخدم ميزات AI مثل Figma Make",
     },
     examplePrompts: [
       {
@@ -701,14 +698,14 @@ export const PROMPTS = [
     category: "productivity",
     content: {
       en: {
-        title: "Smart Study Plan",
-        text: "Create a 4-week study schedule for [SUBJECT]. I have [HOURS] hours per week. Include active recall sessions and spaced repetition checkpoints.",
-        tag: "Study Plan",
+        title: "Smart Plan",
+        text: "Create a 4-week work schedule for [GOAL]. I have [HOURS] hours per week.",
+        tag: "Planning",
       },
       ar: {
-        title: "خطة المذاكرة الذكية",
-        text: "سوي لي جدول مذاكرة لمدة 4 أسابيع لـ [المادة]. عندي [عدد الساعات] ساعات في الأسبوع. ضمن فيه جلسات استرجاع نشط (Active Recall) ومراجعة متباعدة.",
-        tag: "تخطيط دراسي",
+        title: "الخطة الذكية",
+        text: "سوي لي جدول عمل لمدة 4 أسابيع لـ [الهدف]. عندي [عدد الساعات] ساعات في الأسبوع.",
+        tag: "تخطيط",
       },
     },
   },
@@ -732,12 +729,12 @@ export const PROMPTS = [
     content: {
       en: {
         title: "The Concept Simplifier",
-        text: "Explain [COMPLEX TOPIC] to me like I'm 12 years old. Then, provide a detailed breakdown for a university student, including key concepts and real-world examples.",
+        text: "Explain [COMPLEX TOPIC] to me like I'm 12 years old. Then, provide a detailed breakdown for a professional, including key concepts and real-world examples.",
         tag: "Learning",
       },
       ar: {
         title: "بسطها لي",
-        text: "اشرح لي [موضوع معقد] وكأني عمري 12 سنة. بعدين، عطني تفصيل دقيق يناسب طالب جامعة، مع ذكر المفاهيم الأساسية وأمثلة من الواقع.",
+        text: "اشرح لي [موضوع معقد] وكأني عمري 12 سنة. بعدين، عطني تفصيل دقيق يناسب محترف، مع ذكر المفاهيم الأساسية وأمثلة من الواقع.",
         tag: "تعلم",
       },
     },
@@ -776,20 +773,20 @@ export const GUIDES = [
     icon: FileText,
     content: {
       en: {
-        title: 'Turn PDF Notes into Quizzes',
-        desc: 'The best active recall method for exams.',
+        title: 'Turn Documents into Quizzes',
+        desc: 'The best active recall method for mastery.',
         steps: [
-          'Upload your lecture slides (PDF) to Claude or Gemini.',
+          'Upload your file (PDF) to Claude or Gemini.',
           'Prompt: "Based on this file, create a 10-question multiple choice hard quiz with answer key."',
           'Take the quiz without looking at answers.',
           'Ask AI to explain the ones you got wrong.'
         ]
       },
       ar: {
-        title: 'حوّل ملاحظاتك إلى اختبارات',
-        desc: 'أفضل طريقة للمراجعة هي اختبار نفسك (الاسترجاع النشط).',
+        title: 'حوّل مستنداتك إلى اختبارات',
+        desc: 'أفضل طريقة للإتقان هي اختبار نفسك.',
         steps: [
-          'ارفع ملف المحاضرة (PDF) على Claude أو Gemini.',
+          'ارفع الملف (PDF) على Claude أو Gemini.',
           'اكتب الأمر: "أنشئ لي اختباراً صعباً من ١٠ أسئلة خيارات متعددة بناءً على الملف، مع وضع الإجابات في النهاية."',
           'حل الاختبار دون النظر إلى الإجابات.',
           'اطلب من الذكاء الاصطناعي شرح الأسئلة التي تعثرت فيها.'

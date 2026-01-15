@@ -1,9 +1,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, Send, Sparkles, Copy, ExternalLink, Bot, User, Loader2 } from 'lucide-react';
+import { MessageSquare, Send, Sparkles, Copy, ExternalLink, Bot, User, Loader2, Layers } from 'lucide-react';
 import { getChatRecommendation } from '../../lib/aiService';
-import { TOOLS } from '../../data/content';
+// import { TOOLS } from '../../data/content'; 
 import { useSiteContent } from '../../hooks/useSiteContent';
 
 const MessageBubble = ({ message, lang }) => {
@@ -44,30 +44,32 @@ const MessageBubble = ({ message, lang }) => {
                         className="bg-[#0f0f0f] border border-white/10 rounded-xl overflow-hidden mt-1"
                     >
                         {/* Header: Tool Info */}
-                        <div className="p-3 border-b border-white/10 flex items-center gap-3 bg-white/5">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center border border-white/10">
-                                <Sparkles size={14} className="text-purple-400" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
-                                    {lang === 'ar' ? 'الأداة المقترحة' : 'Recommended Tool'}
+                        {message.recipe.toolId && (
+                            <div className="p-3 border-b border-white/10 flex items-center gap-3 bg-white/5">
+                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center border border-white/10">
+                                    <Sparkles size={14} className="text-purple-400" />
                                 </div>
-                                <div className="text-sm font-bold text-white truncate">
-                                    {message.recipe.toolName}
+                                <div className="flex-1 min-w-0">
+                                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
+                                        {lang === 'ar' ? 'الأداة المقترحة' : 'Recommended Tool'}
+                                    </div>
+                                    <div className="text-sm font-bold text-white truncate">
+                                        {message.recipe.toolName}
+                                    </div>
                                 </div>
+                                {message.recipe.toolUrl && (
+                                    <a 
+                                        href={message.recipe.toolUrl} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="p-1.5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
+                                        title={lang === 'ar' ? 'فتح الأداة' : 'Open Tool'}
+                                    >
+                                        <ExternalLink size={14} />
+                                    </a>
+                                )}
                             </div>
-                            {message.recipe.toolUrl && (
-                                <a 
-                                    href={message.recipe.toolUrl} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="p-1.5 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"
-                                    title={lang === 'ar' ? 'فتح الأداة' : 'Open Tool'}
-                                >
-                                    <ExternalLink size={14} />
-                                </a>
-                            )}
-                        </div>
+                        )}
 
                         {/* Reasoning */}
                         {message.recipe.reasoning && (
@@ -76,25 +78,46 @@ const MessageBubble = ({ message, lang }) => {
                             </div>
                         )}
 
+                        {/* Stack Recommendation */}
+                        {message.recipe.stack && Array.isArray(message.recipe.stack) && message.recipe.stack.length > 0 && (
+                            <div className="px-3 py-3 border-b border-white/5 bg-black/30">
+                                <div className={`flex items-center gap-2 mb-2 ${lang === 'ar' ? 'flex-row-reverse' : ''}`}>
+                                    <Layers size={12} className="text-blue-400" />
+                                    <span className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">
+                                        {lang === 'ar' ? 'التقنيات المقترحة (Stack)' : 'RECOMMENDED STACK'}
+                                    </span>
+                                </div>
+                                <div className={`flex flex-wrap gap-2 ${lang === 'ar' ? 'justify-end' : ''}`}>
+                                    {message.recipe.stack.map((tech, i) => (
+                                        <span key={i} className="text-xs bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-1 rounded-md font-mono">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         {/* Prompt Display */}
-                        <div className="p-3 bg-black/40">
-                            <div className="text-[10px] uppercase text-gray-500 font-bold mb-2 tracking-wider">
-                                {lang === 'ar' ? 'البرومبت (الأمر)' : 'THE PROMPT'}
+                        {message.recipe.prompt && (
+                            <div className="p-3 bg-black/40">
+                                <div className="text-[10px] uppercase text-gray-500 font-bold mb-2 tracking-wider">
+                                    {lang === 'ar' ? 'البرومبت (الأمر)' : 'THE PROMPT'}
+                                </div>
+                                <div className={`text-xs sm:text-sm font-mono text-gray-300 bg-white/5 rounded-lg p-3 border border-white/5 leading-relaxed whitespace-pre-wrap ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
+                                    {message.recipe.prompt}
+                                </div>
+                                
+                                <button
+                                    onClick={() => handleCopy(message.recipe.prompt)}
+                                    className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all active:scale-95"
+                                >
+                                    {copied ? <Sparkles size={14} /> : <Copy size={14} />}
+                                    {copied 
+                                        ? (lang === 'ar' ? 'تم النسخ!' : 'Copied!') 
+                                        : (lang === 'ar' ? 'نسخ واستخدام' : 'Copy Prompt')}
+                                </button>
                             </div>
-                            <div className={`text-xs sm:text-sm font-mono text-gray-300 bg-white/5 rounded-lg p-3 border border-white/5 leading-relaxed whitespace-pre-wrap ${lang === 'ar' ? 'text-right' : 'text-left'}`}>
-                                {message.recipe.prompt}
-                            </div>
-                            
-                            <button
-                                onClick={() => handleCopy(message.recipe.prompt)}
-                                className="mt-3 w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all active:scale-95"
-                            >
-                                {copied ? <Sparkles size={14} /> : <Copy size={14} />}
-                                {copied 
-                                    ? (lang === 'ar' ? 'تم النسخ!' : 'Copied!') 
-                                    : (lang === 'ar' ? 'نسخ واستخدام' : 'Copy Prompt')}
-                            </button>
-                        </div>
+                        )}
                     </motion.div>
                 )}
             </div>
@@ -103,7 +126,7 @@ const MessageBubble = ({ message, lang }) => {
 };
 
 const ChatInterface = ({ className = "" }) => {
-    const { lang } = useSiteContent();
+    const { lang, tools } = useSiteContent(); // Get dynamic tools
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [messages, setMessages] = useState([]);
@@ -129,16 +152,27 @@ const ChatInterface = ({ className = "" }) => {
 
     // Initial greeting
     useEffect(() => {
-        if (messages.length === 0) {
-            setMessages([{
-                id: 'welcome',
-                role: 'assistant',
-                text: lang === 'ar' 
-                    ? 'أهلاً بك! أنا مساعد الطلاب الذكي 🎓. أخبرني ماذا تريد أن تنجز (مثلاً: "لخص لي هذا الكتاب"، "سوي لي كويز"، "ساعدني في البرمجة") وسأنصحك بأفضل أداة مع "البرومبت" المناسب.' 
-                    : 'Hi there! I\'m your Student AI Guide 🎓. Tell me what you want to achieve (e.g., "Summarize this PDF", "Make a quiz", "Fix my code") and I\'ll suggest the best tool and prompt for the job.'
-            }]);
-        }
-    }, [lang, messages.length]);
+        const welcomeMessage = {
+            id: 'welcome',
+            role: 'assistant',
+            text: lang === 'ar' 
+                ? 'أهلاً بك! أنا مساعد الذكاء الاصطناعي 🎓. أخبرني ماذا تريد أن تنجز (مثلاً: "لخص لي هذا الملف"، "سوي لي عرض تقديمي"، "ساعدني في البرمجة") وسأنصحك بأفضل أداة مع "البرومبت" المناسب.' 
+                : 'Hi there! I\'m your AI Guide 🎓. Tell me what you want to achieve (e.g., "Summarize this PDF", "Make a pitch deck", "Fix my code") and I\'ll suggest the best tool and prompt for the job.'
+        };
+
+        setMessages(prev => {
+            if (prev.length === 0) {
+                return [welcomeMessage];
+            }
+            // Update welcome message if it's the only message or if the first message is the welcome message
+            if (prev.length > 0 && prev[0].id === 'welcome') {
+                const newMessages = [...prev];
+                newMessages[0] = welcomeMessage;
+                return newMessages;
+            }
+            return prev;
+        });
+    }, [lang]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -150,23 +184,29 @@ const ChatInterface = ({ className = "" }) => {
         setLoading(true);
 
         try {
-            const recommendation = await getChatRecommendation(userMsg.text, TOOLS, lang);
+            const recommendation = await getChatRecommendation(userMsg.text, tools, lang);
             
-            // Find tool details
-            const tool = TOOLS.find(t => t.id === recommendation.toolId) || {};
-            const toolName = tool.content?.[lang]?.name || tool.content?.['en']?.name || recommendation.toolId;
-            const toolUrl = tool.website;
+            let recipe = null;
+            if (recommendation.toolId || (recommendation.stack && recommendation.stack.length > 0)) {
+                 const tool = tools.find(t => t.id === recommendation.toolId) || {};
+                 const toolName = tool.content?.[lang]?.name || tool.content?.['en']?.name || recommendation.toolId || 'AI Tool'; // Fallback name
+                 const toolUrl = tool.website;
+
+                 recipe = {
+                    toolId: recommendation.toolId, // Add toolId specifically for UI check
+                    toolName,
+                    toolUrl,
+                    reasoning: recommendation.reasoning,
+                    prompt: recommendation.usagePrompt,
+                    stack: recommendation.stack
+                };
+            }
 
             const aiMsg = {
                 id: Date.now() + 1,
                 role: 'assistant',
                 text: recommendation.reply, 
-                recipe: {
-                    toolName,
-                    toolUrl,
-                    reasoning: recommendation.reasoning,
-                    prompt: recommendation.usagePrompt
-                }
+                recipe: recipe
             };
             
             setMessages(prev => [...prev, aiMsg]);

@@ -10,7 +10,7 @@ import StatCard from './StatCard';
 const StatsSection = ({ stats, lang = 'en' }) => {
   const defaultStats = [
     { value: 50, label: lang === 'en' ? 'AI Tools' : 'أدوات ذكاء اصطناعي', suffix: '+' },
-    { value: 1000, label: lang === 'en' ? 'Students' : 'طالب', suffix: '+' },
+    { value: 1000, label: lang === 'en' ? 'Users' : 'مستخدم', suffix: '+' },
     { value: 25, label: lang === 'en' ? 'Guides' : 'دليل', suffix: '+' },
     { value: 100, label: lang === 'en' ? 'Prompts' : 'أمر', suffix: '+' }
   ];

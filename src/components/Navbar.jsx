@@ -1,6 +1,7 @@
 import { useSiteContent } from '../hooks/useSiteContent';
 import { motion } from 'framer-motion';
 import { Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ lang, setLang }) => {
     const { navigation } = useSiteContent();
@@ -12,20 +13,22 @@ const Navbar = ({ lang, setLang }) => {
             transition={{ duration: 0.5, ease: "easeOut" }}
         >
             <div className={`max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-24 flex items-center justify-between relative`}>
-                <motion.div 
-                    className="text-xl sm:text-2xl font-bold tracking-tighter text-white relative group cursor-pointer"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    STUDENT <span className="text-purple-500">AI</span> HUB
-                    {/* Animated Underline on Hover */}
-                    <motion.div
-                        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500"
-                        initial={{ width: 0 }}
-                        whileHover={{ width: "100%" }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                    />
-                </motion.div>
+                <Link to="/">
+                    <motion.div 
+                        className="text-xl sm:text-2xl font-bold tracking-tighter text-white relative group cursor-pointer"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        THE <span className="text-purple-500">AI</span> HUB
+                        {/* Animated Underline on Hover */}
+                        <motion.div
+                            className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500"
+                            initial={{ width: 0 }}
+                            whileHover={{ width: "100%" }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                        />
+                    </motion.div>
+                </Link>
                 <div className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
                     <a 
                         href="/chat"
@@ -33,7 +36,7 @@ const Navbar = ({ lang, setLang }) => {
                     >
                         {lang === 'ar' ? 'المساعد' : 'Assistant'}
                     </a>
-                    {navigation.map((navItem) => (
+                    {navigation.filter(navItem => (navItem.label.en || navItem.label['en']) !== 'Academy').map((navItem) => (
                         <a 
                             key={navItem.id} 
                             href={navItem.path}

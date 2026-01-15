@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, PenTool, Presentation, Code, Layout, ArrowRight, Sparkles } from 'lucide-react';
+import { Zap, PenTool, Presentation, Code, Layout, ArrowRight, Sparkles, Terminal, Search, Palette, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 // import { CONTENT, TOOLS } from '../data/content'; // Removed static
 import FadeIn from './animations/FadeIn';
@@ -88,8 +88,10 @@ const Hero = ({ activeCategory, setActiveCategory, showFilters = true, compact =
         { id: 'all', label: getText('categories.all', 'All'), icon: <Zap /> },
         { id: 'writing', label: getText('categories.writing', 'Writing'), icon: <PenTool /> },
         { id: 'slides', label: getText('categories.slides', 'Slides'), icon: <Presentation /> },
-        { id: 'design', label: getText('categories.design', 'Design'), icon: <Code /> },
-        { id: 'productivity', label: getText('categories.productivity', 'Productivity'), icon: <Layout /> }
+        { id: 'design', label: getText('categories.design', 'Design'), icon: <Palette /> },
+        { id: 'productivity', label: getText('categories.productivity', 'Productivity'), icon: <Layout /> },
+        { id: 'coding', label: getText('categories.coding', 'Coding'), icon: <Code /> },
+        { id: 'research', label: getText('categories.research', 'Research'), icon: <BookOpen /> }
     ];
 
     // Search Handler
@@ -173,7 +175,7 @@ const Hero = ({ activeCategory, setActiveCategory, showFilters = true, compact =
 
                         <FadeIn delay={0.3}>
                             <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-10 px-4 sm:px-0 font-light leading-relaxed">
-                                {getText('hero_subtitle', 'The ultimate toolkit for students, founders, and creators. From aceing exams to launching your first startup.')}
+                                {getText('hero_subtitle', 'The ultimate toolkit for founders, creators, and professionals.')}
                             </p>
                         </FadeIn>
 

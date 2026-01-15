@@ -28,6 +28,9 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const Chat = lazy(() => import('./pages/Chat'));
+const AdminToolEditor = lazy(() => import('./pages/AdminToolEditor'));
+const AdminAcademyEditor = lazy(() => import('./pages/AdminAcademyEditor'));
+const AdminPlaybookEditor = lazy(() => import('./pages/AdminPlaybookEditor'));
 
 function AppContent() {
   const { lang, setLang } = useSiteContent();
@@ -116,6 +119,12 @@ function AppContent() {
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/tools/new" element={<AdminToolEditor />} />
+              <Route path="/admin/tools/edit/:id" element={<AdminToolEditor />} />
+              <Route path="/admin/academy/:type/new" element={<AdminAcademyEditor />} />
+              <Route path="/admin/academy/:type/edit/:id" element={<AdminAcademyEditor />} />
+              <Route path="/admin/playbooks/new" element={<AdminPlaybookEditor />} />
+              <Route path="/admin/playbooks/edit/:id" element={<AdminPlaybookEditor />} />
               
               <Route
                 path="*"

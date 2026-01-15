@@ -13,7 +13,7 @@ const AdminPrompts = () => {
 
     const fetchPrompts = async () => {
         setLoading(true);
-        const { data, error } = await supabase.from('prompts').select('*').order('created_at', { ascending: false });
+        const { data, error } = await supabase.from('prompts').select('*');
         if (error) console.error(error);
         else setPrompts(data || []);
         setLoading(false);
