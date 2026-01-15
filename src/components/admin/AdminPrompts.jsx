@@ -52,7 +52,10 @@ const AdminPrompts = () => {
 
             const query = editingItem 
                 ? supabase.from('prompts').update(payload).eq('id', editingItem.id)
-                : supabase.from('prompts').insert([payload]);
+                : supabase.from('prompts').insert([{
+                    ...payload,
+                    id: crypto.randomUUID()
+                }]);
 
             const { error } = await query;
             if (error) throw error;
