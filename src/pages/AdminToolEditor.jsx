@@ -73,7 +73,10 @@ const AdminToolEditor = () => {
             setFormData({
                 id: tool.id, // Keep ID for update
                 category: getValue(tool, 'category'),
-                url: getValue(tool, 'url'),
+                id: tool.id, // Keep ID for update
+                category: getValue(tool, 'category'),
+                url: tool.website || getValue(tool, 'url'), // Prioritize top-level website column
+                icon_name: getValue(tool, 'icon_name'),
                 icon_name: getValue(tool, 'icon_name'),
                 has_free_tier: tool.has_free_tier !== undefined ? tool.has_free_tier : (tool.content?.has_free_tier !== undefined ? tool.content.has_free_tier : true),
                 color: getValue(tool, 'color') || 'from-blue-500 to-blue-700',
@@ -130,7 +133,12 @@ const AdminToolEditor = () => {
                     color: formData.color || 'from-blue-500 to-blue-700',
                     has_free_tier: formData.has_free_tier !== false,
                     examplePrompts: formData.en_prompts
-                }
+                },
+                website: formData.url, // Save to top-level website column
+                category: formData.category, // Also save top-level fields for easier querying
+                icon_name: formData.icon_name,
+                color: formData.color || 'from-blue-500 to-blue-700',
+                hasFreeTier: formData.has_free_tier !== false // Match column name found in debug dump
             };
 
             const query = id 
